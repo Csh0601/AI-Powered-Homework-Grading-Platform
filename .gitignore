@@ -1,0 +1,9 @@
+llmhomework_Backend/app/models/paraphrase-multilingual-MiniLM-L12-v2/
+llmhomework_Backend/app/models/bert_knowledge.pt
+llmhomework_Backend/uploads/
+*.bin
+*.h5
+*.onnx
+*.pt
+*.ckpt
+*.safetensors 

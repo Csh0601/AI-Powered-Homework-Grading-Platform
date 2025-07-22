@@ -1,0 +1,10 @@
+Flask
+Flask-Cors
+opencv-python
+numpy
+easyocr
+Pillow
+jieba
+transformers
+torch
+openai

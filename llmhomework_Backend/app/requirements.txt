@@ -1,0 +1,13 @@
+flask
+flask_cors
+werkzeug
+opencv-python
+numpy
+easyocr
+jieba
+pytesseract
+scikit-learn
+transformers
+torch
+sentence-transformers
+openai
