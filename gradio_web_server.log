@@ -1,4 +1,0 @@
-2025-07-31 17:06:31 | INFO | gradio_web_server | args: Namespace(host='0.0.0.0', port=8000, controller_url='http://localhost:10000', concurrency_count=16, model_list_mode='once', share=False, moderate=False, embed=False)
-2025-07-31 17:56:42 | INFO | gradio_web_server | args: Namespace(host='0.0.0.0', port=8000, controller_url='http://localhost:10000', concurrency_count=16, model_list_mode='once', share=False, moderate=False, embed=False)
-2025-07-31 17:59:48 | INFO | gradio_web_server | args: Namespace(host='0.0.0.0', port=8000, controller_url='http://localhost:10000', concurrency_count=16, model_list_mode='once', share=False, moderate=False, embed=False)
-2025-07-31 18:32:46 | INFO | gradio_web_server | args: Namespace(host='0.0.0.0', port=8000, controller_url='http://localhost:10000', concurrency_count=16, model_list_mode='once', share=False, moderate=False, embed=False)
