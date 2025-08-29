@@ -13,13 +13,19 @@ def segment_text(text: str) -> List[str]:
     return list(jieba.cut(text))
 
 def classify_question(text: str) -> str:
-    # 简单题型分类：选择题、判断题、填空题
+    # 扩展题型分类：选择题、判断题、填空题、应用题、计算题、口算题
     if re.search(r'[A-D][.．、]', text):
         return '选择题'
     elif re.search(r'对|错|True|False', text, re.I):
         return '判断题'
     elif '___' in text or '（' in text:
         return '填空题'
+    elif '应用题' in text:
+        return '应用题'
+    elif '计算' in text or '得数' in text:
+        return '计算题'
+    elif '口算' in text:
+        return '口算题'
     else:
         return '未知题型'
 

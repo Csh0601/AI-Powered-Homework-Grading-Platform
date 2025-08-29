@@ -4,13 +4,7 @@ import EditImageScreen from '../screens/EditImageScreen';
 import HistoryScreen from '../screens/HistoryScreen';
 import ResultScreen from '../screens/ResultScreen';
 import UploadScreen from '../screens/UploadScreen';
-
-export type RootStackParamList = {
-  Upload: undefined;
-  EditImage: { imageUri: string } | undefined;
-  Result: { resultId: string } | undefined;
-  History: undefined;
-};
+import { RootStackParamList } from './NavigationTypes';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

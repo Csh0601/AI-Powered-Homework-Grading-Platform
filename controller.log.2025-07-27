@@ -1,0 +1,20 @@
+2025-07-27 22:28:31 | INFO | controller | args: Namespace(host='0.0.0.0', port=10000, dispatch_method='shortest_queue')
+2025-07-27 22:28:31 | INFO | controller | Init controller
+2025-07-27 22:28:31 | ERROR | stderr | [32mINFO[0m:     Started server process [[36m2140[0m]
+2025-07-27 22:28:31 | ERROR | stderr | [32mINFO[0m:     Waiting for application startup.
+2025-07-27 22:28:31 | ERROR | stderr | [32mINFO[0m:     Application startup complete.
+2025-07-27 22:28:31 | ERROR | stderr | [32mINFO[0m:     Uvicorn running on [1mhttp://0.0.0.0:10000[0m (Press CTRL+C to quit)
+2025-07-27 22:39:29 | INFO | controller | args: Namespace(host='0.0.0.0', port=10000, dispatch_method='shortest_queue')
+2025-07-27 22:39:29 | INFO | controller | Init controller
+2025-07-27 22:39:29 | ERROR | stderr | [32mINFO[0m:     Started server process [[36m3228[0m]
+2025-07-27 22:39:29 | ERROR | stderr | [32mINFO[0m:     Waiting for application startup.
+2025-07-27 22:39:29 | ERROR | stderr | [32mINFO[0m:     Application startup complete.
+2025-07-27 22:39:29 | ERROR | stderr | [31mERROR[0m:    [Errno 10048] error while attempting to bind on address ('0.0.0.0', 10000): 通常每个套接字地址(协议/网络地址/端口)只允许使用一次。
+2025-07-27 22:39:29 | ERROR | stderr | [32mINFO[0m:     Waiting for application shutdown.
+2025-07-27 22:39:29 | ERROR | stderr | [32mINFO[0m:     Application shutdown complete.
+2025-07-27 22:42:52 | INFO | controller | args: Namespace(host='0.0.0.0', port=10000, dispatch_method='shortest_queue')
+2025-07-27 22:42:52 | INFO | controller | Init controller
+2025-07-27 22:42:52 | ERROR | stderr | [32mINFO[0m:     Started server process [[36m3712[0m]
+2025-07-27 22:42:52 | ERROR | stderr | [32mINFO[0m:     Waiting for application startup.
+2025-07-27 22:42:52 | ERROR | stderr | [32mINFO[0m:     Application startup complete.
+2025-07-27 22:42:52 | ERROR | stderr | [32mINFO[0m:     Uvicorn running on [1mhttp://0.0.0.0:10000[0m (Press CTRL+C to quit)

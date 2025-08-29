@@ -8,3 +8,7 @@ jieba
 transformers
 torch
 openai
+sentence-transformers
+paddleocr
+requests
+pytesseract

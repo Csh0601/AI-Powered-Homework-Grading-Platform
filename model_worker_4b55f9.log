@@ -1,0 +1,24 @@
+2025-07-27 22:43:03 | INFO | model_worker | args: Namespace(host='0.0.0.0', port=40000, worker_address='http://localhost:40000', controller_address='http://localhost:10000', model_path='C:\\Users\\48108\\LLaVA\\checkpoints\\llava-1.5-7b-hf', model_base=None, model_name=None, device='cuda', multi_modal=False, limit_model_concurrency=5, stream_interval=1, no_register=False, load_8bit=False, load_4bit=False, use_flash_attn=False)
+2025-07-27 22:43:03 | INFO | model_worker | Loading the model C:\Users\48108\LLaVA\checkpoints\llava-1.5-7b-hf on worker 4b55f9 ...
+2025-07-27 22:43:03 | WARNING | transformers.tokenization_utils_base | Special tokens have been added in the vocabulary, make sure the associated word embeddings are fine-tuned or trained.
+2025-07-27 22:43:03 | WARNING | transformers.tokenization_utils_base | Special tokens have been added in the vocabulary, make sure the associated word embeddings are fine-tuned or trained.
+2025-07-27 22:43:03 | WARNING | transformers.configuration_utils | You are using a model of type llava to instantiate a model of type llava_llama. This is not supported for all configurations of models and can yield errors.
+2025-07-27 22:43:03 | WARNING | transformers.configuration_utils | You are using a model of type llava to instantiate a model of type llava_llama. This is not supported for all configurations of models and can yield errors.
+2025-07-27 22:59:38 | ERROR | stderr | Traceback (most recent call last):
+2025-07-27 22:59:38 | ERROR | stderr |   File "C:\Users\48108\AppData\Local\Programs\Python\Python310\lib\runpy.py", line 196, in _run_module_as_main
+2025-07-27 22:59:38 | ERROR | stderr |     return _run_code(code, main_globals, None,
+2025-07-27 22:59:38 | ERROR | stderr |   File "C:\Users\48108\AppData\Local\Programs\Python\Python310\lib\runpy.py", line 86, in _run_code
+2025-07-27 22:59:38 | ERROR | stderr |     exec(code, run_globals)
+2025-07-27 22:59:38 | ERROR | stderr |   File "C:\Users\48108\LLaVA\llava\serve\model_worker.py", line 277, in <module>
+2025-07-27 22:59:38 | ERROR | stderr |     worker = ModelWorker(args.controller_address,
+2025-07-27 22:59:38 | ERROR | stderr |   File "C:\Users\48108\LLaVA\llava\serve\model_worker.py", line 65, in __init__
+2025-07-27 22:59:38 | ERROR | stderr |     self.tokenizer, self.model, self.image_processor, self.context_len = load_pretrained_model(
+2025-07-27 22:59:38 | ERROR | stderr |   File "C:\Users\48108\LLaVA\llava\model\builder.py", line 117, in load_pretrained_model
+2025-07-27 22:59:38 | ERROR | stderr |     model = LlavaLlamaForCausalLM.from_pretrained(
+2025-07-27 22:59:38 | ERROR | stderr |   File "C:\Users\48108\AppData\Local\Programs\Python\Python310\lib\site-packages\transformers\modeling_utils.py", line 3850, in from_pretrained
+2025-07-27 22:59:38 | ERROR | stderr |     ) = cls._load_pretrained_model(
+2025-07-27 22:59:38 | ERROR | stderr |   File "C:\Users\48108\AppData\Local\Programs\Python\Python310\lib\site-packages\transformers\modeling_utils.py", line 4209, in _load_pretrained_model
+2025-07-27 22:59:38 | ERROR | stderr |     offload_index = {
+2025-07-27 22:59:38 | ERROR | stderr |   File "C:\Users\48108\AppData\Local\Programs\Python\Python310\lib\site-packages\transformers\modeling_utils.py", line 4212, in <dictcomp>
+2025-07-27 22:59:38 | ERROR | stderr |     if p.startswith(start_prefix) and param_device_map[p[len(start_prefix) :]] == "disk"
+2025-07-27 22:59:38 | ERROR | stderr | KeyError: 'language_model.lm_head.weight'

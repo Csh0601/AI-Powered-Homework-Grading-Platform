@@ -33,7 +33,14 @@ const HistoryScreen: React.FC = () => {
   }, []);
 
   const handlePress = (id: string) => {
-    navigation.navigate('Result', { resultId: id });
+    // 修复：传递正确的参数结构
+    navigation.navigate('Result', { 
+      resultId: id,
+      gradingResult: null, // 添加必需的参数
+      wrongKnowledges: [],
+      taskId: id,
+      timestamp: Date.now()
+    });
   };
 
   if (loading) {

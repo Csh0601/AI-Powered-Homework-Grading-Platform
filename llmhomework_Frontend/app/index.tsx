@@ -5,15 +5,7 @@ import React from 'react';
 import AppNavigator from './navigation/AppNavigator';
 
 export default function App() {
-  return (
-    // 如用 Redux，外层用 <Provider store={store}> 包裹
-    // <Provider store={store}>
-    // 如用 Context，外层用 <AppContextProvider> 包裹
-    // <AppContextProvider>
-    <AppNavigator />
-    // </AppContextProvider>
-    // </Provider>
-  );
+  return <AppNavigator />;
 }
 
 // 本文件为拍照实现大模型作业批改 App 的入口，已预留状态管理结构。 

@@ -5,4 +5,7 @@ export interface CorrectionResult {
   correctAnswer: string;
   isCorrect: boolean;
   knowledgePoint: string;
+  explanation?: string; // 解释说明
+  score?: number; // 得分
+  type?: string; // 题目类型
 }

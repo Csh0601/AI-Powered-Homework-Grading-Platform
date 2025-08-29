@@ -1,9 +1,19 @@
-export const primaryColor = '#4CAF50'; // 主色
-export const secondaryColor = '#2196F3'; // 辅助色
-export const errorColor = '#F44336'; // 错误色
-export const textColor = '#222'; // 正文文字色
-export const backgroundColor = '#fff'; // 页面背景色
-
-// 可扩展更多颜色
-export const borderColor = '#eee';
-export const disabledColor = '#ccc';
+// Apple风格的颜色方案
+export const primaryColor = '#007AFF'; // Apple Blue
+export const secondaryColor = '#5856D6'; // Apple Purple
+export const successColor = '#34C759'; // Apple Green
+export const warningColor = '#FF9500'; // Apple Orange
+export const errorColor = '#FF3B30'; // Apple Red
+export const textColor = '#1D1D1F'; // Apple Dark Gray
+export const secondaryTextColor = '#86868B'; // Apple Medium Gray
+export const backgroundColor = '#F2F2F7'; // Apple Light Gray
+export const cardBackgroundColor = '#FFFFFF'; // White
+export const borderColor = '#E5E5EA'; // Apple Border Gray
+export const disabledColor = '#C7C7CC'; // Apple Disabled Gray
+export const tintColor = '#007AFF'; // Apple Tint
+export const systemGray = '#8E8E93'; // Apple System Gray
+export const systemGray2 = '#AEAEB2'; // Apple System Gray 2
+export const systemGray3 = '#C7C7CC'; // Apple System Gray 3
+export const systemGray4 = '#D1D1D6'; // Apple System Gray 4
+export const systemGray5 = '#E5E5EA'; // Apple System Gray 5
+export const systemGray6 = '#F2F2F7'; // Apple System Gray 6
