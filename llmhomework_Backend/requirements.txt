@@ -12,3 +12,4 @@ sentence-transformers
 paddleocr
 requests
 pytesseract
+jsonschema

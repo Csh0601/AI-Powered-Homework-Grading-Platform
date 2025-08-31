@@ -57,9 +57,11 @@ def upload_image():
         wrong_knowledges = summarize_wrong_questions(grading_result)
         print(f"错题知识点: {wrong_knowledges}", flush=True)
         
+        # 构建符合database_schema.json的记录
         record = {
             'task_id': task_id,
             'timestamp': timestamp,
+            'user_id': None,  # 可以从请求中获取用户ID
             'questions': questions,
             'grading_result': grading_result,
             'wrong_knowledges': wrong_knowledges

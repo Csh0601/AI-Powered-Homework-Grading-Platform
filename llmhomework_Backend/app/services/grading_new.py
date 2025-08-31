@@ -86,7 +86,10 @@ def evaluate_math_calculation(question: str, student_answer: str) -> Dict:
 def grade_homework_improved(questions: List[Dict]) -> List[Dict]:
     """
     改进的作业批改函数
+    返回符合llm_output.json Schema的数据
     """
+    from app.utils.schema_validator import validate_llm_output
+    
     results = []
     
     print(f"\n开始批改作业，共{len(questions)}道题目")
@@ -98,6 +101,7 @@ def grade_homework_improved(questions: List[Dict]) -> List[Dict]:
         question = item.get('stem', '') or item.get('question', '')
         answer = item.get('answer', '') 
         question_type = item.get('type', '未知题型')
+        question_id = item.get('question_id', f'q_{idx}')
         
         print(f"题目类型: {question_type}")
         print(f"题目内容: {question}")
@@ -115,7 +119,8 @@ def grade_homework_improved(questions: List[Dict]) -> List[Dict]:
                 'type': '计算题',
                 'correct': math_result['correct'],
                 'score': math_result['score'],
-                'explanation': math_result['explanation']
+                'explanation': math_result['explanation'],
+                'question_id': question_id
             })
             continue
         
@@ -157,7 +162,8 @@ def grade_homework_improved(questions: List[Dict]) -> List[Dict]:
             'type': question_type,
             'correct': correct,
             'score': score,
-            'explanation': explanation
+            'explanation': explanation,
+            'question_id': question_id
         })
     
     print(f"\n=== 批改完成，共{len(results)}题 ===")
@@ -165,4 +171,29 @@ def grade_homework_improved(questions: List[Dict]) -> List[Dict]:
     correct_count = sum(1 for r in results if r['correct'])
     print(f"总分: {total_score}, 正确题数: {correct_count}/{len(results)}")
     
-    return results
+    # 构建符合Schema的输出格式
+    llm_output = {
+        'task_metadata': {
+            'task_id': '',  # 将由调用方填充
+            'timestamp': int(time.time()),
+            'total_questions': len(results),
+            'correct_count': correct_count,
+            'total_score': total_score,
+            'grading_engine': 'grade_homework_improved'
+        },
+        'grading_results': results,
+        'knowledge_analysis': {
+            'wrong_questions': [r['question'] for r in results if not r['correct']],
+            'wrong_knowledge_points': [],  # 将由knowledge.py填充
+            'performance_summary': f'总分: {total_score}, 正确率: {correct_count}/{len(results)}'
+        }
+    }
+    
+    # 验证输出格式
+    validation = validate_llm_output(llm_output)
+    if not validation['valid']:
+        print(f"⚠️ 大模型输出格式验证失败: {validation['error']}")
+    else:
+        print("✅ 大模型输出格式验证通过")
+    
+    return results  # 保持向后兼容，仍返回原格式

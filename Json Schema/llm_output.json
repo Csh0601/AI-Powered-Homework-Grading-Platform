@@ -1,0 +1,104 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "task_metadata": {
+      "type": "object",
+      "properties": {
+        "task_id": {
+          "type": "string",
+          "description": "任务唯一ID"
+        },
+        "timestamp": {
+          "type": "number",
+          "description": "时间戳"
+        },
+        "total_questions": {
+          "type": "number",
+          "description": "总题数"
+        },
+        "correct_count": {
+          "type": "number",
+          "description": "正确题数"
+        },
+        "total_score": {
+          "type": "number",
+          "description": "总分"
+        },
+        "grading_engine": {
+          "type": "string",
+          "description": "批改引擎"
+        }
+      },
+      "required": ["task_id", "timestamp", "total_questions", "correct_count", "total_score", "grading_engine"],
+      "additionalProperties": false
+    },
+    "grading_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "question_id": {
+            "type": "string",
+            "description": "题目ID"
+          },
+          "question": {
+            "type": "string",
+            "description": "题目内容"
+          },
+          "answer": {
+            "type": "string",
+            "description": "学生答案"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["选择题", "判断题", "填空题", "计算题", "应用题", "公式题", "口算题", "未知题型"],
+            "description": "题目类型"
+          },
+          "correct": {
+            "type": "boolean",
+            "description": "是否正确"
+          },
+          "score": {
+            "type": "number",
+            "description": "得分"
+          },
+          "explanation": {
+            "type": "string",
+            "description": "批改说明"
+          }
+        },
+        "required": ["question_id", "question", "answer", "type", "correct", "score", "explanation"],
+        "additionalProperties": false
+      }
+    },
+    "knowledge_analysis": {
+      "type": "object",
+      "properties": {
+        "wrong_questions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "错题列表"
+        },
+        "wrong_knowledge_points": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "错题知识点"
+        },
+        "performance_summary": {
+          "type": "string",
+          "description": "表现总结"
+        }
+      },
+      "required": ["wrong_questions", "wrong_knowledge_points", "performance_summary"],
+      "additionalProperties": false
+    }
+  },
+  "required": ["task_metadata", "grading_results", "knowledge_analysis"],
+  "additionalProperties": false
+}
+  

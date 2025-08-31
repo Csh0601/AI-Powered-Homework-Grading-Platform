@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "number": {
+        "type": "string",
+        "description": "题号"
+      },
+      "stem": {
+        "type": "string",
+        "description": "题目内容"
+      },
+      "answer": {
+        "type": "string",
+        "description": "学生答案"
+      },
+      "options": {
+        "type": "object",
+        "description": "选项（选择题用）"
+      },
+      "type": {
+        "type": "string",
+        "enum": ["选择题", "判断题", "填空题", "计算题", "应用题", "公式题", "口算题", "未知题型", "识别失败"],
+        "description": "题目类型"
+      },
+      "question_id": {
+        "type": "string",
+        "description": "题目唯一ID"
+      },
+      "timestamp": {
+        "type": "number",
+        "description": "时间戳"
+      }
+    },
+    "required": ["number", "stem", "answer", "options", "type", "question_id", "timestamp"],
+    "additionalProperties": false
+  }
+}

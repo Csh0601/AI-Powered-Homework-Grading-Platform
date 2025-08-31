@@ -1,0 +1,130 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "task_id": {
+      "type": "string",
+      "description": "任务唯一ID"
+    },
+    "timestamp": {
+      "type": "number",
+      "description": "时间戳"
+    },
+    "user_id": {
+      "type": ["string", "null"],
+      "description": "用户ID"
+    },
+    "questions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "number": {
+            "type": "string",
+            "description": "题号"
+          },
+          "stem": {
+            "type": "string",
+            "description": "题目内容"
+          },
+          "answer": {
+            "type": "string",
+            "description": "学生答案"
+          },
+          "options": {
+            "type": "object",
+            "description": "选项"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["选择题", "判断题", "填空题", "计算题", "应用题", "公式题", "口算题", "未知题型", "识别失败"],
+            "description": "题目类型"
+          },
+          "question_id": {
+            "type": "string",
+            "description": "题目唯一ID"
+          },
+          "timestamp": {
+            "type": "number",
+            "description": "时间戳"
+          }
+        },
+        "required": ["number", "stem", "answer", "options", "type", "question_id", "timestamp"],
+        "additionalProperties": false
+      }
+    },
+    "grading_result": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "string",
+            "description": "题目内容"
+          },
+          "answer": {
+            "type": "string",
+            "description": "学生答案"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["选择题", "判断题", "填空题", "计算题", "应用题", "公式题", "口算题", "未知题型"],
+            "description": "题目类型"
+          },
+          "correct": {
+            "type": "boolean",
+            "description": "是否正确"
+          },
+          "score": {
+            "type": "number",
+            "description": "得分"
+          },
+          "explanation": {
+            "type": "string",
+            "description": "批改说明"
+          },
+          "question_id": {
+            "type": "string",
+            "description": "题目ID"
+          }
+        },
+        "required": ["question", "answer", "type", "correct", "score", "explanation", "question_id"],
+        "additionalProperties": false
+      }
+    },
+    "wrong_knowledges": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "错题知识点"
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "total_questions": {
+          "type": "number",
+          "description": "总题数"
+        },
+        "correct_count": {
+          "type": "number",
+          "description": "正确题数"
+        },
+        "total_score": {
+          "type": "number",
+          "description": "总分"
+        },
+        "accuracy_rate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "正确率"
+        }
+      },
+      "required": ["total_questions", "correct_count", "total_score", "accuracy_rate"],
+      "additionalProperties": false
+    }
+  },
+  "required": ["task_id", "timestamp", "questions", "grading_result", "wrong_knowledges"],
+  "additionalProperties": false
+}

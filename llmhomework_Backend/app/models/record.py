@@ -31,8 +31,35 @@ def clean_record(record):
     return safe(record)
 
 def save_record(record):
+    from app.utils.schema_validator import validate_database_record
+    
+    # 验证记录格式
+    validation = validate_database_record(record)
+    if not validation['valid']:
+        print(f"⚠️ 数据库记录格式验证失败: {validation['error']}")
+        # 可以选择是否继续保存或抛出异常
+        # raise ValueError(f"数据格式不符合Schema: {validation['error']}")
+    else:
+        print("✅ 数据库记录格式验证通过")
+    
     records = get_records()
     record = clean_record(record)
+    
+    # 添加汇总信息
+    if 'grading_result' in record and record['grading_result']:
+        grading_results = record['grading_result']
+        total_questions = len(grading_results)
+        correct_count = sum(1 for r in grading_results if r.get('correct', False))
+        total_score = sum(r.get('score', 0) for r in grading_results)
+        accuracy_rate = correct_count / total_questions if total_questions > 0 else 0
+        
+        record['summary'] = {
+            'total_questions': total_questions,
+            'correct_count': correct_count,
+            'total_score': total_score,
+            'accuracy_rate': round(accuracy_rate, 2)
+        }
+    
     records.append(record)
     with open(RECORD_FILE, 'w', encoding='utf-8') as f:
         json.dump(records, f, ensure_ascii=False, indent=2)

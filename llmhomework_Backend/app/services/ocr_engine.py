@@ -442,16 +442,29 @@ def smart_extract_questions(image_path):
     """
     智能OCR识别，按优先级尝试不同OCR引擎。
     优先级：PaddleOCR > EasyOCR > Tesseract > LaTeX OCR
+    返回符合ocr_output.json Schema的数据
     """
+    from app.utils.schema_validator import validate_ocr_output
+    
     # 首先尝试LaTeX OCR（适合数学公式）
     latex_line = latexocr_image(image_path)
     if latex_line and len(latex_line.strip()) > 10:  # LaTeX表达式足够长才认为有效
-        return [{
+        result = [{
             'number': '1',
             'stem': latex_line,
+            'answer': '',
             'options': {},
-            'type': '公式题'
+            'type': '公式题',
+            'question_id': '',  # 将由后端填充
+            'timestamp': 0      # 将由后端填充
         }]
+        
+        # 验证输出格式
+        validation = validate_ocr_output(result)
+        if not validation['valid']:
+            print(f"⚠️ OCR输出格式验证失败: {validation['error']}")
+        
+        return result
     
     # 尝试PaddleOCR（中文效果最好）
     ocr_lines = []
@@ -459,30 +472,79 @@ def smart_extract_questions(image_path):
         ocr_lines = ocr_image_paddleocr(image_path)
         if ocr_lines:
             print(f"PaddleOCR识别成功，文本行数: {len(ocr_lines)}")
-            return extract_structured_questions_with_latex(ocr_lines)
+            result = extract_structured_questions_with_latex(ocr_lines)
+            
+            # 确保输出格式符合Schema
+            result = _normalize_ocr_output(result)
+            
+            # 验证输出格式
+            validation = validate_ocr_output(result)
+            if not validation['valid']:
+                print(f"⚠️ OCR输出格式验证失败: {validation['error']}")
+            
+            return result
     
     # 降级到EasyOCR
     if EASYOCR_AVAILABLE:
         ocr_lines = ocr_image_easyocr(image_path)
         if ocr_lines:
             print(f"EasyOCR识别成功，文本行数: {len(ocr_lines)}")
-            return extract_structured_questions_with_latex(ocr_lines)
+            result = extract_structured_questions_with_latex(ocr_lines)
+            result = _normalize_ocr_output(result)
+            
+            validation = validate_ocr_output(result)
+            if not validation['valid']:
+                print(f"⚠️ OCR输出格式验证失败: {validation['error']}")
+            
+            return result
     
     # 最后尝试Tesseract
     if TESSERACT_AVAILABLE:
         ocr_lines = ocr_image_tesseract(image_path)
         if ocr_lines:
             print(f"Tesseract识别成功，文本行数: {len(ocr_lines)}")
-            return extract_structured_questions_with_latex(ocr_lines)
+            result = extract_structured_questions_with_latex(ocr_lines)
+            result = _normalize_ocr_output(result)
+            
+            validation = validate_ocr_output(result)
+            if not validation['valid']:
+                print(f"⚠️ OCR输出格式验证失败: {validation['error']}")
+            
+            return result
     
     # 所有OCR都失败，返回默认题目
     print("所有OCR引擎都失败，返回默认题目")
-    return [{
+    result = [{
         'number': '1',
         'stem': '无法识别图片内容，请确保图片清晰且包含文字',
+        'answer': '',
         'options': {},
-        'type': '识别失败'
+        'type': '识别失败',
+        'question_id': '',
+        'timestamp': 0
     }]
+    
+    validation = validate_ocr_output(result)
+    if not validation['valid']:
+        print(f"⚠️ OCR输出格式验证失败: {validation['error']}")
+    
+    return result
+
+def _normalize_ocr_output(questions):
+    """标准化OCR输出格式，确保符合Schema"""
+    normalized = []
+    for q in questions:
+        normalized_q = {
+            'number': str(q.get('number', '')),
+            'stem': str(q.get('stem', '')),
+            'answer': str(q.get('answer', '')),
+            'options': q.get('options', {}),
+            'type': str(q.get('type', '未知题型')),
+            'question_id': '',  # 将由后端填充
+            'timestamp': 0      # 将由后端填充
+        }
+        normalized.append(normalized_q)
+    return normalized
 
 def multimodal_gpt4v_recognize(image_path, prompt="请识别图片中的所有题目和公式，输出结构化文本："):
     """
