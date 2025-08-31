@@ -13,3 +13,4 @@ paddleocr
 requests
 pytesseract
 jsonschema
+ollama

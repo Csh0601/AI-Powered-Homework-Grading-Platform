@@ -123,6 +123,56 @@
       },
       "required": ["total_questions", "correct_count", "total_score", "accuracy_rate"],
       "additionalProperties": false
+    },
+    "ai_analysis": {
+      "type": "object",
+      "description": "AI分析结果（可选）",
+      "properties": {
+        "knowledge_analysis": {
+          "type": "object",
+          "description": "知识点分析",
+          "properties": {
+            "wrong_knowledge_points": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "错题知识点"
+            },
+            "improvement_suggestions": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "改进建议"
+            },
+            "performance_summary": {
+              "type": "string",
+              "description": "表现总结"
+            }
+          }
+        },
+        "practice_questions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {"type": "string"},
+              "stem": {"type": "string"},
+              "options": {"type": "string"},
+              "answer": {"type": "string"},
+              "explanation": {"type": "string"}
+            }
+          },
+          "description": "生成的练习题"
+        },
+        "multimodal_analysis": {
+          "type": "object",
+          "description": "多模态分析结果",
+          "properties": {
+            "analysis": {"type": "string"},
+            "text_quality": {"type": "string"},
+            "structure_detected": {"type": "object"}
+          }
+        }
+      },
+      "additionalProperties": false
     }
   },
   "required": ["task_id", "timestamp", "questions", "grading_result", "wrong_knowledges"],
