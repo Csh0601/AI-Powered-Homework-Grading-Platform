@@ -1,0 +1,38 @@
+[
+  {
+    "subject": "数学",
+    "type": "选择题",
+    "difficulty": 2,
+    "content": "下列数中，最大的数是（ ）A. -3 B. -2 C. 0 D. 1",
+    "answer": "D",
+    "explanation": "在数轴上，1是最右边的数，所以最大",
+    "knowledge_points": [
+      "正数和负数",
+      "数的大小比较"
+    ]
+  },
+  {
+    "subject": "语文",
+    "type": "填空题",
+    "difficulty": 2,
+    "content": "《春》的作者是_______。",
+    "answer": "朱自清",
+    "explanation": "《春》是朱自清的代表作之一",
+    "knowledge_points": [
+      "现代文阅读",
+      "作家作品"
+    ]
+  },
+  {
+    "subject": "英语",
+    "type": "选择题",
+    "difficulty": 1,
+    "content": "I _____ a student. A. am B. is C. are D. be",
+    "answer": "A",
+    "explanation": "第一人称单数用am",
+    "knowledge_points": [
+      "一般现在时",
+      "be动词"
+    ]
+  }
+]
