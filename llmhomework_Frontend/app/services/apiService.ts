@@ -7,13 +7,49 @@ const apiService = {
   // 上传图片，返回批改结果和错题分析
   async uploadImage(image: { uri: string; name: string; type: string }) {
     try {
+      console.log('=== 开始上传图片 ===');
+      console.log('图片信息:', image);
+      console.log('图片URI类型:', typeof image.uri);
+      console.log('图片URI是否以data:开头:', image.uri.startsWith('data:'));
       console.log('API请求开始，目标URL:', `${BASE_URL}/upload_image`);
+      
       const formData = new FormData();
-      formData.append('file', {
-        uri: image.uri,
-        name: image.name,
-        type: image.type,
-      } as any);
+
+      // 检查是否是data URI
+      if (image.uri.startsWith('data:')) {
+        console.log('检测到data URI，开始转换...');
+        try {
+          // 将data URI转换为Blob对象
+          const response = await fetch(image.uri);
+          console.log('fetch响应状态:', response.status);
+          const blob = await response.blob();
+          console.log('Blob对象创建成功:', blob);
+          console.log('Blob大小:', blob.size, '字节');
+          console.log('Blob类型:', blob.type);
+          
+          formData.append('file', blob, image.name);
+          console.log('✅ FormData中添加了Blob对象，文件名:', image.name);
+        } catch (blobError: any) {
+          console.error('转换Blob失败:', blobError);
+          throw new Error('转换图片数据失败: ' + blobError.message);
+        }
+      } else {
+        console.log('非data URI，使用原有方式...');
+        // 对于非data URI（例如本地文件路径），保持原有的处理方式
+        formData.append('file', {
+          uri: image.uri,
+          name: image.name,
+          type: image.type,
+        } as any);
+        console.log('✅ FormData中添加了文件对象');
+      }
+      
+      // 检查FormData内容
+      console.log('FormData内容检查:');
+      // @ts-ignore - FormData.entries() 在大多数现代浏览器中可用
+      for (let [key, value] of formData.entries()) {
+        console.log(`- ${key}:`, value);
+      }
       
       console.log('发送POST请求...');
       const response = await axios.post(`${BASE_URL}/upload_image`, formData, {
@@ -30,7 +66,7 @@ const apiService = {
       
       return response.data;
     } catch (e: any) {
-      console.error('API请求失败详情:', e);
+      console.error('❌ API请求失败详情:', e);
       if (e.response) {
         console.error('错误响应状态:', e.response.status);
         console.error('错误响应数据:', e.response.data);
@@ -42,39 +78,7 @@ const apiService = {
       throw new Error(e?.response?.data?.error || e?.message || '上传图片失败');
     }
   },
-
-  // 获取历史批改结果
-  async getResults(userId?: string, taskId?: string) {
-    try {
-      const params: any = {};
-      if (userId) params.user_id = userId;
-      if (taskId) params.task_id = taskId;
-      const response = await axios.get(`${BASE_URL}/get_results`, { params });
-      return response.data;
-    } catch (e: any) {
-      throw new Error(e?.response?.data?.error || e?.message || '获取历史记录失败');
-    }
-  },
-
-  // 题目生成（支持use_gpt参数）
-  async generateExercise(knowledge: string, use_gpt = false) {
-    try {
-      const response = await axios.post(`${BASE_URL}/generate_exercise`, { knowledge, use_gpt });
-      return response.data;
-    } catch (e: any) {
-      throw new Error(e?.response?.data?.error || e?.message || '题目生成失败');
-    }
-  },
-
-  // 检查后端依赖状态
-  async checkBackendStatus() {
-    try {
-      const response = await axios.get(`${BASE_URL}/status`);
-      return response.data;
-    } catch (e) {
-      return { status: 'unreachable', error: e };
-    }
-  },
+  // ... other functions ...
 };
 
 export default apiService;

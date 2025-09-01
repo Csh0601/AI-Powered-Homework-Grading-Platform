@@ -120,10 +120,42 @@ const ImageEditor: React.FC<ImageEditorProps> = ({ imageUri, onEditComplete }) =
   const handleEditComplete = async () => {
     try {
       console.log('开始上传图片...', currentImageUri);
+      
+      // 智能生成文件名和类型
+      let fileName = 'image.jpg';
+      let fileType = 'image/jpeg';
+      
+      if (currentImageUri.startsWith('data:')) {
+        // 从data URI中提取MIME类型
+        const mimeMatch = currentImageUri.match(/^data:([^;]+);/);
+        if (mimeMatch) {
+          fileType = mimeMatch[1];
+          // 根据MIME类型设置正确的文件扩展名
+          if (fileType === 'image/jpeg') {
+            fileName = `image_${Date.now()}.jpg`;
+          } else if (fileType === 'image/png') {
+            fileName = `image_${Date.now()}.png`;
+          } else if (fileType === 'image/gif') {
+            fileName = `image_${Date.now()}.gif`;
+          } else {
+            fileName = `image_${Date.now()}.jpg`; // 默认使用jpg
+          }
+        }
+      } else {
+        // 对于非data URI，尝试从路径中提取文件名
+        const pathParts = currentImageUri.split('/');
+        const lastPart = pathParts[pathParts.length - 1];
+        if (lastPart && lastPart.includes('.')) {
+          fileName = lastPart;
+        } else {
+          fileName = `image_${Date.now()}.jpg`;
+        }
+      }
+      
       const file = {
         uri: currentImageUri,
-        name: currentImageUri.split('/').pop() || 'image.jpg',
-        type: 'image/jpeg',
+        name: fileName,
+        type: fileType,
       };
       console.log('上传文件信息:', file);
       
