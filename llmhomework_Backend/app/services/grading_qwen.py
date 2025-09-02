@@ -277,8 +277,9 @@ class QwenGradingEngine:
             'knowledge_analysis_enabled': self.enable_knowledge_analysis,
             'practice_generation_enabled': self.enable_practice_generation,
             'fallback_mode': not self.use_qwen,
-            # 向后兼容
-            'llama_available': self.use_qwen and self.qwen_service is not None
+            # 向后兼容和实际状态
+            'qwen_available': self.use_qwen and self.qwen_service is not None,
+            'llama_available': self.use_qwen and self.qwen_service is not None  # 向后兼容
         }
 
 # 全局实例

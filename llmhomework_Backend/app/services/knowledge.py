@@ -27,13 +27,13 @@ def summarize_wrong_questions(results):
     
     return top_words
 
-def analyze_knowledge_points_ai(wrong_questions: List[Dict], llama_service=None) -> List[str]:
+def analyze_knowledge_points_ai(wrong_questions: List[Dict], qwen_service=None) -> List[str]:
     """
     使用 AI 进行知识点分析
     
     Args:
         wrong_questions: 错题列表
-        llama_service: Llama 服务实例
+        qwen_service: Qwen 服务实例
         
     Returns:
         知识点列表
@@ -41,10 +41,10 @@ def analyze_knowledge_points_ai(wrong_questions: List[Dict], llama_service=None)
     if not wrong_questions:
         return []
     
-    # 如果有 Llama 服务，使用 AI 分析
-    if llama_service and Config.ENABLE_KNOWLEDGE_ANALYSIS:
+    # 如果有 Qwen 服务，使用 AI 分析
+    if qwen_service and Config.ENABLE_KNOWLEDGE_ANALYSIS:
         try:
-            knowledge_points = llama_service.analyze_knowledge_points(wrong_questions)
+            knowledge_points = qwen_service.analyze_knowledge_points(wrong_questions)
             if knowledge_points:
                 logger.info(f"AI 知识点分析成功，识别出 {len(knowledge_points)} 个知识点")
                 return knowledge_points
@@ -147,14 +147,14 @@ def _generate_study_recommendations(knowledge_points: List[str], wrong_results: 
 class KnowledgeAnalyzer:
     """知识点分析器"""
     
-    def __init__(self, llama_service=None):
+    def __init__(self, qwen_service=None):
         """
         初始化知识点分析器
         
         Args:
-            llama_service: Llama 服务实例
+            qwen_service: Qwen 服务实例
         """
-        self.llama_service = llama_service
+        self.qwen_service = qwen_service
         self.enable_ai = Config.ENABLE_KNOWLEDGE_ANALYSIS
     
     def analyze(self, grading_results: List[Dict]) -> Dict[str, Any]:
@@ -170,7 +170,7 @@ class KnowledgeAnalyzer:
         wrong_questions = [r for r in grading_results if not r.get('correct', True)]
         
         # 知识点分析
-        knowledge_points = analyze_knowledge_points_ai(wrong_questions, self.llama_service)
+        knowledge_points = analyze_knowledge_points_ai(wrong_questions, self.qwen_service)
         
         # 生成详细报告
         knowledge_summary = generate_knowledge_summary(knowledge_points, grading_results)
@@ -181,7 +181,7 @@ class KnowledgeAnalyzer:
         return {
             'knowledge_analysis': knowledge_summary,
             'study_plan': study_plan,
-            'analysis_method': 'AI' if self.enable_ai and self.llama_service else 'Traditional'
+            'analysis_method': 'AI' if self.enable_ai and self.qwen_service else 'Traditional'
         }
     
     def _generate_study_plan(self, knowledge_points: List[str], wrong_questions: List[Dict]) -> Dict[str, Any]:

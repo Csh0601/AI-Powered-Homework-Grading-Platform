@@ -3,7 +3,7 @@ from app.services.image_processing import preprocess_image
 from app.services.ocr_engine import smart_extract_questions
 # from app.services.text_preprocess import preprocess_ocr_result  # 未使用，已移除
 from app.services.grading_new import grade_homework_improved
-from app.services.grading_llama import grade_homework_with_ai, get_ai_service_status
+from app.services.grading_qwen import grade_homework_with_ai, get_ai_service_status
 from app.utils.file import save_upload_file
 from app.services.knowledge import summarize_wrong_questions, KnowledgeAnalyzer
 from app.models.record import save_record
@@ -65,7 +65,7 @@ def upload_image():
             q['timestamp'] = timestamp
         
         # 选择批改方式
-        if use_ai and Config.USE_LLAMA_GRADING:
+        if use_ai and Config.USE_QWEN_GRADING:
             logger.info("使用 AI 智能批改")
             ai_result = grade_homework_with_ai(questions, ocr_text)
             
@@ -114,7 +114,7 @@ def upload_image():
         }
         
         # 如果有AI分析结果，添加到记录中（但只在有实际内容时）
-        if use_ai and Config.USE_LLAMA_GRADING and (knowledge_analysis or practice_questions or multimodal_analysis):
+        if use_ai and Config.USE_QWEN_GRADING and (knowledge_analysis or practice_questions or multimodal_analysis):
             ai_data = {}
             if knowledge_analysis:
                 ai_data['knowledge_analysis'] = knowledge_analysis
@@ -137,11 +137,11 @@ def upload_image():
             'wrong_knowledges': wrong_knowledges,
             'questions': questions,
             'summary': record['summary'],
-            'ai_enabled': use_ai and Config.USE_LLAMA_GRADING
+            'ai_enabled': use_ai and Config.USE_QWEN_GRADING
         }
         
         # 如果启用了AI功能，添加AI分析结果
-        if use_ai and Config.USE_LLAMA_GRADING:
+        if use_ai and Config.USE_QWEN_GRADING:
             response_data.update({
                 'knowledge_analysis': knowledge_analysis,
                 'practice_questions': practice_questions,
@@ -187,15 +187,15 @@ def generate_practice_questions():
         
         # 检查AI服务状态
         status = get_ai_service_status()
-        if not status.get('llama_available', False):
+        if not status.get('qwen_available', False):
             return jsonify({'error': 'AI服务不可用，无法生成练习题'}), 503
         
-        # 导入LlamaService来生成练习题
-        from app.services.llama_service import LlamaService
+        # 导入QwenService来生成练习题
+        from app.services.qwen_service import QwenService
         from app.config import Config
         
-        llama_service = LlamaService(Config.LLAMA_MODEL_NAME)
-        practice_questions = llama_service.generate_practice_questions(knowledge_points, count)
+        qwen_service = QwenService(Config.QWEN_MODEL_NAME)
+        practice_questions = qwen_service.generate_practice_questions(knowledge_points, count)
         
         return jsonify({
             'status': 'success',

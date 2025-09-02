@@ -183,7 +183,7 @@ def main():
     print(f"  IP地址: {Config.SERVER_HOST}")
     print(f"  端口: {Config.OLLAMA_PORT}")
     print(f"  完整URL: {Config.OLLAMA_BASE_URL}")
-    print(f"  目标模型: {Config.LLAMA_MODEL_NAME}")
+    print(f"  目标模型: {Config.QWEN_MODEL_NAME}")
     
     # 步骤1: 测试服务器连通性
     if not test_server_connectivity():
