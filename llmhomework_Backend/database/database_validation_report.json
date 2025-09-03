@@ -1,0 +1,13 @@
+{
+  "validation_time": "2025-09-03T22:07:36.276341",
+  "database_file": "knowledge_base.db",
+  "total_tables": 19,
+  "expected_tables": 18,
+  "missing_tables": [],
+  "basic_data": {
+    "grades": 3,
+    "subjects": 12,
+    "tags": 8
+  },
+  "status": "warning"
+}

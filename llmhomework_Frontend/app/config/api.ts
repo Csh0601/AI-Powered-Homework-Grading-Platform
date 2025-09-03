@@ -1,7 +1,7 @@
 // API配置文件
 export const API_CONFIG = {
     // 同一WiFi网络：使用电脑的WiFi IP地址
-    BASE_URL: 'http://172.29.44.196:5000',  // 电脑在WiFi网络中的IP
+    BASE_URL: 'http://172.29.44.8:5000',  // 电脑在WiFi网络中的IP
     TIMEOUT: 120000, // 增加到2分钟，因为OCR处理需要时间
     RETRY_COUNT: 3,
   };

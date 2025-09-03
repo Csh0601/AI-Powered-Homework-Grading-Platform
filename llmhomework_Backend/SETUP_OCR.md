@@ -10,7 +10,7 @@
 ### 1. 安装Python依赖
 ```bash
 cd llmhomework_Backend
-pip install -r requirements_ocr.txt
+pip install -r requirements.txt
 ```
 
 ### 2. OCR引擎选择
@@ -59,13 +59,7 @@ cd llmhomework_Frontend
 npm install
 ```
 
-### 2. 配置API地址
-修改 `app/config/api.ts` 中的 `BASE_URL`：
-```typescript
-export const API_CONFIG = {
-  BASE_URL: 'http://你的后端IP:5000',
-  // ...
-};
+ 
 ```
 
 ### 3. 启动前端

@@ -1,0 +1,145 @@
+{
+  "data_collection_config": {
+    "version": "1.0",
+    "last_updated": "2025-01-28",
+    "description": "AI作业批改系统数据收集配置",
+    
+    "subjects": {
+      "数学": {
+        "code": "math",
+        "grades": ["Grade 7", "Grade 8", "Grade 9"],
+        "target_knowledge_points": 50,
+        "target_exam_questions": 20,
+        "target_mock_questions": 15,
+        "priority": 1,
+        "status": "in_progress"
+      },
+      "语文": {
+        "code": "chinese", 
+        "grades": ["Grade 7", "Grade 8", "Grade 9"],
+        "target_knowledge_points": 50,
+        "target_exam_questions": 20,
+        "target_mock_questions": 15,
+        "priority": 1,
+        "status": "in_progress"
+      },
+      "英语": {
+        "code": "english",
+        "grades": ["Grade 7", "Grade 8", "Grade 9"], 
+        "target_knowledge_points": 50,
+        "target_exam_questions": 20,
+        "target_mock_questions": 15,
+        "priority": 1,
+        "status": "in_progress"
+      },
+      "物理": {
+        "code": "physics",
+        "grades": ["Grade 8", "Grade 9"],
+        "target_knowledge_points": 40,
+        "target_exam_questions": 20,
+        "target_mock_questions": 15,
+        "priority": 2,
+        "status": "pending"
+      },
+      "化学": {
+        "code": "chemistry",
+        "grades": ["Grade 9"],
+        "target_knowledge_points": 40,
+        "target_exam_questions": 20,
+        "target_mock_questions": 15,
+        "priority": 2,
+        "status": "pending"
+      },
+      "生物": {
+        "code": "biology",
+        "grades": ["Grade 7", "Grade 8"],
+        "target_knowledge_points": 30,
+        "target_exam_questions": 20,
+        "target_mock_questions": 15,
+        "priority": 3,
+        "status": "pending"
+      },
+      "历史": {
+        "code": "history",
+        "grades": ["Grade 7", "Grade 8", "Grade 9"],
+        "target_knowledge_points": 30,
+        "target_exam_questions": 20,
+        "target_mock_questions": 15,
+        "priority": 3,
+        "status": "pending"
+      },
+      "地理": {
+        "code": "geography",
+        "grades": ["Grade 7", "Grade 8"],
+        "target_knowledge_points": 30,
+        "target_exam_questions": 20,
+        "target_mock_questions": 15,
+        "priority": 3,
+        "status": "pending"
+      },
+      "政治": {
+        "code": "politics",
+        "grades": ["Grade 7", "Grade 8", "Grade 9"],
+        "target_knowledge_points": 30,
+        "target_exam_questions": 20,
+        "target_mock_questions": 15,
+        "priority": 3,
+        "status": "pending"
+      }
+    },
+    
+    "data_quality_standards": {
+      "knowledge_points": {
+        "min_description_length": 10,
+        "max_description_length": 1000,
+        "required_keywords_count": 3,
+        "max_keywords_count": 8,
+        "difficulty_range": [1, 5],
+        "importance_range": [1, 5],
+        "exam_frequency_range": [0.0, 1.0]
+      },
+      "questions": {
+        "min_stem_length": 5,
+        "max_stem_length": 2000,
+        "min_explanation_length": 10,
+        "max_explanation_length": 2000,
+        "choice_options_count": [3, 6],
+        "difficulty_range": [1, 5]
+      }
+    },
+    
+    "validation_rules": {
+      "knowledge_points": {
+        "required_fields": ["name", "subject", "grade", "chapter", "description", "difficulty_level", "importance_level", "keywords"],
+        "unique_fields": ["name", "subject", "grade"],
+        "format_checks": ["difficulty_level", "importance_level", "exam_frequency"]
+      },
+      "questions": {
+        "required_fields": ["question_id", "subject", "grade", "question_type", "stem", "correct_answer", "difficulty_level", "knowledge_points"],
+        "unique_fields": ["question_id"],
+        "conditional_required": {
+          "choice": ["options"],
+          "true_false": [],
+          "fill_blank": [],
+          "calculation": ["explanation"],
+          "application": ["explanation"]
+        }
+      }
+    },
+    
+    "file_naming_conventions": {
+      "knowledge_points": "knowledge_points_{subject}_{grade}_{date}.csv",
+      "questions": "questions_{subject}_{type}_{date}.csv",
+      "reports": "report_{type}_{date}.json",
+      "exports": "export_{subject}_{date}.csv"
+    },
+    
+    "processing_settings": {
+      "batch_size": 100,
+      "validation_on_import": true,
+      "auto_backup": true,
+      "log_level": "INFO",
+      "temp_file_retention_days": 7
+    }
+  }
+}

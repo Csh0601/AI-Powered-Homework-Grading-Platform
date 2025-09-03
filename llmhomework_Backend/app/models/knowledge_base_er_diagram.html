@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI作业批改系统 - 知识库ER图</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f7fa;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 20px;
+        }
+        .header h1 {
+            color: #2c3e50;
+            font-size: 28px;
+            margin: 0;
+        }
+        .header p {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin: 10px 0 0 0;
+        }
+        .er-diagram {
+            width: 100%;
+            height: 1200px;
+            border: 1px solid #ddd;
+            background: #fafafa;
+            overflow: auto;
+            position: relative;
+        }
+        .table {
+            position: absolute;
+            background: white;
+            border: 2px solid #3498db;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            min-width: 180px;
+            font-size: 11px;
+        }
+        .table-header {
+            background: #3498db;
+            color: white;
+            padding: 8px 10px;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 4px 4px 0 0;
+            font-size: 12px;
+        }
+        .table-body {
+            padding: 0;
+        }
+        .field {
+            padding: 4px 8px;
+            border-bottom: 1px solid #ecf0f1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .field:last-child {
+            border-bottom: none;
+        }
+        .field.primary-key {
+            background: #fff3cd;
+            font-weight: bold;
+        }
+        .field.foreign-key {
+            background: #d1ecf1;
+        }
+        .field.index {
+            background: #d4edda;
+        }
+        .field-name {
+            font-weight: 500;
+            color: #2c3e50;
+        }
+        .field-type {
+            color: #7f8c8d;
+            font-size: 10px;
+        }
+        .key-indicator {
+            font-size: 10px;
+            padding: 1px 4px;
+            border-radius: 3px;
+            margin-left: 4px;
+        }
+        .pk {
+            background: #f39c12;
+            color: white;
+        }
+        .fk {
+            background: #3498db;
+            color: white;
+        }
+        .idx {
+            background: #27ae60;
+            color: white;
+        }
+        .relation-line {
+            position: absolute;
+            border-top: 2px solid #e74c3c;
+            z-index: 10;
+        }
+        .relation-line::before,
+        .relation-line::after {
+            content: '';
+            position: absolute;
+            top: -3px;
+            width: 6px;
+            height: 6px;
+            background: #e74c3c;
+            border-radius: 50%;
+        }
+        .relation-line::before {
+            left: -3px;
+        }
+        .relation-line::after {
+            right: -3px;
+        }
+        .legend {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 4px solid #3498db;
+        }
+        .legend h3 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+            font-size: 16px;
+        }
+        .legend-item {
+            display: inline-block;
+            margin: 5px 15px 5px 0;
+            font-size: 12px;
+        }
+        .legend-color {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            margin-right: 5px;
+            vertical-align: middle;
+            border-radius: 2px;
+        }
+        .stats {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .stat-card {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 4px solid #3498db;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3498db;
+            margin-bottom: 5px;
+        }
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AI作业批改系统 - 知识库ER图</h1>
+            <p>版本: v2.0 | 更新时间: 2025-01-28 | 基于 knowledge_base.py 数据模型</p>
+        </div>
+
+        <div class="er-diagram" id="er-diagram">
+            <!-- 基础层级结构表 -->
+            <div class="table" style="top: 20px; left: 50px;">
+                <div class="table-header">grades (年级表)</div>
+                <div class="table-body">
+                    <div class="field primary-key">
+                        <span class="field-name">id</span>
+                        <span><span class="field-type">INT</span><span class="key-indicator pk">PK</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">name</span>
+                        <span class="field-type">VARCHAR(30)</span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">code</span>
+                        <span><span class="field-type">VARCHAR(10)</span><span class="key-indicator idx">UK</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">description</span>
+                        <span class="field-type">TEXT</span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">sort_order</span>
+                        <span><span class="field-type">SMALLINT</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">is_active</span>
+                        <span><span class="field-type">BOOLEAN</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">created_at</span>
+                        <span class="field-type">DATETIME</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">updated_at</span>
+                        <span class="field-type">DATETIME</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table" style="top: 20px; left: 300px;">
+                <div class="table-header">subjects (学科表)</div>
+                <div class="table-body">
+                    <div class="field primary-key">
+                        <span class="field-name">id</span>
+                        <span><span class="field-type">INT</span><span class="key-indicator pk">PK</span></span>
+                    </div>
+                    <div class="field foreign-key">
+                        <span class="field-name">grade_id</span>
+                        <span><span class="field-type">INT</span><span class="key-indicator fk">FK</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">name</span>
+                        <span class="field-type">VARCHAR(30)</span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">code</span>
+                        <span><span class="field-type">VARCHAR(15)</span><span class="key-indicator idx">UK</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">description</span>
+                        <span class="field-type">TEXT</span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">difficulty_level</span>
+                        <span><span class="field-type">TINYINT</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">is_active</span>
+                        <span><span class="field-type">BOOLEAN</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">created_at</span>
+                        <span class="field-type">DATETIME</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">updated_at</span>
+                        <span class="field-type">DATETIME</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table" style="top: 20px; left: 550px;">
+                <div class="table-header">chapters (章节表)</div>
+                <div class="table-body">
+                    <div class="field primary-key">
+                        <span class="field-name">id</span>
+                        <span><span class="field-type">INT</span><span class="key-indicator pk">PK</span></span>
+                    </div>
+                    <div class="field foreign-key">
+                        <span class="field-name">subject_id</span>
+                        <span><span class="field-type">INT</span><span class="key-indicator fk">FK</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">name</span>
+                        <span class="field-type">VARCHAR(100)</span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">code</span>
+                        <span><span class="field-type">VARCHAR(30)</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">description</span>
+                        <span class="field-type">TEXT</span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">chapter_number</span>
+                        <span><span class="field-type">SMALLINT</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">difficulty_level</span>
+                        <span><span class="field-type">TINYINT</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">estimated_hours</span>
+                        <span class="field-type">FLOAT</span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">is_active</span>
+                        <span><span class="field-type">BOOLEAN</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">created_at</span>
+                        <span class="field-type">DATETIME</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">updated_at</span>
+                        <span class="field-type">DATETIME</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table" style="top: 20px; left: 800px;">
+                <div class="table-header">knowledge_points (知识点表)</div>
+                <div class="table-body">
+                    <div class="field primary-key">
+                        <span class="field-name">id</span>
+                        <span><span class="field-type">INT</span><span class="key-indicator pk">PK</span></span>
+                    </div>
+                    <div class="field foreign-key">
+                        <span class="field-name">chapter_id</span>
+                        <span><span class="field-type">INT</span><span class="key-indicator fk">FK</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">name</span>
+                        <span class="field-type">VARCHAR(200)</span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">code</span>
+                        <span><span class="field-type">VARCHAR(50)</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">description</span>
+                        <span class="field-type">TEXT</span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">difficulty_level</span>
+                        <span><span class="field-type">TINYINT</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">importance_level</span>
+                        <span><span class="field-type">TINYINT</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">exam_frequency</span>
+                        <span><span class="field-type">FLOAT</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">learning_objectives</span>
+                        <span class="field-type">TEXT</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">common_mistakes</span>
+                        <span class="field-type">TEXT</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">learning_tips</span>
+                        <span class="field-type">TEXT</span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">is_active</span>
+                        <span><span class="field-type">BOOLEAN</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">created_at</span>
+                        <span class="field-type">DATETIME</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">updated_at</span>
+                        <span class="field-type">DATETIME</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 题目相关表 -->
+            <div class="table" style="top: 350px; left: 50px;">
+                <div class="table-header">questions (题目表)</div>
+                <div class="table-body">
+                    <div class="field primary-key">
+                        <span class="field-name">question_id</span>
+                        <span><span class="field-type">VARCHAR(100)</span><span class="key-indicator pk">PK</span></span>
+                    </div>
+                    <div class="field foreign-key">
+                        <span class="field-name">subject_id</span>
+                        <span><span class="field-type">INT</span><span class="key-indicator fk">FK</span></span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">number</span>
+                        <span><span class="field-type">VARCHAR(20)</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">stem</span>
+                        <span class="field-type">TEXT</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">answer</span>
+                        <span class="field-type">TEXT</span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">type</span>
+                        <span><span class="field-type">ENUM</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">timestamp</span>
+                        <span><span class="field-type">BIGINT</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">correct_answer</span>
+                        <span class="field-type">TEXT</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">explanation</span>
+                        <span class="field-type">TEXT</span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">difficulty_level</span>
+                        <span><span class="field-type">TINYINT</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">source</span>
+                        <span class="field-type">VARCHAR(100)</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">source_type</span>
+                        <span class="field-type">VARCHAR(20)</span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">is_active</span>
+                        <span><span class="field-type">BOOLEAN</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">created_at</span>
+                        <span class="field-type">DATETIME</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">updated_at</span>
+                        <span class="field-type">DATETIME</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table" style="top: 350px; left: 350px;">
+                <div class="table-header">question_options (题目选项表)</div>
+                <div class="table-body">
+                    <div class="field primary-key">
+                        <span class="field-name">id</span>
+                        <span><span class="field-type">INT</span><span class="key-indicator pk">PK</span></span>
+                    </div>
+                    <div class="field foreign-key">
+                        <span class="field-name">question_id</span>
+                        <span><span class="field-type">VARCHAR(100)</span><span class="key-indicator fk">FK</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">option_key</span>
+                        <span class="field-type">VARCHAR(10)</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">option_value</span>
+                        <span class="field-type">TEXT</span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">is_correct</span>
+                        <span><span class="field-type">BOOLEAN</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">created_at</span>
+                        <span class="field-type">DATETIME</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 关联表 -->
+            <div class="table" style="top: 350px; left: 600px;">
+                <div class="table-header">question_knowledge_association</div>
+                <div class="table-body">
+                    <div class="field primary-key">
+                        <span class="field-name">question_id</span>
+                        <span><span class="field-type">VARCHAR(100)</span><span class="key-indicator pk">PK1</span></span>
+                    </div>
+                    <div class="field primary-key">
+                        <span class="field-name">knowledge_point_id</span>
+                        <span><span class="field-type">INT</span><span class="key-indicator pk">PK2</span></span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">relevance_score</span>
+                        <span><span class="field-type">FLOAT</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">created_at</span>
+                        <span class="field-type">DATETIME</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table" style="top: 350px; left: 850px;">
+                <div class="table-header">knowledge_relationship</div>
+                <div class="table-body">
+                    <div class="field primary-key">
+                        <span class="field-name">prerequisite_id</span>
+                        <span><span class="field-type">INT</span><span class="key-indicator pk">PK1</span></span>
+                    </div>
+                    <div class="field primary-key">
+                        <span class="field-name">dependent_id</span>
+                        <span><span class="field-type">INT</span><span class="key-indicator pk">PK2</span></span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">relationship_type</span>
+                        <span><span class="field-type">ENUM</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">strength</span>
+                        <span><span class="field-type">FLOAT</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">created_at</span>
+                        <span class="field-type">DATETIME</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 批改结果表 -->
+            <div class="table" style="top: 650px; left: 50px;">
+                <div class="table-header">grading_results (批改结果表)</div>
+                <div class="table-body">
+                    <div class="field primary-key">
+                        <span class="field-name">id</span>
+                        <span><span class="field-type">INT</span><span class="key-indicator pk">PK</span></span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">task_id</span>
+                        <span><span class="field-type">VARCHAR(100)</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field foreign-key">
+                        <span class="field-name">question_id</span>
+                        <span><span class="field-type">VARCHAR(100)</span><span class="key-indicator fk">FK</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">question</span>
+                        <span class="field-type">TEXT</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">answer</span>
+                        <span class="field-type">TEXT</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">type</span>
+                        <span class="field-type">ENUM</span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">correct</span>
+                        <span><span class="field-type">BOOLEAN</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">score</span>
+                        <span><span class="field-type">FLOAT</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">explanation</span>
+                        <span class="field-type">TEXT</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">confidence</span>
+                        <span class="field-type">FLOAT</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">grading_engine</span>
+                        <span class="field-type">VARCHAR(30)</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">processing_time</span>
+                        <span class="field-type">FLOAT</span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">created_at</span>
+                        <span><span class="field-type">DATETIME</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">updated_at</span>
+                        <span class="field-type">DATETIME</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table" style="top: 650px; left: 350px;">
+                <div class="table-header">task_records (任务记录表)</div>
+                <div class="table-body">
+                    <div class="field primary-key">
+                        <span class="field-name">id</span>
+                        <span><span class="field-type">INT</span><span class="key-indicator pk">PK</span></span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">task_id</span>
+                        <span><span class="field-type">VARCHAR(100)</span><span class="key-indicator idx">UK</span></span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">timestamp</span>
+                        <span><span class="field-type">INT</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">user_id</span>
+                        <span><span class="field-type">VARCHAR(100)</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">total_questions</span>
+                        <span class="field-type">INT</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">correct_count</span>
+                        <span class="field-type">INT</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">total_score</span>
+                        <span class="field-type">FLOAT</span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">accuracy_rate</span>
+                        <span><span class="field-type">FLOAT</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">wrong_knowledges</span>
+                        <span class="field-type">JSON</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">ai_analysis</span>
+                        <span class="field-type">JSON</span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">processing_status</span>
+                        <span><span class="field-type">ENUM</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">created_at</span>
+                        <span><span class="field-type">DATETIME</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">updated_at</span>
+                        <span class="field-type">DATETIME</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 学习分析表 -->
+            <div class="table" style="top: 650px; left: 650px;">
+                <div class="table-header">learning_records (学习记录表)</div>
+                <div class="table-body">
+                    <div class="field primary-key">
+                        <span class="field-name">id</span>
+                        <span><span class="field-type">INT</span><span class="key-indicator pk">PK</span></span>
+                    </div>
+                    <div class="field foreign-key">
+                        <span class="field-name">user_id</span>
+                        <span><span class="field-type">VARCHAR(100)</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field foreign-key">
+                        <span class="field-name">question_id</span>
+                        <span><span class="field-type">VARCHAR(100)</span><span class="key-indicator fk">FK</span></span>
+                    </div>
+                    <div class="field foreign-key">
+                        <span class="field-name">knowledge_point_id</span>
+                        <span><span class="field-type">INT</span><span class="key-indicator fk">FK</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">answer_time</span>
+                        <span class="field-type">INT</span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">is_correct</span>
+                        <span><span class="field-type">BOOLEAN</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">attempt_count</span>
+                        <span class="field-type">TINYINT</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">confidence_level</span>
+                        <span class="field-type">TINYINT</span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">answered_at</span>
+                        <span><span class="field-type">DATETIME</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table" style="top: 650px; left: 950px;">
+                <div class="table-header">user_profiles (用户画像表)</div>
+                <div class="table-body">
+                    <div class="field primary-key">
+                        <span class="field-name">id</span>
+                        <span><span class="field-type">INT</span><span class="key-indicator pk">PK</span></span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">user_id</span>
+                        <span><span class="field-type">VARCHAR(100)</span><span class="key-indicator idx">UK</span></span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">math_level</span>
+                        <span><span class="field-type">TINYINT</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">chinese_level</span>
+                        <span><span class="field-type">TINYINT</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">english_level</span>
+                        <span><span class="field-type">TINYINT</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">preferred_difficulty</span>
+                        <span class="field-type">TINYINT</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">learning_style</span>
+                        <span class="field-type">ENUM</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">created_at</span>
+                        <span class="field-type">DATETIME</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">updated_at</span>
+                        <span class="field-type">DATETIME</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 其他辅助表 -->
+            <div class="table" style="top: 950px; left: 50px;">
+                <div class="table-header">tags (标签表)</div>
+                <div class="table-body">
+                    <div class="field primary-key">
+                        <span class="field-name">id</span>
+                        <span><span class="field-type">INT</span><span class="key-indicator pk">PK</span></span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">name</span>
+                        <span><span class="field-type">VARCHAR(50)</span><span class="key-indicator idx">UK</span></span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">category</span>
+                        <span><span class="field-type">VARCHAR(30)</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">description</span>
+                        <span class="field-type">TEXT</span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">is_active</span>
+                        <span><span class="field-type">BOOLEAN</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">created_at</span>
+                        <span class="field-type">DATETIME</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table" style="top: 950px; left: 300px;">
+                <div class="table-header">knowledge_point_keywords</div>
+                <div class="table-body">
+                    <div class="field primary-key">
+                        <span class="field-name">id</span>
+                        <span><span class="field-type">INT</span><span class="key-indicator pk">PK</span></span>
+                    </div>
+                    <div class="field foreign-key">
+                        <span class="field-name">knowledge_point_id</span>
+                        <span><span class="field-type">INT</span><span class="key-indicator fk">FK</span></span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">keyword</span>
+                        <span><span class="field-type">VARCHAR(100)</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">weight</span>
+                        <span><span class="field-type">FLOAT</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">created_at</span>
+                        <span class="field-type">DATETIME</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table" style="top: 950px; left: 550px;">
+                <div class="table-header">textbooks (教材表)</div>
+                <div class="table-body">
+                    <div class="field primary-key">
+                        <span class="field-name">id</span>
+                        <span><span class="field-type">INT</span><span class="key-indicator pk">PK</span></span>
+                    </div>
+                    <div class="field foreign-key">
+                        <span class="field-name">subject_id</span>
+                        <span><span class="field-type">INT</span><span class="key-indicator fk">FK</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">name</span>
+                        <span class="field-type">VARCHAR(200)</span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">publisher</span>
+                        <span><span class="field-type">VARCHAR(100)</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">edition</span>
+                        <span class="field-type">VARCHAR(50)</span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">publish_year</span>
+                        <span><span class="field-type">INT</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">isbn</span>
+                        <span class="field-type">VARCHAR(20)</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">description</span>
+                        <span class="field-type">TEXT</span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">is_active</span>
+                        <span><span class="field-type">BOOLEAN</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">created_at</span>
+                        <span class="field-type">DATETIME</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">updated_at</span>
+                        <span class="field-type">DATETIME</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table" style="top: 950px; left: 800px;">
+                <div class="table-header">exam_papers (试卷表)</div>
+                <div class="table-body">
+                    <div class="field primary-key">
+                        <span class="field-name">id</span>
+                        <span><span class="field-type">INT</span><span class="key-indicator pk">PK</span></span>
+                    </div>
+                    <div class="field foreign-key">
+                        <span class="field-name">subject_id</span>
+                        <span><span class="field-type">INT</span><span class="key-indicator fk">FK</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">name</span>
+                        <span class="field-type">VARCHAR(200)</span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">exam_type</span>
+                        <span><span class="field-type">ENUM</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">exam_year</span>
+                        <span><span class="field-type">INT</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">region</span>
+                        <span class="field-type">VARCHAR(100)</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">total_score</span>
+                        <span class="field-type">INT</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">duration</span>
+                        <span class="field-type">INT</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">description</span>
+                        <span class="field-type">TEXT</span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">is_active</span>
+                        <span><span class="field-type">BOOLEAN</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">created_at</span>
+                        <span class="field-type">DATETIME</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">updated_at</span>
+                        <span class="field-type">DATETIME</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table" style="top: 950px; left: 1050px;">
+                <div class="table-header">question_banks (题库表)</div>
+                <div class="table-body">
+                    <div class="field primary-key">
+                        <span class="field-name">id</span>
+                        <span><span class="field-type">INT</span><span class="key-indicator pk">PK</span></span>
+                    </div>
+                    <div class="field foreign-key">
+                        <span class="field-name">subject_id</span>
+                        <span><span class="field-type">INT</span><span class="key-indicator fk">FK</span></span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">name</span>
+                        <span><span class="field-type">VARCHAR(200)</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">description</span>
+                        <span class="field-type">TEXT</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">question_count</span>
+                        <span class="field-type">INT</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">difficulty_distribution</span>
+                        <span class="field-type">JSON</span>
+                    </div>
+                    <div class="field index">
+                        <span class="field-name">is_active</span>
+                        <span><span class="field-type">BOOLEAN</span><span class="key-indicator idx">IDX</span></span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">created_at</span>
+                        <span class="field-type">DATETIME</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">updated_at</span>
+                        <span class="field-type">DATETIME</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 关系线（简化版，实际应该用SVG绘制） -->
+            <div class="relation-line" style="top: 120px; left: 240px; width: 60px;"></div>
+            <div class="relation-line" style="top: 120px; left: 490px; width: 60px;"></div>
+            <div class="relation-line" style="top: 120px; left: 740px; width: 60px;"></div>
+        </div>
+
+        <div class="legend">
+            <h3>图例说明</h3>
+            <div class="legend-item">
+                <span class="legend-color pk"></span>
+                <strong>PK</strong> = 主键
+            </div>
+            <div class="legend-item">
+                <span class="legend-color fk"></span>
+                <strong>FK</strong> = 外键
+            </div>
+            <div class="legend-item">
+                <span class="legend-color idx"></span>
+                <strong>IDX</strong> = 索引
+            </div>
+            <div class="legend-item">
+                <span class="legend-color" style="background: #fff3cd;"></span>
+                主键字段
+            </div>
+            <div class="legend-item">
+                <span class="legend-color" style="background: #d1ecf1;"></span>
+                外键字段
+            </div>
+            <div class="legend-item">
+                <span class="legend-color" style="background: #d4edda;"></span>
+                索引字段
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">18</div>
+                <div class="stat-label">数据表总数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">5</div>
+                <div class="stat-label">核心实体表</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">关联表</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">45+</div>
+                <div class="stat-label">索引总数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">7</div>
+                <div class="stat-label">枚举类型</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">✓</div>
+                <div class="stat-label">AI推荐支持</div>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px; padding: 15px; background: #e8f4fd; border-radius: 6px; border-left: 4px solid #3498db;">
+            <h4 style="margin: 0 0 10px 0; color: #2c3e50;">🔄 数据模型特点</h4>
+            <ul style="margin: 0; padding-left: 20px; color: #34495e; font-size: 13px;">
+                <li><strong>层级化设计</strong>：年级 → 学科 → 章节 → 知识点的清晰层级</li>
+                <li><strong>多对多关联</strong>：题目与知识点、题目与标签的灵活关联</li>
+                <li><strong>智能推荐</strong>：内置KnowledgeRecommendationService支持AI推荐</li>
+                <li><strong>性能优化</strong>：大量索引优化常用查询，支持复合索引</li>
+                <li><strong>扩展性强</strong>：支持多种题型、枚举类型、JSON字段存储复杂数据</li>
+                <li><strong>学习分析</strong>：完整的学习记录跟踪和用户画像系统</li>
+                <li><strong>批改系统</strong>：完整的任务记录和批改结果存储</li>
+            </ul>
+        </div>
+
+        <div style="margin-top: 20px; text-align: center; color: #7f8c8d; font-size: 12px;">
+            <p>📊 本ER图基于 knowledge_base.py v2.0 自动生成 | 包含完整的AI作业批改系统数据模型</p>
+            <p>🔗 支持智能推荐、学习分析、知识图谱等高级功能</p>
+        </div>
+    </div>
+</body>
+</html>

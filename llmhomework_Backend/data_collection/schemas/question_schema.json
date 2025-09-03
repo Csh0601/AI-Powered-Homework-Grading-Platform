@@ -1,0 +1,190 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "题目数据结构定义",
+  "description": "AI作业批改系统题目数据的标准结构",
+  "type": "object",
+  "properties": {
+    "question_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]+$",
+      "maxLength": 100,
+      "description": "题目唯一业务标识ID"
+    },
+    "subject": {
+      "type": "string",
+      "enum": ["数学", "语文", "英语", "物理", "化学", "生物", "历史", "地理", "政治"],
+      "description": "所属学科"
+    },
+    "grade": {
+      "type": "string",
+      "enum": ["Grade 7", "Grade 8", "Grade 9"],
+      "description": "适用年级"
+    },
+    "question_type": {
+      "type": "string",
+      "enum": ["choice", "true_false", "fill_blank", "calculation", "application", "essay"],
+      "description": "题目类型：选择题、判断题、填空题、计算题、应用题、作文题"
+    },
+    "stem": {
+      "type": "string",
+      "minLength": 5,
+      "maxLength": 2000,
+      "description": "题目内容/题干"
+    },
+    "options": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 500
+      },
+      "minItems": 2,
+      "maxItems": 6,
+      "description": "选择题选项（仅选择题需要）"
+    },
+    "correct_answer": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "正确答案"
+    },
+    "student_answer": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "学生答案（用于批改场景）"
+    },
+    "explanation": {
+      "type": "string",
+      "maxLength": 2000,
+      "description": "答案解析"
+    },
+    "difficulty_level": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "难度等级：1-容易，2-较易，3-中等，4-较难，5-困难"
+    },
+    "knowledge_points": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 200
+      },
+      "minItems": 1,
+      "maxItems": 5,
+      "description": "关联的知识点"
+    },
+    "source": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "题目来源",
+      "examples": ["2024年北京市中考真题", "人教版教材练习", "某某教育机构模拟题"]
+    },
+    "source_type": {
+      "type": "string",
+      "enum": ["exam", "textbook", "mock", "exercise"],
+      "description": "来源类型：考试真题、教材习题、模拟题、练习题"
+    },
+    "year": {
+      "type": "integer",
+      "minimum": 2020,
+      "maximum": 2030,
+      "description": "题目年份"
+    },
+    "region": {
+      "type": "string",
+      "maxLength": 50,
+      "description": "地区（仅考试真题）",
+      "examples": ["北京市", "上海市", "全国卷"]
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 30
+      },
+      "maxItems": 10,
+      "description": "题目标签"
+    },
+    "score": {
+      "type": "number",
+      "minimum": 0,
+      "description": "题目分值"
+    },
+    "time_limit": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "建议答题时间（分钟）"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "创建时间"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "最后更新时间"
+    }
+  },
+  "required": [
+    "question_id",
+    "subject",
+    "grade", 
+    "question_type",
+    "stem",
+    "correct_answer",
+    "difficulty_level",
+    "knowledge_points"
+  ],
+  "additionalProperties": false,
+  
+  "allOf": [
+    {
+      "if": {
+        "properties": { "question_type": { "const": "choice" } }
+      },
+      "then": {
+        "required": ["options"],
+        "properties": {
+          "options": {
+            "minItems": 3,
+            "maxItems": 6
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "question_type": { "const": "true_false" } }
+      },
+      "then": {
+        "properties": {
+          "correct_answer": {
+            "enum": ["正确", "错误", "对", "错", "True", "False", "T", "F"]
+          }
+        }
+      }
+    }
+  ],
+  
+  "examples": [
+    {
+      "question_id": "math_grade7_001",
+      "subject": "数学",
+      "grade": "Grade 7",
+      "question_type": "choice",
+      "stem": "下列各数中，是有理数的是（  ）",
+      "options": ["A. √2", "B. π", "C. -3", "D. √3"],
+      "correct_answer": "C",
+      "explanation": "有理数包括整数和分数，-3是整数，因此是有理数。√2、π、√3都是无理数。",
+      "difficulty_level": 2,
+      "knowledge_points": ["有理数的概念"],
+      "source": "人教版七年级数学上册",
+      "source_type": "textbook",
+      "year": 2024,
+      "tags": ["有理数", "数的分类"],
+      "score": 3,
+      "time_limit": 2,
+      "created_at": "2025-01-28T10:00:00Z"
+    }
+  ]
+}

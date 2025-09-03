@@ -1,0 +1,38 @@
+{
+  "test_time": "2025-09-03T22:08:41.680762",
+  "database_path": "knowledge_base.db",
+  "connection_status": "success",
+  "tests_performed": [
+    "basic_queries",
+    "crud_operations",
+    "complex_queries"
+  ],
+  "recommendations": [
+    "数据库连接正常，可以开始API开发",
+    "建议添加更多的测试数据进行开发",
+    "考虑添加数据库连接池优化性能"
+  ],
+  "database_stats": {
+    "total_tables": 18,
+    "table_record_counts": {
+      "grades": 3,
+      "subjects": 12,
+      "chapters": 1,
+      "knowledge_points": 1,
+      "questions": 0,
+      "question_options": 0,
+      "question_knowledge_association": 0,
+      "knowledge_relationship": 0,
+      "knowledge_point_keywords": 0,
+      "grading_results": 0,
+      "task_records": 0,
+      "learning_records": 0,
+      "user_profiles": 0,
+      "tags": 8,
+      "question_tags": 0,
+      "textbooks": 0,
+      "exam_papers": 0,
+      "question_banks": 0
+    }
+  }
+}
