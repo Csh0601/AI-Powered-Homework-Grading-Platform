@@ -440,21 +440,40 @@ def extract_structured_questions_with_latex(ocr_lines, latex_line=None):
 
 def smart_extract_questions(image_path):
     """
-    智能OCR识别，按优先级尝试不同OCR引擎。
+    智能OCR识别，按优先级尝试不同OCR引擎，并自动进行学科分类。
     优先级：PaddleOCR > EasyOCR > Tesseract > LaTeX OCR
     返回符合ocr_output.json Schema的数据
     """
     from app.utils.schema_validator import validate_ocr_output
+    from app.services.subject_classifier import SubjectClassifier
+    
+    # 初始化学科分类器
+    try:
+        classifier = SubjectClassifier()
+        print("✅ 学科分类器初始化成功")
+    except Exception as e:
+        print(f"⚠️ 学科分类器初始化失败: {e}")
+        classifier = None
     
     # 首先尝试LaTeX OCR（适合数学公式）
     latex_line = latexocr_image(image_path)
     if latex_line and len(latex_line.strip()) > 10:  # LaTeX表达式足够长才认为有效
+        # 使用学科分类器分类
+        if classifier:
+            classification = classifier.classify(latex_line)
+            subject = classification['subject_name']
+            question_type = classification['subject'] + '_' + '公式题'
+        else:
+            subject = '数学'  # 默认数学
+            question_type = '公式题'
+            
         result = [{
             'number': '1',
             'stem': latex_line,
             'answer': '',
             'options': {},
-            'type': '公式题',
+            'type': question_type,
+            'subject': subject,
             'question_id': '',  # 将由后端填充
             'timestamp': 0      # 将由后端填充
         }]
@@ -531,15 +550,51 @@ def smart_extract_questions(image_path):
     return result
 
 def _normalize_ocr_output(questions):
-    """标准化OCR输出格式，确保符合Schema"""
+    """标准化OCR输出格式，确保符合Schema，并添加学科分类"""
+    from app.services.subject_classifier import SubjectClassifier
+    
+    # 初始化分类器
+    try:
+        classifier = SubjectClassifier()
+    except Exception as e:
+        print(f"⚠️ 学科分类器在标准化阶段初始化失败: {e}")
+        classifier = None
+    
     normalized = []
     for q in questions:
+        # 获取题目内容用于分类
+        question_text = str(q.get('stem', '')) + ' ' + str(q.get('answer', ''))
+        
+        # 进行学科分类
+        if classifier and question_text.strip():
+            try:
+                classification = classifier.classify(question_text)
+                subject = classification['subject_name']
+                subject_code = classification['subject']
+                classification_confidence = classification['confidence']
+                classification_method = classification['method']
+            except Exception as e:
+                print(f"⚠️ 学科分类失败: {e}")
+                subject = '未知'
+                subject_code = 'unknown'
+                classification_confidence = 0.0
+                classification_method = 'fallback'
+        else:
+            subject = '未知'
+            subject_code = 'unknown'
+            classification_confidence = 0.0
+            classification_method = 'fallback'
+        
         normalized_q = {
             'number': str(q.get('number', '')),
             'stem': str(q.get('stem', '')),
             'answer': str(q.get('answer', '')),
             'options': q.get('options', {}),
             'type': str(q.get('type', '未知题型')),
+            'subject': subject,
+            'subject_code': subject_code,
+            'classification_confidence': classification_confidence,
+            'classification_method': classification_method,
             'question_id': '',  # 将由后端填充
             'timestamp': 0      # 将由后端填充
         }

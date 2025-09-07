@@ -1,0 +1,51 @@
+{
+  "crawler_session": {
+    "session_id": "crawl_session_20250907_203359",
+    "start_time": "2025-09-07T20:33:53.178957",
+    "end_time": "2025-09-07T20:33:59.186331",
+    "total_duration": 6.007374
+  },
+  "crawler_results": [
+    {
+      "knowledge_points": 0,
+      "questions": 0,
+      "error": "生成器模块未找到",
+      "crawler": "smart_generator",
+      "duration": 0.0010025501251220703,
+      "success": true
+    },
+    {
+      "knowledge_points": 0,
+      "questions": 0,
+      "error": "爬虫模块未找到",
+      "crawler": "legal_crawler",
+      "duration": 0.0010035037994384766,
+      "success": true
+    },
+    {
+      "knowledge_points": 0,
+      "questions": 0,
+      "error": "PDF处理器模块未找到",
+      "crawler": "pdf_processor",
+      "duration": 0.0010037422180175781,
+      "success": true
+    }
+  ],
+  "summary": {
+    "total_knowledge_points": 0,
+    "total_questions": 0,
+    "successful_crawlers": 3,
+    "failed_crawlers": 0,
+    "errors_count": 1
+  },
+  "errors": [
+    "数据统一处理失败: No module named 'unify_generated_data'"
+  ],
+  "unified_stats": {},
+  "next_steps": [
+    "检查unified_data.csv文件质量",
+    "运行数据验证脚本",
+    "导入数据库",
+    "测试AI批改系统"
+  ]
+}

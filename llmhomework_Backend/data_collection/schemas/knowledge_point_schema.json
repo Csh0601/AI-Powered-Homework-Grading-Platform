@@ -1,18 +1,10 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "知识点数据结构定义",
-  "description": "AI作业批改系统知识点数据的标准结构",
   "type": "object",
   "properties": {
-    "id": {
-      "type": "integer",
-      "description": "知识点唯一标识ID"
-    },
     "name": {
       "type": "string",
-      "maxLength": 200,
-      "description": "知识点名称",
-      "examples": ["有理数的概念", "一般现在时"]
+      "description": "知识点名称"
     },
     "subject": {
       "type": "string",
@@ -26,29 +18,24 @@
     },
     "chapter": {
       "type": "string",
-      "maxLength": 100,
-      "description": "所属章节",
-      "examples": ["第一章 有理数", "现代文阅读"]
+      "description": "所属章节"
     },
     "chapter_number": {
-      "type": "integer",
-      "minimum": 1,
+      "type": "number",
       "description": "章节编号"
     },
     "description": {
       "type": "string",
-      "minLength": 10,
-      "maxLength": 1000,
       "description": "知识点详细描述"
     },
     "difficulty_level": {
-      "type": "integer",
+      "type": "number",
       "minimum": 1,
       "maximum": 5,
       "description": "难度等级：1-容易，2-较易，3-中等，4-较难，5-困难"
     },
     "importance_level": {
-      "type": "integer",
+      "type": "number",
       "minimum": 1,
       "maximum": 5,
       "description": "重要程度：1-了解，2-理解，3-掌握，4-熟练，5-核心必考"
@@ -61,72 +48,21 @@
     },
     "learning_objectives": {
       "type": "string",
-      "maxLength": 500,
-      "description": "学习目标",
-      "examples": ["能够识别和分类有理数，理解有理数在数轴上的表示"]
+      "description": "学习目标"
     },
     "common_mistakes": {
       "type": "string",
-      "maxLength": 500,
-      "description": "常见错误和易错点",
-      "examples": ["混淆有理数和无理数的概念，不理解零的性质"]
+      "description": "常见错误和易错点"
     },
     "learning_tips": {
       "type": "string",
-      "maxLength": 500,
-      "description": "学习技巧和记忆方法",
-      "examples": ["通过数轴理解有理数的大小关系，记住有理数包括整数和分数"]
+      "description": "学习技巧和记忆方法"
     },
     "keywords": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "maxLength": 50
-      },
-      "minItems": 3,
-      "maxItems": 8,
-      "description": "关键词标签，用于搜索和分类"
-    },
-    "created_at": {
       "type": "string",
-      "format": "date-time",
-      "description": "创建时间"
-    },
-    "updated_at": {
-      "type": "string",
-      "format": "date-time",
-      "description": "最后更新时间"
+      "description": "关键词标签，用|分隔"
     }
   },
-  "required": [
-    "name",
-    "subject", 
-    "grade",
-    "chapter",
-    "description",
-    "difficulty_level",
-    "importance_level",
-    "keywords"
-  ],
-  "additionalProperties": false,
-  
-  "examples": [
-    {
-      "id": 1,
-      "name": "有理数的概念",
-      "subject": "数学",
-      "grade": "Grade 7", 
-      "chapter": "第一章 有理数",
-      "chapter_number": 1,
-      "description": "理解有理数的定义，掌握正数、负数和零的概念，能够识别和分类有理数",
-      "difficulty_level": 2,
-      "importance_level": 4,
-      "exam_frequency": 0.8,
-      "learning_objectives": "能够识别和分类有理数，理解有理数在数轴上的表示",
-      "common_mistakes": "混淆有理数和无理数的概念，不理解零的性质",
-      "learning_tips": "通过数轴理解有理数的大小关系，记住有理数包括整数和分数",
-      "keywords": ["有理数", "正数", "负数", "整数", "分数", "零"],
-      "created_at": "2025-01-28T10:00:00Z"
-    }
-  ]
+  "required": ["name", "subject", "grade", "chapter", "description", "difficulty_level", "importance_level", "keywords"],
+  "additionalProperties": false
 }

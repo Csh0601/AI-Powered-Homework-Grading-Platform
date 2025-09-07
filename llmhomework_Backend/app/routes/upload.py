@@ -1,11 +1,10 @@
 from flask import Blueprint, request, jsonify, current_app
 from app.services.image_processing import preprocess_image
 from app.services.ocr_engine import smart_extract_questions
-# from app.services.text_preprocess import preprocess_ocr_result  # 未使用，已移除
 from app.services.grading_new import grade_homework_improved
 from app.services.grading_qwen import grade_homework_with_ai, get_ai_service_status
 from app.utils.file import save_upload_file
-from app.services.knowledge import summarize_wrong_questions, KnowledgeAnalyzer
+from app.services.knowledge_matcher import KnowledgeMatcher
 from app.models.record import save_record
 from app.config import Config
 import os

@@ -1,223 +1,31 @@
 {
   "validation_summary": {
-    "overall_quality": "excellent",
-    "total_records_validated": 15,
-    "validation_timestamp": "2025-09-02T22:06:56.335504"
+    "overall_quality": "unknown",
+    "total_records_validated": 0,
+    "validation_timestamp": "2025-09-07T20:26:04.325719"
   },
   "detailed_results": {
-    "timestamp": "2025-09-02T22:06:56.335504",
+    "timestamp": "2025-09-07T20:26:04.325719",
     "knowledge_points": {
-      "total": 10,
-      "valid": 10,
-      "errors": [],
-      "validation_rate": 100.0
+      "total": 0,
+      "valid": 0,
+      "errors": []
     },
     "exam_questions": {
-      "total": 3,
-      "valid": 3,
-      "errors": [],
-      "validation_rate": 100.0
+      "total": 0,
+      "valid": 0,
+      "errors": []
     },
     "mock_questions": {
-      "total": 2,
-      "valid": 2,
-      "errors": [],
-      "validation_rate": 100.0
+      "total": 0,
+      "valid": 0,
+      "errors": []
     },
-    "overall_quality": "excellent"
+    "overall_quality": "unknown"
   },
-  "completeness_analysis": {
-    "数学_知识点": {
-      "current": 8,
-      "target": 50,
-      "progress": "8/50",
-      "completion_rate": 16.0
-    },
-    "语文_知识点": {
-      "current": 2,
-      "target": 50,
-      "progress": "2/50",
-      "completion_rate": 4.0
-    },
-    "英语_知识点": {
-      "current": 0,
-      "target": 50,
-      "progress": "0/50",
-      "completion_rate": 0.0
-    },
-    "物理_知识点": {
-      "current": 0,
-      "target": 40,
-      "progress": "0/40",
-      "completion_rate": 0.0
-    },
-    "化学_知识点": {
-      "current": 0,
-      "target": 40,
-      "progress": "0/40",
-      "completion_rate": 0.0
-    },
-    "生物_知识点": {
-      "current": 0,
-      "target": 30,
-      "progress": "0/30",
-      "completion_rate": 0.0
-    },
-    "历史_知识点": {
-      "current": 0,
-      "target": 30,
-      "progress": "0/30",
-      "completion_rate": 0.0
-    },
-    "地理_知识点": {
-      "current": 0,
-      "target": 30,
-      "progress": "0/30",
-      "completion_rate": 0.0
-    },
-    "政治_知识点": {
-      "current": 0,
-      "target": 30,
-      "progress": "0/30",
-      "completion_rate": 0.0
-    },
-    "数学_中考原题": {
-      "current": 2,
-      "target": 20,
-      "progress": "2/20",
-      "completion_rate": 10.0
-    },
-    "语文_中考原题": {
-      "current": 1,
-      "target": 20,
-      "progress": "1/20",
-      "completion_rate": 5.0
-    },
-    "英语_中考原题": {
-      "current": 0,
-      "target": 20,
-      "progress": "0/20",
-      "completion_rate": 0.0
-    },
-    "物理_中考原题": {
-      "current": 0,
-      "target": 20,
-      "progress": "0/20",
-      "completion_rate": 0.0
-    },
-    "化学_中考原题": {
-      "current": 0,
-      "target": 20,
-      "progress": "0/20",
-      "completion_rate": 0.0
-    },
-    "生物_中考原题": {
-      "current": 0,
-      "target": 20,
-      "progress": "0/20",
-      "completion_rate": 0.0
-    },
-    "历史_中考原题": {
-      "current": 0,
-      "target": 20,
-      "progress": "0/20",
-      "completion_rate": 0.0
-    },
-    "地理_中考原题": {
-      "current": 0,
-      "target": 20,
-      "progress": "0/20",
-      "completion_rate": 0.0
-    },
-    "政治_中考原题": {
-      "current": 0,
-      "target": 20,
-      "progress": "0/20",
-      "completion_rate": 0.0
-    },
-    "数学_模拟题": {
-      "current": 1,
-      "target": 15,
-      "progress": "1/15",
-      "completion_rate": 6.67
-    },
-    "语文_模拟题": {
-      "current": 1,
-      "target": 15,
-      "progress": "1/15",
-      "completion_rate": 6.67
-    },
-    "英语_模拟题": {
-      "current": 0,
-      "target": 15,
-      "progress": "0/15",
-      "completion_rate": 0.0
-    },
-    "物理_模拟题": {
-      "current": 0,
-      "target": 15,
-      "progress": "0/15",
-      "completion_rate": 0.0
-    },
-    "化学_模拟题": {
-      "current": 0,
-      "target": 15,
-      "progress": "0/15",
-      "completion_rate": 0.0
-    },
-    "生物_模拟题": {
-      "current": 0,
-      "target": 15,
-      "progress": "0/15",
-      "completion_rate": 0.0
-    },
-    "历史_模拟题": {
-      "current": 0,
-      "target": 15,
-      "progress": "0/15",
-      "completion_rate": 0.0
-    },
-    "地理_模拟题": {
-      "current": 0,
-      "target": 15,
-      "progress": "0/15",
-      "completion_rate": 0.0
-    },
-    "政治_模拟题": {
-      "current": 0,
-      "target": 15,
-      "progress": "0/15",
-      "completion_rate": 0.0
-    }
-  },
+  "completeness_analysis": {},
   "recommendations": [
-    "增加数学_知识点的数据收集，当前完成度仅16.0%",
-    "增加语文_知识点的数据收集，当前完成度仅4.0%",
-    "增加英语_知识点的数据收集，当前完成度仅0.0%",
-    "增加物理_知识点的数据收集，当前完成度仅0.0%",
-    "增加化学_知识点的数据收集，当前完成度仅0.0%",
-    "增加生物_知识点的数据收集，当前完成度仅0.0%",
-    "增加历史_知识点的数据收集，当前完成度仅0.0%",
-    "增加地理_知识点的数据收集，当前完成度仅0.0%",
-    "增加政治_知识点的数据收集，当前完成度仅0.0%",
-    "增加数学_中考原题的数据收集，当前完成度仅10.0%",
-    "增加语文_中考原题的数据收集，当前完成度仅5.0%",
-    "增加英语_中考原题的数据收集，当前完成度仅0.0%",
-    "增加物理_中考原题的数据收集，当前完成度仅0.0%",
-    "增加化学_中考原题的数据收集，当前完成度仅0.0%",
-    "增加生物_中考原题的数据收集，当前完成度仅0.0%",
-    "增加历史_中考原题的数据收集，当前完成度仅0.0%",
-    "增加地理_中考原题的数据收集，当前完成度仅0.0%",
-    "增加政治_中考原题的数据收集，当前完成度仅0.0%",
-    "增加数学_模拟题的数据收集，当前完成度仅6.7%",
-    "增加语文_模拟题的数据收集，当前完成度仅6.7%",
-    "增加英语_模拟题的数据收集，当前完成度仅0.0%",
-    "增加物理_模拟题的数据收集，当前完成度仅0.0%",
-    "增加化学_模拟题的数据收集，当前完成度仅0.0%",
-    "增加生物_模拟题的数据收集，当前完成度仅0.0%",
-    "增加历史_模拟题的数据收集，当前完成度仅0.0%",
-    "增加地理_模拟题的数据收集，当前完成度仅0.0%",
-    "增加政治_模拟题的数据收集，当前完成度仅0.0%"
+    "数据质量良好，可以进行下一步处理"
   ],
   "next_actions": [
     "修复发现的数据错误",

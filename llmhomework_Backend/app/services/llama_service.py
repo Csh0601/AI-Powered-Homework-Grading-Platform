@@ -1,87 +1,78 @@
-import ollama
-import json
-import re
-from typing import List, Dict, Any
-import logging
+#!/usr/bin/env python3
+"""
+Llama服务模块
+用于处理与Llama模型的交互
+"""
 
-# 配置日志
-logging.basicConfig(level=logging.INFO)
+import requests
+import json
+import logging
+from typing import Dict, Any, List, Optional
+from app.config import Config
+
 logger = logging.getLogger(__name__)
 
 class LlamaService:
     def __init__(self, model_name: str = "llama2:13b"):
         """
-        初始化 Llama 服务
+        初始化Llama服务
         
         Args:
-            model_name: Ollama 模型名称，默认为 llama2:13b
+            model_name: 使用的模型名称
         """
         self.model_name = model_name
-        self.client = ollama
-        self._test_connection()
+        self.base_url = Config.LLAMA_BASE_URL
+        self.timeout = Config.LLAMA_TIMEOUT
+        
+        # 测试连接
+        if not self._test_connection():
+            raise Exception("无法连接到Llama服务")
     
-    def _test_connection(self):
-        """测试与 Ollama 服务的连接"""
+    def _test_connection(self) -> bool:
+        """测试与Llama服务的连接"""
         try:
-            # 直接测试模型是否可用
-            test_response = self.client.generate(
-                model=self.model_name,
-                prompt="Hello",
-                options={'num_predict': 5}
-            )
-            
-            if test_response and 'response' in test_response:
-                logger.info(f"成功连接到模型: {self.model_name}")
-            else:
-                raise Exception(f"模型 {self.model_name} 响应异常")
-                
+            response = requests.get(f"{self.base_url}/api/tags", timeout=self.timeout)
+            return response.status_code == 200
         except Exception as e:
-            logger.error(f"连接 Ollama 服务失败: {e}")
-            # 尝试获取模型列表来进行更详细的诊断
-            try:
-                models = self.client.list()
-                if 'models' in models:
-                    available_models = [model.get('name', '') for model in models['models']]
-                    logger.info(f"可用模型: {available_models}")
-                    
-                    # 如果指定模型不在列表中，尝试使用第一个 llama2 模型
-                    if self.model_name not in available_models:
-                        llama_models = [name for name in available_models if 'llama2' in name.lower()]
-                        if llama_models:
-                            self.model_name = llama_models[0]
-                            logger.info(f"自动切换到模型: {self.model_name}")
-                            return  # 重新尝试连接
-                        
-            except Exception as list_error:
-                logger.error(f"无法获取模型列表: {list_error}")
-            
-            raise Exception(f"无法连接到 Ollama 服务或模型 {self.model_name} 不可用")
+            logger.error(f"连接Llama服务失败: {e}")
+            return False
     
-    def generate_response(self, prompt: str, max_tokens: int = 1000) -> str:
+    def generate_response(self, prompt: str, max_tokens: int = 200, temperature: float = 0.7) -> str:
         """
-        生成文本响应
+        生成响应
         
         Args:
             prompt: 输入提示
-            max_tokens: 最大生成token数
+            max_tokens: 最大token数
+            temperature: 温度参数
             
         Returns:
-            生成的文本响应
+            生成的响应文本
         """
         try:
-            response = self.client.generate(
-                model=self.model_name,
-                prompt=prompt,
-                options={
-                    'num_predict': max_tokens,
-                    'temperature': 0.1,  # 较低的温度以获得更确定的答案
-                    'top_p': 0.9,
-                    'stop': ['\n\n', '问题:', '题目:']
+            data = {
+                "model": self.model_name,
+                "prompt": prompt,
+                "stream": False,
+                "options": {
+                    "num_predict": max_tokens,
+                    "temperature": temperature
                 }
+            }
+            
+            response = requests.post(
+                f"{self.base_url}/api/generate",
+                json=data,
+                timeout=self.timeout
             )
             
-            return response['response'].strip()
-            
+            if response.status_code == 200:
+                result = response.json()
+                return result.get('response', '')
+            else:
+                logger.error(f"Llama API错误: {response.status_code}")
+                return ""
+                
         except Exception as e:
             logger.error(f"生成响应失败: {e}")
             return ""
@@ -91,25 +82,44 @@ class LlamaService:
         分析题目类型
         
         Args:
-            question: 题目文本
+            question: 题目内容
             
         Returns:
             题目类型
         """
-        prompt = f"""请分析以下题目的类型，从以下选项中选择最合适的一个：
-选择题、判断题、填空题、计算题、应用题、公式题、口算题
-
+        prompt = f"""请分析以下题目的类型，只返回题目类型名称：
+        
 题目：{question}
 
-请只回答题目类型，不要包含其他内容。"""
-        
-        response = self.generate_response(prompt, max_tokens=50)
+请从以下类型中选择一个：
+- 选择题
+- 判断题  
+- 填空题
+- 计算题
+- 应用题
+- 证明题
+- 分析题
+
+题目类型："""
+
+        response = self.generate_response(prompt, max_tokens=50, temperature=0.1)
         
         # 提取题目类型
-        valid_types = ['选择题', '判断题', '填空题', '计算题', '应用题', '公式题', '口算题']
-        for type_name in valid_types:
-            if type_name in response:
-                return type_name
+        response = response.strip()
+        if any(t in response for t in ['选择题', '单选', '多选']):
+            return '选择题'
+        elif any(t in response for t in ['判断题', '对错', '是非']):
+            return '判断题'
+        elif any(t in response for t in ['填空题', '空题']):
+            return '填空题'
+        elif any(t in response for t in ['计算题', '运算', '计算']):
+            return '计算题'
+        elif any(t in response for t in ['应用题', '实际应用']):
+            return '应用题'
+        elif any(t in response for t in ['证明题', '证明']):
+            return '证明题'
+        elif any(t in response for t in ['分析题', '分析']):
+            return '分析题'
         
         return '未知题型'
     
@@ -155,54 +165,52 @@ class LlamaService:
     
     def _grade_multiple_choice(self, question: str, student_answer: str) -> Dict[str, Any]:
         """批改选择题"""
-        prompt = f"""作为一名专业老师，请批改以下选择题：
+        prompt = f"""请批改以下选择题：
 
 题目：{question}
-学生答案：{student_answer}
+学生选择：{student_answer}
 
 请按照以下格式回答：
 正确性：正确/错误
-分数：0-2分（选择题满分2分）
-解释：简要说明正确答案和原因
-
-请分析题目中的选项，确定正确答案。"""
+分数：0-3分
+解释：说明正确答案及选择理由"""
 
         response = self.generate_response(prompt, max_tokens=300)
         return self._parse_grading_response(response)
     
     def _grade_true_false(self, question: str, student_answer: str) -> Dict[str, Any]:
         """批改判断题"""
-        prompt = f"""作为一名专业老师，请批改以下判断题：
+        prompt = f"""请批改以下判断题：
 
 题目：{question}
 学生答案：{student_answer}
 
 请按照以下格式回答：
 正确性：正确/错误
-分数：0-2分（判断题满分2分）
-解释：简要说明正确答案和判断依据"""
+分数：0-2分
+解释：说明判断理由"""
 
-        response = self.generate_response(prompt, max_tokens=300)
+        response = self.generate_response(prompt, max_tokens=200)
         return self._parse_grading_response(response)
     
     def _grade_fill_blank(self, question: str, student_answer: str) -> Dict[str, Any]:
         """批改填空题"""
-        prompt = f"""作为一名专业老师，请批改以下填空题：
+        prompt = f"""请批改以下填空题：
 
 题目：{question}
 学生答案：{student_answer}
 
 请按照以下格式回答：
 正确性：正确/错误/部分正确
-分数：0-3分（填空题满分3分）
-解释：详细说明正确答案，如果学生答案部分正确则说明哪部分正确"""
+分数：0-3分
+解释：说明标准答案及评分理由"""
 
-        response = self.generate_response(prompt, max_tokens=400)
+        response = self.generate_response(prompt, max_tokens=300)
         return self._parse_grading_response(response)
     
     def _grade_general(self, question: str, student_answer: str, question_type: str) -> Dict[str, Any]:
         """通用批改方法"""
-        prompt = f"""作为一名专业老师，请批改以下{question_type}：
+        prompt = f"""请批改以下{question_type}：
 
 题目：{question}
 学生答案：{student_answer}
@@ -217,225 +225,109 @@ class LlamaService:
     
     def _parse_grading_response(self, response: str) -> Dict[str, Any]:
         """解析批改响应"""
-        try:
-            # 提取正确性
-            correct = False
-            if '正确性：正确' in response or '正确性: 正确' in response:
-                correct = True
-            elif '正确性：部分正确' in response or '正确性: 部分正确' in response:
-                correct = True  # 部分正确也算正确
-            
-            # 提取分数
-            score_match = re.search(r'分数[：:]\s*(\d+(?:\.\d+)?)', response)
-            score = float(score_match.group(1)) if score_match else 0
-            
-            # 提取解释
-            explanation_match = re.search(r'解释[：:]\s*(.*?)(?:\n|$)', response, re.DOTALL)
-            explanation = explanation_match.group(1).strip() if explanation_match else response
-            
-            return {
-                'correct': correct,
-                'score': score,
-                'explanation': explanation
-            }
+        result = {
+            'correct': False,
+            'score': 0,
+            'explanation': response
+        }
         
+        try:
+            lines = response.split('\n')
+            for line in lines:
+                line = line.strip()
+                if '正确性' in line or '结果' in line:
+                    if '正确' in line and '错误' not in line:
+                        result['correct'] = True
+                    elif '部分正确' in line:
+                        result['correct'] = True
+                elif '分数' in line or '得分' in line:
+                    # 提取数字
+                    import re
+                    scores = re.findall(r'\d+', line)
+                    if scores:
+                        result['score'] = int(scores[0])
+                        
         except Exception as e:
             logger.error(f"解析批改响应失败: {e}")
-            return {
-                'correct': False,
-                'score': 0,
-                'explanation': '批改失败，请重试'
-            }
+        
+        return result
     
-    def analyze_knowledge_points(self, wrong_questions: List[Dict]) -> List[str]:
+    def analyze_knowledge_points(self, questions: List[Dict]) -> List[str]:
         """
-        分析错题知识点
+        分析知识点
         
         Args:
-            wrong_questions: 错题列表
+            questions: 题目列表
             
         Returns:
             知识点列表
         """
-        if not wrong_questions:
-            return []
+        question_texts = [q.get('question', '') for q in questions]
+        all_questions = '\n'.join(question_texts[:5])  # 限制长度
         
-        questions_text = "\n".join([f"题目{i+1}: {q.get('question', '')}" 
-                                  for i, q in enumerate(wrong_questions)])
+        prompt = f"""请分析以下题目涉及的主要知识点：
+
+题目：
+{all_questions}
+
+请列出3-5个主要知识点，每行一个："""
+
+        response = self.generate_response(prompt, max_tokens=200)
         
-        prompt = f"""请分析以下错题涉及的主要知识点，适合初中生水平：
-
-{questions_text}
-
-请列出3-5个主要知识点，每个知识点单独一行，格式如下：
-1. 知识点名称
-2. 知识点名称
-...
-
-只返回知识点列表，不要包含其他内容。"""
-
-        response = self.generate_response(prompt, max_tokens=300)
-        
-        # 提取知识点
+        # 解析知识点
         knowledge_points = []
         lines = response.split('\n')
         for line in lines:
             line = line.strip()
-            if line and (line[0].isdigit() or line.startswith('•') or line.startswith('-')):
-                # 移除编号和符号
-                point = re.sub(r'^\d+\.\s*|^[•\-]\s*', '', line).strip()
-                if point:
-                    knowledge_points.append(point)
+            if line and not line.startswith('知识点') and len(line) > 2:
+                # 清理格式
+                line = line.replace('- ', '').replace('• ', '').replace('1.', '').replace('2.', '').replace('3.', '')
+                if line:
+                    knowledge_points.append(line)
         
-        return knowledge_points[:5]  # 最多返回5个知识点
+        return knowledge_points[:5]  # 最多返回5个
     
-    def generate_practice_questions(self, knowledge_points: List[str], count: int = 3) -> List[Dict]:
+    def generate_practice_questions(self, knowledge_point: str, count: int = 3) -> List[Dict]:
         """
-        根据知识点生成练习题
+        生成练习题
         
         Args:
-            knowledge_points: 知识点列表
-            count: 生成题目数量
+            knowledge_point: 知识点
+            count: 题目数量
             
         Returns:
             练习题列表
         """
-        if not knowledge_points:
-            return []
-        
-        knowledge_text = "、".join(knowledge_points)
-        
-        prompt = f"""基于以下知识点，为初中生生成{count}道练习题：
+        prompt = f"""基于知识点"{knowledge_point}"，生成{count}道练习题。
 
-知识点：{knowledge_text}
+请按照以下格式输出：
+题目1：[题目内容]
+答案1：[标准答案]
 
-要求：
-1. 题目应该适合初中生水平
-2. 包含不同类型的题目（选择题、填空题、计算题等）
-3. 题目要有一定的梯度，从基础到提高
+题目2：[题目内容]  
+答案2：[标准答案]
 
-请按照以下格式生成题目：
-
-题目1：
-类型：[选择题/填空题/计算题]
-题干：题目内容
-选项：A. xxx B. xxx C. xxx D. xxx（如果是选择题）
-答案：正确答案
-解析：简要解析
-
-题目2：
-...
-
-只返回题目内容，不要包含其他说明。"""
-
-        response = self.generate_response(prompt, max_tokens=800)
-        
-        # 解析生成的题目
-        return self._parse_practice_questions(response)
-    
-    def _parse_practice_questions(self, response: str) -> List[Dict]:
-        """解析生成的练习题"""
-        questions = []
-        
-        try:
-            # 按题目分割
-            question_blocks = re.split(r'题目\d+[：:]', response)
-            
-            for block in question_blocks[1:]:  # 跳过第一个空块
-                question_data = {}
-                
-                # 提取类型
-                type_match = re.search(r'类型[：:]\s*([^\n]+)', block)
-                if type_match:
-                    question_data['type'] = type_match.group(1).strip()
-                
-                # 提取题干
-                stem_match = re.search(r'题干[：:]\s*([^\n]+)', block)
-                if stem_match:
-                    question_data['stem'] = stem_match.group(1).strip()
-                
-                # 提取选项（如果是选择题）
-                options_match = re.search(r'选项[：:]\s*([^答]+?)(?=答案|解析|$)', block, re.DOTALL)
-                if options_match:
-                    question_data['options'] = options_match.group(1).strip()
-                
-                # 提取答案
-                answer_match = re.search(r'答案[：:]\s*([^\n]+)', block)
-                if answer_match:
-                    question_data['answer'] = answer_match.group(1).strip()
-                
-                # 提取解析
-                explanation_match = re.search(r'解析[：:]\s*([^题]+?)(?=题目|$)', block, re.DOTALL)
-                if explanation_match:
-                    question_data['explanation'] = explanation_match.group(1).strip()
-                
-                if question_data.get('stem') and question_data.get('answer'):
-                    questions.append(question_data)
-        
-        except Exception as e:
-            logger.error(f"解析练习题失败: {e}")
-        
-        return questions
-    
-    def multimodal_analyze(self, image_text: str, question_context: str = "") -> Dict[str, Any]:
-        """
-        多模态分析：结合图像OCR文本和上下文进行分析
-        
-        Args:
-            image_text: OCR识别的图像文本
-            question_context: 题目上下文信息
-            
-        Returns:
-            分析结果
-        """
-        prompt = f"""作为一名专业的教育AI助手，请分析以下从试卷图片中识别的文本内容：
-
-OCR识别文本：
-{image_text}
-
-上下文信息：
-{question_context}
-
-请进行以下分析：
-1. 文本内容质量评估（识别准确性）
-2. 题目结构识别（题干、选项、答案区域）
-3. 可能的OCR错误修正建议
-4. 题目类型初步判断
-
-请以结构化的方式回答，便于程序处理。"""
+题目3：[题目内容]
+答案3：[标准答案]"""
 
         response = self.generate_response(prompt, max_tokens=600)
         
-        return {
-            'analysis': response,
-            'text_quality': self._assess_text_quality(image_text),
-            'structure_detected': self._detect_question_structure(image_text)
-        }
-    
-    def _assess_text_quality(self, text: str) -> str:
-        """评估OCR文本质量"""
-        if not text or len(text.strip()) < 10:
-            return "文本过短，可能识别不完整"
+        # 解析生成的题目
+        questions = []
+        lines = response.split('\n')
+        current_question = {}
         
-        # 检查常见OCR错误模式
-        error_indicators = ['？？', '□□', '||', '@@', '##']
-        if any(indicator in text for indicator in error_indicators):
-            return "检测到可能的OCR错误标记"
+        for line in lines:
+            line = line.strip()
+            if line.startswith('题目'):
+                if current_question and 'question' in current_question:
+                    questions.append(current_question)
+                current_question = {'question': line.split('：', 1)[-1], 'knowledge_point': knowledge_point}
+            elif line.startswith('答案'):
+                if current_question:
+                    current_question['answer'] = line.split('：', 1)[-1]
         
-        # 检查中文字符比例
-        chinese_chars = len(re.findall(r'[\u4e00-\u9fff]', text))
-        total_chars = len(text.strip())
+        if current_question and 'question' in current_question:
+            questions.append(current_question)
         
-        if total_chars > 0 and chinese_chars / total_chars > 0.3:
-            return "文本质量良好"
-        else:
-            return "文本可能存在识别问题"
-    
-    def _detect_question_structure(self, text: str) -> Dict[str, bool]:
-        """检测题目结构"""
-        return {
-            'has_question_number': bool(re.search(r'\d+[．\.\)）]', text)),
-            'has_options': bool(re.search(r'[ABCD][\.．\)）]', text)),
-            'has_blank': bool(re.search(r'_{2,}|（\s*）', text)),
-            'has_calculation': bool(re.search(r'[+\-×÷=]|\d+\s*[+\-×÷]\s*\d+', text))
-        }
+        return questions[:count]

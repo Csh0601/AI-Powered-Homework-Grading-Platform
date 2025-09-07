@@ -1,0 +1,82 @@
+{
+  "test_summary": {
+    "total_tests": 10,
+    "passed_tests": 10,
+    "failed_tests": 0,
+    "success_rate": 1.0,
+    "total_duration": 17.94594693183899,
+    "test_date": "2025-09-07T20:28:50.984758"
+  },
+  "test_results": [
+    {
+      "test_name": "知识匹配器初始化与匹配",
+      "success": true,
+      "details": "加载13个知识点，匹配到1个结果",
+      "duration_ms": 17451.61,
+      "timestamp": "2025-09-07T20:28:50.919499"
+    },
+    {
+      "test_name": "批量知识点匹配",
+      "success": true,
+      "details": "批量处理3个题目，返回3个结果",
+      "duration_ms": 1.0,
+      "timestamp": "2025-09-07T20:28:50.920502"
+    },
+    {
+      "test_name": "学科分类器",
+      "success": true,
+      "details": "支持9个学科，分类准确率66.7%",
+      "duration_ms": 11.54,
+      "timestamp": "2025-09-07T20:28:50.938062"
+    },
+    {
+      "test_name": "数据存储服务-知识点",
+      "success": true,
+      "details": "知识点保存: True, 查询到2个数学知识点",
+      "duration_ms": 11.04,
+      "timestamp": "2025-09-07T20:28:50.954118"
+    },
+    {
+      "test_name": "数据存储服务-题目",
+      "success": true,
+      "details": "题目保存: True, 查询到3个数学题目",
+      "duration_ms": 3.6,
+      "timestamp": "2025-09-07T20:28:50.958725"
+    },
+    {
+      "test_name": "数据存储服务-统计",
+      "success": true,
+      "details": "数据库大小: 0.14MB",
+      "duration_ms": 2.95,
+      "timestamp": "2025-09-07T20:28:50.961678"
+    },
+    {
+      "test_name": "API端点加载",
+      "success": true,
+      "details": "API蓝图加载成功，蓝图名称: knowledge_api, 包含11个延迟函数",
+      "duration_ms": 0.0,
+      "timestamp": "2025-09-07T20:28:50.961678"
+    },
+    {
+      "test_name": "API响应辅助",
+      "success": true,
+      "details": "响应辅助函数导入成功，函数可调用",
+      "duration_ms": 0.0,
+      "timestamp": "2025-09-07T20:28:50.961678"
+    },
+    {
+      "test_name": "端到端集成测试",
+      "success": true,
+      "details": "学科: 数学, 知识点: 2个, 难度: 2",
+      "duration_ms": 17.06,
+      "timestamp": "2025-09-07T20:28:50.978737"
+    },
+    {
+      "test_name": "批量匹配性能",
+      "success": true,
+      "details": "处理50题，平均0.1ms/题",
+      "duration_ms": 4.01,
+      "timestamp": "2025-09-07T20:28:50.983754"
+    }
+  ]
+}

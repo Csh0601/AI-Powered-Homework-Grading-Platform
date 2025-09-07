@@ -1,0 +1,10 @@
+question_id,subject,grade,question_type,stem,options,correct_answer,explanation,difficulty_level,knowledge_points,source,source_type,year,tags,score,time_limit
+smartedu_数学_001,数学,Grade 7,fill_blank,计算(-3) + 5的结果,,2,这是有理数加法运算的基础题目,2,有理数加法运算,国家智慧教育平台,exercise,2024,数学|基础练习,3,2
+smartedu_数学_002,数学,Grade 7,fill_blank,下列哪个是质数？,,C,这是质数的概念的基础题目,2,质数的概念,国家智慧教育平台,exercise,2024,数学|基础练习,3,2
+smartedu_数学_003,数学,Grade 7,fill_blank,求2x + 3 = 7中x的值,,x=2,这是一元一次方程的基础题目,2,一元一次方程,国家智慧教育平台,exercise,2024,数学|基础练习,3,2
+smartedu_语文_001,语文,Grade 7,fill_blank,《朝花夕拾》的作者是谁？,,鲁迅,这是文学常识的基础题目,2,文学常识,国家智慧教育平台,exercise,2024,语文|基础练习,3,2
+smartedu_语文_002,语文,Grade 7,fill_blank,下列词语中没有错别字的是？,,A,这是字词辨析的基础题目,2,字词辨析,国家智慧教育平台,exercise,2024,语文|基础练习,3,2
+smartedu_语文_003,语文,Grade 7,fill_blank,这首诗表达了什么情感？,,思乡之情,这是诗歌鉴赏的基础题目,2,诗歌鉴赏,国家智慧教育平台,exercise,2024,语文|基础练习,3,2
+smartedu_英语_001,英语,Grade 7,fill_blank,I __ a student.,,am,这是系动词用法的基础题目,2,系动词用法,国家智慧教育平台,exercise,2024,英语|基础练习,3,2
+smartedu_英语_002,英语,Grade 7,fill_blank,How __ you?,,are,这是疑问句结构的基础题目,2,疑问句结构,国家智慧教育平台,exercise,2024,英语|基础练习,3,2
+smartedu_英语_003,英语,Grade 7,fill_blank,She __ to school every day.,,goes,这是一般现在时的基础题目,2,一般现在时,国家智慧教育平台,exercise,2024,英语|基础练习,3,2

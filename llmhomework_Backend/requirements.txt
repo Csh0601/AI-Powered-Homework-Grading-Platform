@@ -14,3 +14,16 @@ requests
 pytesseract
 jsonschema
 ollama
+# 机器学习库
+scikit-learn
+scipy
+pandas
+matplotlib
+seaborn
+xgboost
+lightgbm
+tensorflow
+# 数据库相关
+SQLAlchemy
+# HTTP客户端
+httpx

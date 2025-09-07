@@ -1,0 +1,34 @@
+question_id,subject,grade,question_type,stem,options,correct_answer,explanation,difficulty_level,knowledge_points,source,source_type,year,tags,score,time_limit
+math_auto_0001,数学,Grade 8,choice,下列各数中，是有理数的是（  ）,D. √3|A. √2|C. π|B. -3,B,-3是有理数，因为...,3,number_classification,智能生成,exercise,2024,math|自动生成,3,2
+math_auto_0002,数学,Grade 7,choice,下列各数中，是无理数的是（  ）,C. 0|A. -3|D. 1/2|B. √2,B,√2是无理数，因为...,2,number_classification,智能生成,exercise,2024,math|自动生成,3,1
+math_auto_0003,数学,Grade 9,choice,下列各数中，是无理数的是（  ） (变式3),C. 0|A. -3|D. 1/2|B. π,B,π是无理数，因为...,1,number_classification,智能生成,exercise,2024,math|自动生成,5,2
+math_auto_0004,数学,Grade 7,choice,下列各数中，是有理数的是（  ） (变式4),D. √3|A. √2|B. 0|C. π,B,0是有理数，因为...,4,number_classification,智能生成,exercise,2024,math|自动生成,5,2
+math_auto_0005,数学,Grade 9,choice,下列各数中，是有理数的是（  ） (变式5),C. π|B. 1/2|A. √2|D. √3,B,1/2是有理数，因为...,4,number_classification,智能生成,exercise,2024,math|自动生成,5,2
+math_auto_0006,数学,Grade 9,choice,下列各数中，是有理数的是（  ） (变式6),A. √2|B. -5.5|D. √3|C. π,B,-5.5是有理数，因为...,1,number_classification,智能生成,exercise,2024,math|自动生成,3,2
+math_auto_0007,数学,Grade 8,choice,下列各数中，是有理数的是（  ） (变式7),D. √3|B. -3|A. √2|C. π,B,-3是有理数，因为...,2,number_classification,智能生成,exercise,2024,math|自动生成,3,1
+math_auto_0008,数学,Grade 9,choice,下列各数中，是无理数的是（  ） (变式8),A. -3|C. 0|B. √2|D. 1/2,B,√2是无理数，因为...,1,number_classification,智能生成,exercise,2024,math|自动生成,4,2
+math_auto_0009,数学,Grade 8,choice,下列各数中，是无理数的是（  ） (变式9),D. 1/2|A. -3|B. π|C. 0,B,π是无理数，因为...,4,number_classification,智能生成,exercise,2024,math|自动生成,4,2
+math_auto_0010,数学,Grade 9,choice,下列各数中，是有理数的是（  ） (变式10),C. π|B. 0|A. √2|D. √3,B,0是有理数，因为...,4,number_classification,智能生成,exercise,2024,math|自动生成,3,2
+math_auto_0011,数学,Grade 8,choice,下列各数中，是有理数的是（  ） (变式11),A. √2|B. 1/2|C. π|D. √3,B,1/2是有理数，因为...,1,number_classification,智能生成,exercise,2024,math|自动生成,3,3
+math_auto_0012,数学,Grade 9,choice,下列各数中，是有理数的是（  ） (变式12),C. π|B. -5.5|D. √3|A. √2,B,-5.5是有理数，因为...,3,number_classification,智能生成,exercise,2024,math|自动生成,3,1
+math_auto_0013,数学,Grade 8,choice,下列各数中，是有理数的是（  ） (变式13),A. √2|B. -3|D. √3|C. π,B,-3是有理数，因为...,1,number_classification,智能生成,exercise,2024,math|自动生成,3,3
+math_auto_0014,数学,Grade 8,choice,默认题干,A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,4,calculation,智能生成,exercise,2024,math|自动生成,4,3
+math_auto_0015,数学,Grade 8,choice,默认题干 (变式2),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,4,calculation,智能生成,exercise,2024,math|自动生成,4,1
+math_auto_0016,数学,Grade 9,choice,默认题干 (变式3),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,2,calculation,智能生成,exercise,2024,math|自动生成,4,2
+math_auto_0017,数学,Grade 9,choice,默认题干 (变式4),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,4,calculation,智能生成,exercise,2024,math|自动生成,5,1
+math_auto_0018,数学,Grade 9,choice,默认题干 (变式5),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,3,calculation,智能生成,exercise,2024,math|自动生成,5,1
+math_auto_0019,数学,Grade 8,choice,默认题干 (变式6),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,3,calculation,智能生成,exercise,2024,math|自动生成,3,2
+math_auto_0020,数学,Grade 9,choice,默认题干 (变式7),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,4,calculation,智能生成,exercise,2024,math|自动生成,3,2
+math_auto_0021,数学,Grade 9,choice,默认题干 (变式8),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,2,calculation,智能生成,exercise,2024,math|自动生成,4,2
+math_auto_0022,数学,Grade 9,choice,默认题干 (变式9),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,3,calculation,智能生成,exercise,2024,math|自动生成,4,3
+math_auto_0023,数学,Grade 8,choice,默认题干 (变式10),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,1,calculation,智能生成,exercise,2024,math|自动生成,5,1
+math_auto_0024,数学,Grade 9,choice,默认题干 (变式11),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,2,calculation,智能生成,exercise,2024,math|自动生成,5,3
+math_auto_0025,数学,Grade 8,choice,默认题干 (变式12),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,1,calculation,智能生成,exercise,2024,math|自动生成,5,1
+math_auto_0026,数学,Grade 7,choice,默认题干 (变式13),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,2,calculation,智能生成,exercise,2024,math|自动生成,3,2
+math_auto_0027,数学,Grade 8,choice,默认题干 (变式1),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,4,operations,智能生成,exercise,2024,math|自动生成,3,1
+math_auto_0028,数学,Grade 8,fill_blank,-5的相反数是______,,5,相反数是与原数相加等于0的数，-5+(5)=0,3,opposite_numbers,智能生成,exercise,2024,math|自动生成,4,3
+math_auto_0029,数学,Grade 8,fill_blank,10的相反数是______,,-10,相反数是与原数相加等于0的数，10+(-10)=0,1,opposite_numbers,智能生成,exercise,2024,math|自动生成,4,3
+math_auto_0030,数学,Grade 7,fill_blank,8的相反数是______,,-8,相反数是与原数相加等于0的数，8+(-8)=0,1,opposite_numbers,智能生成,exercise,2024,math|自动生成,4,1
+math_auto_0031,数学,Grade 8,fill_blank,-1的相反数是______,,1,相反数是与原数相加等于0的数，-1+(1)=0,2,opposite_numbers,智能生成,exercise,2024,math|自动生成,5,1
+math_auto_0032,数学,Grade 9,fill_blank,5的相反数是______,,-5,相反数是与原数相加等于0的数，5+(-5)=0,4,opposite_numbers,智能生成,exercise,2024,math|自动生成,5,2
+math_auto_0033,数学,Grade 8,fill_blank,4的相反数是______,,-4,相反数是与原数相加等于0的数，4+(-4)=0,3,opposite_numbers,智能生成,exercise,2024,math|自动生成,4,2

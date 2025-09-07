@@ -1,0 +1,16 @@
+{
+  "start_time": "2025-09-07T20:55:21.524504",
+  "subjects_processed": 3,
+  "knowledge_points_generated": 96,
+  "questions_generated": 94,
+  "files_created": [
+    "E:\\AI_powered_app\\AI-Powered-Homework-Grading-Platform\\llmhomework_Backend\\data_collection\\collectors\\raw\\subjects\\math\\knowledge_points\\数学_知识点_20250907_205521.csv",
+    "E:\\AI_powered_app\\AI-Powered-Homework-Grading-Platform\\llmhomework_Backend\\data_collection\\collectors\\raw\\subjects\\math\\exam_questions\\数学_考试题_20250907_205521.csv",
+    "E:\\AI_powered_app\\AI-Powered-Homework-Grading-Platform\\llmhomework_Backend\\data_collection\\collectors\\raw\\subjects\\math\\mock_questions\\数学_模拟题_20250907_205521.csv",
+    "E:\\AI_powered_app\\AI-Powered-Homework-Grading-Platform\\llmhomework_Backend\\data_collection\\collectors\\raw\\subjects\\chinese\\knowledge_points\\语文_知识点_20250907_205521.csv",
+    "E:\\AI_powered_app\\AI-Powered-Homework-Grading-Platform\\llmhomework_Backend\\data_collection\\collectors\\raw\\subjects\\chinese\\exam_questions\\语文_考试题_20250907_205521.csv",
+    "E:\\AI_powered_app\\AI-Powered-Homework-Grading-Platform\\llmhomework_Backend\\data_collection\\collectors\\raw\\subjects\\chinese\\mock_questions\\语文_模拟题_20250907_205521.csv",
+    "E:\\AI_powered_app\\AI-Powered-Homework-Grading-Platform\\llmhomework_Backend\\data_collection\\collectors\\raw\\subjects\\english\\knowledge_points\\英语_知识点_20250907_205521.csv"
+  ],
+  "end_time": "2025-09-07T20:55:21.542566"
+}
