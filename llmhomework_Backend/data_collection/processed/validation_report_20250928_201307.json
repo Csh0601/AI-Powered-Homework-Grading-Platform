@@ -1,0 +1,26 @@
+{
+  "timestamp": "2025-09-28T20:13:07.840769",
+  "validation_summary": {
+    "total_files_checked": 0,
+    "total_records": 0,
+    "data_quality_issues": 0,
+    "overall_quality": "no_data"
+  },
+  "file_details": {
+    "knowledge_points_unified.csv": {
+      "exists": false
+    },
+    "questions_unified.csv": {
+      "exists": false
+    }
+  },
+  "quality_metrics": {
+    "data_completeness": 0,
+    "error_rate": 100,
+    "file_coverage": 0.0
+  },
+  "recommendations": [
+    "没有找到数据文件，请先运行数据收集和统一处理",
+    "数据量不足，建议增加更多数据"
+  ]
+}

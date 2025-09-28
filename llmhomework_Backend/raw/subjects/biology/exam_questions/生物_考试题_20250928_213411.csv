@@ -1,0 +1,41 @@
+question_id,subject,grade,question_type,stem,options,correct_answer,explanation,difficulty_level,knowledge_points,source,source_type,year,tags,score,time_limit
+bio_auto_0281,生物,Grade 8,choice,细胞的细胞膜功能是（  ）,D. 合成蛋白质|C. 控制物质进出细胞|A. 产生能量|B. 遗传信息,C,细胞膜的主要功能是：控制物质进出细胞,3,cell_structure,智能生成,exercise,2024,biology|自动生成,5,2
+bio_auto_0282,生物,Grade 7,choice,细胞的细胞核功能是（  ）,B. 呼吸作用|A. 光合作用|D. 物质运输|C. 储存遗传信息,C,细胞核的主要功能是：储存遗传信息,2,cell_structure,智能生成,exercise,2024,biology|自动生成,5,2
+bio_auto_0283,生物,Grade 8,choice,细胞的叶绿体功能是（  ）,C. 进行光合作用|A. 细胞呼吸|D. 物质运输|B. 蛋白质合成,C,叶绿体的主要功能是：进行光合作用,2,cell_structure,智能生成,exercise,2024,biology|自动生成,5,3
+bio_auto_0284,生物,Grade 7,choice,细胞的线粒体功能是（  ）,C. 进行细胞呼吸|D. 物质运输|B. 遗传信息|A. 光合作用,C,线粒体的主要功能是：进行细胞呼吸,1,cell_structure,智能生成,exercise,2024,biology|自动生成,3,1
+bio_auto_0285,生物,Grade 8,choice,细胞的细胞膜功能是（  ） (变式5),A. 产生能量|D. 合成蛋白质|C. 控制物质进出细胞|B. 遗传信息,C,细胞膜的主要功能是：控制物质进出细胞,2,cell_structure,智能生成,exercise,2024,biology|自动生成,3,3
+bio_auto_0286,生物,Grade 8,choice,细胞的细胞核功能是（  ） (变式6),D. 物质运输|C. 储存遗传信息|A. 光合作用|B. 呼吸作用,C,细胞核的主要功能是：储存遗传信息,1,cell_structure,智能生成,exercise,2024,biology|自动生成,4,1
+bio_auto_0287,生物,Grade 9,choice,细胞的叶绿体功能是（  ） (变式7),B. 蛋白质合成|D. 物质运输|A. 细胞呼吸|C. 进行光合作用,C,叶绿体的主要功能是：进行光合作用,3,cell_structure,智能生成,exercise,2024,biology|自动生成,5,1
+bio_auto_0288,生物,Grade 8,choice,细胞的线粒体功能是（  ） (变式8),A. 光合作用|B. 遗传信息|D. 物质运输|C. 进行细胞呼吸,C,线粒体的主要功能是：进行细胞呼吸,1,cell_structure,智能生成,exercise,2024,biology|自动生成,3,3
+bio_auto_0289,生物,Grade 7,choice,细胞的细胞膜功能是（  ） (变式9),B. 遗传信息|C. 控制物质进出细胞|D. 合成蛋白质|A. 产生能量,C,细胞膜的主要功能是：控制物质进出细胞,2,cell_structure,智能生成,exercise,2024,biology|自动生成,3,3
+bio_auto_0290,生物,Grade 7,choice,细胞的细胞核功能是（  ） (变式10),D. 物质运输|C. 储存遗传信息|B. 呼吸作用|A. 光合作用,C,细胞核的主要功能是：储存遗传信息,4,cell_structure,智能生成,exercise,2024,biology|自动生成,3,1
+bio_auto_0291,生物,Grade 8,choice,细胞的叶绿体功能是（  ） (变式11),A. 细胞呼吸|D. 物质运输|C. 进行光合作用|B. 蛋白质合成,C,叶绿体的主要功能是：进行光合作用,2,cell_structure,智能生成,exercise,2024,biology|自动生成,5,3
+bio_auto_0292,生物,Grade 9,choice,细胞的线粒体功能是（  ） (变式12),D. 物质运输|A. 光合作用|B. 遗传信息|C. 进行细胞呼吸,C,线粒体的主要功能是：进行细胞呼吸,3,cell_structure,智能生成,exercise,2024,biology|自动生成,5,2
+bio_auto_0293,生物,Grade 8,choice,细胞的细胞膜功能是（  ） (变式13),D. 合成蛋白质|B. 遗传信息|A. 产生能量|C. 控制物质进出细胞,C,细胞膜的主要功能是：控制物质进出细胞,4,cell_structure,智能生成,exercise,2024,biology|自动生成,4,3
+bio_auto_0294,生物,Grade 7,choice,细胞的细胞核功能是（  ） (变式14),C. 储存遗传信息|D. 物质运输|A. 光合作用|B. 呼吸作用,C,细胞核的主要功能是：储存遗传信息,3,cell_structure,智能生成,exercise,2024,biology|自动生成,3,3
+bio_auto_0295,生物,Grade 9,choice,细胞的叶绿体功能是（  ） (变式15),D. 物质运输|C. 进行光合作用|A. 细胞呼吸|B. 蛋白质合成,C,叶绿体的主要功能是：进行光合作用,2,cell_structure,智能生成,exercise,2024,biology|自动生成,5,1
+bio_auto_0296,生物,Grade 7,choice,细胞的线粒体功能是（  ） (变式16),B. 遗传信息|A. 光合作用|C. 进行细胞呼吸|D. 物质运输,C,线粒体的主要功能是：进行细胞呼吸,1,cell_structure,智能生成,exercise,2024,biology|自动生成,5,2
+bio_auto_0297,生物,Grade 9,choice,细胞的细胞膜功能是（  ） (变式17),A. 产生能量|D. 合成蛋白质|C. 控制物质进出细胞|B. 遗传信息,C,细胞膜的主要功能是：控制物质进出细胞,3,cell_structure,智能生成,exercise,2024,biology|自动生成,5,2
+bio_auto_0298,生物,Grade 8,choice,细胞的细胞核功能是（  ） (变式18),B. 呼吸作用|A. 光合作用|C. 储存遗传信息|D. 物质运输,C,细胞核的主要功能是：储存遗传信息,1,cell_structure,智能生成,exercise,2024,biology|自动生成,4,1
+bio_auto_0299,生物,Grade 8,choice,细胞的叶绿体功能是（  ） (变式19),D. 物质运输|C. 进行光合作用|A. 细胞呼吸|B. 蛋白质合成,C,叶绿体的主要功能是：进行光合作用,2,cell_structure,智能生成,exercise,2024,biology|自动生成,5,2
+bio_auto_0300,生物,Grade 9,choice,细胞的线粒体功能是（  ） (变式20),C. 进行细胞呼吸|D. 物质运输|A. 光合作用|B. 遗传信息,C,线粒体的主要功能是：进行细胞呼吸,3,cell_structure,智能生成,exercise,2024,biology|自动生成,3,2
+bio_auto_0301,生物,Grade 7,choice,生态系统中，生产者的是（  ）,B. 分解有机物|C. 能制造有机物|D. 运输物质|A. 消费有机物,C,在生态系统中，生产者的定义是：能制造有机物,2,ecology,智能生成,exercise,2024,biology|自动生成,3,3
+bio_auto_0302,生物,Grade 8,choice,生态系统中，消费者的是（  ）,D. 产生能量|A. 制造有机物|C. 摄取有机物|B. 分解有机物,C,在生态系统中，消费者的定义是：摄取有机物,1,ecology,智能生成,exercise,2024,biology|自动生成,5,2
+bio_auto_0303,生物,Grade 7,choice,生态系统中，分解者的是（  ）,B. 摄取有机物|C. 分解有机物|A. 制造有机物|D. 运输物质,C,在生态系统中，分解者的定义是：分解有机物,3,ecology,智能生成,exercise,2024,biology|自动生成,4,1
+bio_auto_0304,生物,Grade 9,choice,生态系统中，生产者的是（  ） (变式4),B. 分解有机物|A. 消费有机物|D. 运输物质|C. 能制造有机物,C,在生态系统中，生产者的定义是：能制造有机物,1,ecology,智能生成,exercise,2024,biology|自动生成,4,2
+bio_auto_0305,生物,Grade 7,choice,生态系统中，消费者的是（  ） (变式5),A. 制造有机物|D. 产生能量|B. 分解有机物|C. 摄取有机物,C,在生态系统中，消费者的定义是：摄取有机物,1,ecology,智能生成,exercise,2024,biology|自动生成,5,2
+bio_auto_0306,生物,Grade 9,choice,生态系统中，分解者的是（  ） (变式6),B. 摄取有机物|C. 分解有机物|A. 制造有机物|D. 运输物质,C,在生态系统中，分解者的定义是：分解有机物,1,ecology,智能生成,exercise,2024,biology|自动生成,4,2
+bio_auto_0307,生物,Grade 9,choice,生态系统中，生产者的是（  ） (变式7),D. 运输物质|C. 能制造有机物|A. 消费有机物|B. 分解有机物,C,在生态系统中，生产者的定义是：能制造有机物,3,ecology,智能生成,exercise,2024,biology|自动生成,5,2
+bio_auto_0308,生物,Grade 9,choice,生态系统中，消费者的是（  ） (变式8),D. 产生能量|A. 制造有机物|B. 分解有机物|C. 摄取有机物,C,在生态系统中，消费者的定义是：摄取有机物,4,ecology,智能生成,exercise,2024,biology|自动生成,3,2
+bio_auto_0309,生物,Grade 7,choice,生态系统中，分解者的是（  ） (变式9),C. 分解有机物|A. 制造有机物|B. 摄取有机物|D. 运输物质,C,在生态系统中，分解者的定义是：分解有机物,1,ecology,智能生成,exercise,2024,biology|自动生成,3,3
+bio_auto_0310,生物,Grade 9,choice,生态系统中，生产者的是（  ） (变式10),A. 消费有机物|C. 能制造有机物|D. 运输物质|B. 分解有机物,C,在生态系统中，生产者的定义是：能制造有机物,3,ecology,智能生成,exercise,2024,biology|自动生成,3,1
+bio_auto_0311,生物,Grade 7,choice,生态系统中，消费者的是（  ） (变式11),A. 制造有机物|B. 分解有机物|C. 摄取有机物|D. 产生能量,C,在生态系统中，消费者的定义是：摄取有机物,4,ecology,智能生成,exercise,2024,biology|自动生成,3,1
+bio_auto_0312,生物,Grade 7,choice,生态系统中，分解者的是（  ） (变式12),D. 运输物质|A. 制造有机物|B. 摄取有机物|C. 分解有机物,C,在生态系统中，分解者的定义是：分解有机物,1,ecology,智能生成,exercise,2024,biology|自动生成,4,2
+bio_auto_0313,生物,Grade 8,choice,生态系统中，生产者的是（  ） (变式13),C. 能制造有机物|B. 分解有机物|A. 消费有机物|D. 运输物质,C,在生态系统中，生产者的定义是：能制造有机物,2,ecology,智能生成,exercise,2024,biology|自动生成,5,1
+bio_auto_0314,生物,Grade 8,choice,生态系统中，消费者的是（  ） (变式14),C. 摄取有机物|B. 分解有机物|A. 制造有机物|D. 产生能量,C,在生态系统中，消费者的定义是：摄取有机物,2,ecology,智能生成,exercise,2024,biology|自动生成,3,2
+bio_auto_0315,生物,Grade 9,choice,生态系统中，分解者的是（  ） (变式15),D. 运输物质|A. 制造有机物|B. 摄取有机物|C. 分解有机物,C,在生态系统中，分解者的定义是：分解有机物,1,ecology,智能生成,exercise,2024,biology|自动生成,5,1
+bio_auto_0316,生物,Grade 7,choice,生态系统中，生产者的是（  ） (变式16),A. 消费有机物|C. 能制造有机物|D. 运输物质|B. 分解有机物,C,在生态系统中，生产者的定义是：能制造有机物,3,ecology,智能生成,exercise,2024,biology|自动生成,5,2
+bio_auto_0317,生物,Grade 9,choice,生态系统中，消费者的是（  ） (变式17),C. 摄取有机物|D. 产生能量|B. 分解有机物|A. 制造有机物,C,在生态系统中，消费者的定义是：摄取有机物,3,ecology,智能生成,exercise,2024,biology|自动生成,4,2
+bio_auto_0318,生物,Grade 7,choice,生态系统中，分解者的是（  ） (变式18),B. 摄取有机物|C. 分解有机物|D. 运输物质|A. 制造有机物,C,在生态系统中，分解者的定义是：分解有机物,1,ecology,智能生成,exercise,2024,biology|自动生成,4,1
+bio_auto_0319,生物,Grade 9,choice,生态系统中，生产者的是（  ） (变式19),A. 消费有机物|B. 分解有机物|D. 运输物质|C. 能制造有机物,C,在生态系统中，生产者的定义是：能制造有机物,3,ecology,智能生成,exercise,2024,biology|自动生成,5,3
+bio_auto_0320,生物,Grade 8,choice,生态系统中，消费者的是（  ） (变式20),D. 产生能量|A. 制造有机物|B. 分解有机物|C. 摄取有机物,C,在生态系统中，消费者的定义是：摄取有机物,1,ecology,智能生成,exercise,2024,biology|自动生成,4,3

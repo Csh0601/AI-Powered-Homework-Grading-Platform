@@ -19,16 +19,18 @@ Day 7 任务实现 - 完整的知识库查询、搜索、推荐接口
 """
 
 from flask import Blueprint, request, jsonify, current_app
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Any, Optional, Callable
 import logging
 import time
 from datetime import datetime, timedelta
 import json
+from functools import wraps
 
 # 导入服务模块
 try:
     from app.services.knowledge_matcher import KnowledgeMatcher
     from app.services.subject_classifier import SubjectClassifier
+    from app.services.knowledge_extraction import KnowledgeExtractor
     from app.utils.response_helper import success_response, error_response, validate_request
     SERVICES_AVAILABLE = True
 except ImportError as e:
@@ -45,6 +47,93 @@ knowledge_api = Blueprint('knowledge_api', __name__, url_prefix='/api/knowledge'
 # 全局服务实例（懒加载）
 _knowledge_matcher = None
 _subject_classifier = None
+_knowledge_extractor = None
+
+# ========================================
+# 装饰器 - 消除重复代码
+# ========================================
+
+def timing_decorator(func: Callable) -> Callable:
+    """时间记录装饰器"""
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        try:
+            result = func(*args, **kwargs)
+            
+            # 如果result是字典且包含data，添加处理时间
+            if isinstance(result, tuple) and len(result) == 2:
+                response, status_code = result
+                if hasattr(response, 'get_json'):
+                    response_data = response.get_json()
+                    if isinstance(response_data, dict) and 'data' in response_data:
+                        processing_time = time.time() - start_time
+                        response_data['data']['processing_time_ms'] = round(processing_time * 1000, 2)
+            elif hasattr(result, 'get_json'):
+                response_data = result.get_json()
+                if isinstance(response_data, dict) and 'data' in response_data:
+                    processing_time = time.time() - start_time
+                    response_data['data']['processing_time_ms'] = round(processing_time * 1000, 2)
+            
+            return result
+        except Exception as e:
+            processing_time = time.time() - start_time
+            logger.error(f"{func.__name__}执行失败: {e}", exc_info=True)
+            return error_response(f"{func.__name__.replace('_', ' ')}失败: {str(e)}", 500)
+    
+    return wrapper
+
+def validate_json_request(required_fields: List[str] = None, optional_fields: Dict[str, Any] = None):
+    """JSON请求验证装饰器"""
+    def decorator(func: Callable) -> Callable:
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            try:
+                data = request.get_json()
+                if not data:
+                    return error_response("请求数据不能为空", 400)
+                
+                # 检查必需字段
+                if required_fields:
+                    for field in required_fields:
+                        if field not in data:
+                            return error_response(f"缺少必需字段: {field}", 400)
+                        if not data[field]:
+                            return error_response(f"字段{field}不能为空", 400)
+                
+                # 设置可选字段的默认值
+                if optional_fields:
+                    for field, default_value in optional_fields.items():
+                        if field not in data:
+                            data[field] = default_value
+                
+                return func(data, *args, **kwargs)
+            except Exception as e:
+                logger.error(f"请求验证失败: {e}")
+                return error_response("请求格式错误", 400)
+        
+        return wrapper
+    return decorator
+
+def service_available_check(service_name: str):
+    """服务可用性检查装饰器"""
+    def decorator(func: Callable) -> Callable:
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            if service_name == 'knowledge_matcher':
+                service = get_knowledge_matcher()
+            elif service_name == 'subject_classifier':
+                service = get_subject_classifier()
+            else:
+                return error_response(f"未知服务: {service_name}", 500)
+            
+            if not service:
+                return error_response(f"{service_name}服务不可用", 503)
+            
+            return func(service, *args, **kwargs)
+        
+        return wrapper
+    return decorator
 
 def get_knowledge_matcher():
     """获取知识匹配器实例"""
@@ -70,6 +159,18 @@ def get_subject_classifier():
             _subject_classifier = None
     return _subject_classifier
 
+def get_knowledge_extractor():
+    """获取知识点提取器实例"""
+    global _knowledge_extractor
+    if _knowledge_extractor is None and SERVICES_AVAILABLE:
+        try:
+            _knowledge_extractor = KnowledgeExtractor()
+            logger.info("✅ 知识点提取器初始化成功")
+        except Exception as e:
+            logger.error(f"❌ 知识点提取器初始化失败: {e}")
+            _knowledge_extractor = None
+    return _knowledge_extractor
+
 # ========================================
 # 核心API端点
 # ========================================
@@ -86,6 +187,7 @@ def health_check():
         'services': {
             'knowledge_matcher': get_knowledge_matcher() is not None,
             'subject_classifier': get_subject_classifier() is not None,
+            'knowledge_extractor': get_knowledge_extractor() is not None,
             'services_available': SERVICES_AVAILABLE
         }
     }
@@ -596,6 +698,244 @@ def batch_match_knowledge_points():
         logger.error(f"批量知识点匹配失败: {e}", exc_info=True)
         return error_response(f"批量知识点匹配失败: {str(e)}", 500)
 
+@knowledge_api.route('/extract', methods=['POST'])
+def extract_knowledge_points():
+    """
+    高精度知识点提取
+    
+    POST /api/knowledge/extract
+    {
+        "question_text": "解一元一次方程：2x + 3 = 7，求x的值",
+        "subject_hint": "math",
+        "top_k": 5,
+        "extraction_method": "ensemble"
+    }
+    """
+    start_time = time.time()
+    
+    try:
+        data = request.get_json()
+        if not data:
+            return error_response("请求数据不能为空", 400)
+        
+        question_text = data.get('question_text', '').strip()
+        if not question_text:
+            return error_response("问题文本不能为空", 400)
+        
+        subject_hint = data.get('subject_hint')
+        top_k = data.get('top_k', 5)
+        extraction_method = data.get('extraction_method', 'ensemble')
+        
+        # 参数验证
+        if top_k < 1 or top_k > 20:
+            return error_response("top_k必须在1-20之间", 400)
+        
+        if extraction_method not in ['rule_based', 'tfidf_based', 'bert_based', 'ensemble']:
+            return error_response("extraction_method必须是: rule_based, tfidf_based, bert_based, ensemble", 400)
+        
+        # 获取知识点提取器
+        extractor = get_knowledge_extractor()
+        if not extractor:
+            return error_response("知识点提取服务不可用", 503)
+        
+        # 执行提取
+        if extraction_method == 'rule_based':
+            extractions = extractor.extract_by_rules(question_text, subject_hint)
+        elif extraction_method == 'tfidf_based':
+            extractions = extractor.extract_by_tfidf(question_text, top_k)
+        elif extraction_method == 'bert_based':
+            extractions = extractor.extract_by_bert(question_text, top_k)
+        else:  # ensemble
+            extractions = extractor.extract_by_ensemble(question_text, subject_hint, top_k)
+        
+        # 计算处理时间
+        processing_time = time.time() - start_time
+        
+        result = {
+            'question_text': question_text,
+            'subject_hint': subject_hint,
+            'extraction_method': extraction_method,
+            'extractions': extractions,
+            'total_extractions': len(extractions),
+            'processing_time_ms': round(processing_time * 1000, 2),
+            'parameters': {
+                'top_k': top_k,
+                'extraction_method': extraction_method
+            }
+        }
+        
+        logger.info(f"知识点提取完成: {len(extractions)}个结果, 方法{extraction_method}, 耗时{processing_time:.3f}秒")
+        return success_response(result)
+        
+    except Exception as e:
+        logger.error(f"知识点提取失败: {e}", exc_info=True)
+        return error_response(f"知识点提取失败: {str(e)}", 500)
+
+@knowledge_api.route('/extract/batch', methods=['POST'])
+def batch_extract_knowledge_points():
+    """
+    批量知识点提取
+    
+    POST /api/knowledge/extract/batch
+    {
+        "questions": ["题目1", "题目2", "题目3"],
+        "subject_hints": ["math", "chinese", "physics"],
+        "top_k": 3,
+        "extraction_method": "ensemble"
+    }
+    """
+    start_time = time.time()
+    
+    try:
+        data = request.get_json()
+        if not data:
+            return error_response("请求数据不能为空", 400)
+        
+        questions = data.get('questions', [])
+        subject_hints = data.get('subject_hints', [])
+        top_k = data.get('top_k', 3)
+        extraction_method = data.get('extraction_method', 'ensemble')
+        
+        # 参数验证
+        if not isinstance(questions, list) or not questions:
+            return error_response("questions必须是非空列表", 400)
+        
+        if len(questions) > 50:
+            return error_response("批量处理最多支持50个问题", 400)
+        
+        if top_k < 1 or top_k > 10:
+            return error_response("批量处理时top_k必须在1-10之间", 400)
+        
+        if extraction_method not in ['rule_based', 'tfidf_based', 'bert_based', 'ensemble']:
+            return error_response("extraction_method必须是: rule_based, tfidf_based, bert_based, ensemble", 400)
+        
+        # 获取知识点提取器
+        extractor = get_knowledge_extractor()
+        if not extractor:
+            return error_response("知识点提取服务不可用", 503)
+        
+        # 批量提取
+        if extraction_method == 'ensemble':
+            batch_results = extractor.batch_extract(questions, subject_hints, top_k)
+        else:
+            batch_results = []
+            for i, question in enumerate(questions):
+                subject_hint = subject_hints[i] if i < len(subject_hints) else None
+                
+                if extraction_method == 'rule_based':
+                    extractions = extractor.extract_by_rules(question, subject_hint)
+                elif extraction_method == 'tfidf_based':
+                    extractions = extractor.extract_by_tfidf(question, top_k)
+                elif extraction_method == 'bert_based':
+                    extractions = extractor.extract_by_bert(question, top_k)
+                
+                batch_results.append(extractions)
+        
+        # 计算处理时间
+        processing_time = time.time() - start_time
+        
+        result = {
+            'questions': questions,
+            'subject_hints': subject_hints,
+            'results': [
+                {
+                    'question': question,
+                    'subject_hint': subject_hints[i] if i < len(subject_hints) else None,
+                    'extractions': extractions,
+                    'extraction_count': len(extractions)
+                }
+                for i, (question, extractions) in enumerate(zip(questions, batch_results))
+            ],
+            'total_processed': len(questions),
+            'parameters': {
+                'top_k': top_k,
+                'extraction_method': extraction_method
+            },
+            'processing_time_ms': round(processing_time * 1000, 2),
+            'avg_time_per_question_ms': round(processing_time * 1000 / len(questions), 2) if questions else 0
+        }
+        
+        logger.info(f"批量知识点提取完成: {len(questions)}个问题, 耗时{processing_time:.3f}秒")
+        return success_response(result)
+        
+    except Exception as e:
+        logger.error(f"批量知识点提取失败: {e}", exc_info=True)
+        return error_response(f"批量知识点提取失败: {str(e)}", 500)
+
+@knowledge_api.route('/extract/evaluate', methods=['POST'])
+def evaluate_extraction_accuracy():
+    """
+    评估知识点提取准确性
+    
+    POST /api/knowledge/extract/evaluate
+    {
+        "test_data": [
+            {
+                "question": "解一元一次方程：2x + 3 = 7",
+                "knowledge_points": ["equations"],
+                "subject": "math"
+            }
+        ]
+    }
+    """
+    start_time = time.time()
+    
+    try:
+        data = request.get_json()
+        if not data:
+            return error_response("请求数据不能为空", 400)
+        
+        test_data = data.get('test_data', [])
+        if not isinstance(test_data, list) or not test_data:
+            return error_response("test_data必须是非空列表", 400)
+        
+        # 获取知识点提取器
+        extractor = get_knowledge_extractor()
+        if not extractor:
+            return error_response("知识点提取服务不可用", 503)
+        
+        # 执行评估
+        evaluation_result = extractor.evaluate_extraction_accuracy(test_data)
+        
+        # 计算处理时间
+        processing_time = time.time() - start_time
+        evaluation_result['processing_time_ms'] = round(processing_time * 1000, 2)
+        
+        logger.info(f"知识点提取准确性评估完成: 总体准确率{evaluation_result.get('overall_accuracy', 0):.2%}")
+        return success_response(evaluation_result)
+        
+    except Exception as e:
+        logger.error(f"知识点提取准确性评估失败: {e}", exc_info=True)
+        return error_response(f"知识点提取准确性评估失败: {str(e)}", 500)
+
+@knowledge_api.route('/extract/statistics', methods=['GET'])
+def get_extraction_statistics():
+    """
+    获取知识点提取统计信息
+    
+    GET /api/knowledge/extract/statistics
+    """
+    start_time = time.time()
+    
+    try:
+        # 获取知识点提取器
+        extractor = get_knowledge_extractor()
+        if not extractor:
+            return error_response("知识点提取服务不可用", 503)
+        
+        # 获取统计信息
+        stats = extractor.get_extraction_statistics()
+        
+        # 计算处理时间
+        processing_time = time.time() - start_time
+        stats['processing_time_ms'] = round(processing_time * 1000, 2)
+        
+        return success_response(stats)
+        
+    except Exception as e:
+        logger.error(f"获取知识点提取统计信息失败: {e}", exc_info=True)
+        return error_response(f"获取知识点提取统计信息失败: {str(e)}", 500)
+
 # ========================================
 # 管理接口
 # ========================================
@@ -687,15 +1027,21 @@ def api_info():
             'recommend': 'POST /api/knowledge/recommend - 知识点推荐',
             'analyze': 'POST /api/knowledge/analyze - 题目分析',
             'batch_match': 'POST /api/knowledge/batch-match - 批量匹配',
+            'extract': 'POST /api/knowledge/extract - 高精度知识点提取',
+            'extract_batch': 'POST /api/knowledge/extract/batch - 批量知识点提取',
+            'extract_evaluate': 'POST /api/knowledge/extract/evaluate - 提取准确性评估',
+            'extract_statistics': 'GET /api/knowledge/extract/statistics - 提取统计信息',
             'statistics': 'GET /api/knowledge/statistics - 统计信息'
         },
         'features': [
             '智能知识点匹配',
+            '高精度知识点提取',
             '多维度搜索过滤',
             '个性化推荐',
             '学科自动分类',
             '题目难度分析',
             '批量处理支持',
+            'BERT语义理解',
             '性能监控'
         ]
     })

@@ -275,6 +275,7 @@ def save_quality_data():
     return kp_file, q_file
 
 if __name__ == "__main__":
+    print("🎯 开始创建高质量种子数据...")
     save_quality_data()
     print("\n🎉 高质量种子数据创建完成！")
     print("\n📋 下一步建议:")

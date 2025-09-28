@@ -1,0 +1,22 @@
+question_id,subject,grade,question_type,stem,options,correct_answer,explanation,difficulty_level,knowledge_points,source,source_type,year,tags,score,time_limit
+chin_auto_0100,语文,Grade 8,choice,默认题干 (变式21),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,1,literary_knowledge,智能生成,exercise,2024,chinese|自动生成,3,1
+chin_auto_0101,语文,Grade 8,choice,默认题干 (变式22),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,3,literary_knowledge,智能生成,exercise,2024,chinese|自动生成,3,1
+chin_auto_0102,语文,Grade 9,choice,默认题干 (变式23),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,1,literary_knowledge,智能生成,exercise,2024,chinese|自动生成,3,1
+chin_auto_0103,语文,Grade 7,choice,默认题干 (变式24),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,4,literary_knowledge,智能生成,exercise,2024,chinese|自动生成,5,2
+chin_auto_0104,语文,Grade 9,choice,默认题干 (变式25),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,1,literary_knowledge,智能生成,exercise,2024,chinese|自动生成,4,3
+chin_auto_0105,语文,Grade 9,choice,默认题干 (变式26),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,2,literary_knowledge,智能生成,exercise,2024,chinese|自动生成,3,3
+chin_auto_0106,语文,Grade 7,choice,默认题干 (变式27),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,1,literary_knowledge,智能生成,exercise,2024,chinese|自动生成,3,1
+chin_auto_0107,语文,Grade 8,choice,默认题干 (变式28),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,2,literary_knowledge,智能生成,exercise,2024,chinese|自动生成,5,2
+chin_auto_0108,语文,Grade 7,choice,默认题干 (变式29),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,2,literary_knowledge,智能生成,exercise,2024,chinese|自动生成,3,2
+chin_auto_0109,语文,Grade 7,choice,默认题干 (变式30),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,4,literary_knowledge,智能生成,exercise,2024,chinese|自动生成,4,1
+chin_auto_0110,语文,Grade 8,choice,默认题干 (变式31),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,1,literary_knowledge,智能生成,exercise,2024,chinese|自动生成,4,3
+chin_auto_0111,语文,Grade 7,choice,默认题干 (变式32),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,2,literary_knowledge,智能生成,exercise,2024,chinese|自动生成,4,3
+chin_auto_0112,语文,Grade 9,choice,默认题干 (变式33),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,3,literary_knowledge,智能生成,exercise,2024,chinese|自动生成,4,3
+chin_auto_0113,语文,Grade 7,choice,默认题干 (变式34),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,4,literary_knowledge,智能生成,exercise,2024,chinese|自动生成,5,2
+chin_auto_0114,语文,Grade 9,choice,默认题干 (变式35),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,4,literary_knowledge,智能生成,exercise,2024,chinese|自动生成,3,1
+chin_auto_0115,语文,Grade 9,choice,默认题干 (变式36),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,4,literary_knowledge,智能生成,exercise,2024,chinese|自动生成,4,1
+chin_auto_0116,语文,Grade 7,choice,默认题干 (变式37),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,4,literary_knowledge,智能生成,exercise,2024,chinese|自动生成,4,3
+chin_auto_0117,语文,Grade 7,choice,默认题干 (变式38),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,4,literary_knowledge,智能生成,exercise,2024,chinese|自动生成,3,2
+chin_auto_0118,语文,Grade 8,choice,默认题干 (变式39),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,3,literary_knowledge,智能生成,exercise,2024,chinese|自动生成,3,1
+chin_auto_0119,语文,Grade 8,choice,默认题干 (变式40),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,1,literary_knowledge,智能生成,exercise,2024,chinese|自动生成,4,2
+chin_auto_0120,语文,Grade 8,choice,默认题干 (变式1),A. 选项1|B. 选项2|C. 选项3|D. 选项4,A,默认解析,3,character_writing,智能生成,exercise,2024,chinese|自动生成,5,2

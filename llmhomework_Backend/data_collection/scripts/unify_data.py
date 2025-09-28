@@ -6,11 +6,8 @@
 
 import os
 import sys
-import pandas as pd
-import json
 import logging
 from datetime import datetime
-from pathlib import Path
 
 # 设置路径
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
@@ -21,17 +18,14 @@ logger = logging.getLogger(__name__)
 def unify_all_data():
     """统一处理所有数据"""
     logger.info("🔄 开始统一处理数据...")
-    
-    # 调用原有的统一处理脚本
-    import sys
-    import os
-    sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-    from unify_generated_data import main as unify_main
-    
+
     try:
-        result = unify_main()
+        # 调用新的统一处理脚本
+        from scripts.unify_data_new import DataUnifier
+        unifier = DataUnifier()
+        kp_file, q_file = unifier.run_full_unification()
         logger.info("✅ 数据统一处理完成")
-        return result
+        return kp_file and q_file
     except Exception as e:
         logger.error(f"❌ 数据统一处理失败: {e}")
         return False

@@ -1,0 +1,41 @@
+question_id,subject,grade,question_type,stem,options,correct_answer,explanation,difficulty_level,knowledge_points,source,source_type,year,tags,score,time_limit
+chem_auto_0241,化学,Grade 9,fill_blank,化学方程式的配平原则是______,,质量守恒定律,化学反应前后原子种类和数量不变,4,balancing_equations,智能生成,exercise,2024,chemistry|自动生成,4,2
+chem_auto_0242,化学,Grade 8,fill_blank,化学方程式的配平原则是______ (变式2),,质量守恒定律,化学反应前后原子种类和数量不变,1,balancing_equations,智能生成,exercise,2024,chemistry|自动生成,4,2
+chem_auto_0243,化学,Grade 7,fill_blank,化学方程式的配平原则是______ (变式3),,质量守恒定律,化学反应前后原子种类和数量不变,4,balancing_equations,智能生成,exercise,2024,chemistry|自动生成,3,1
+chem_auto_0244,化学,Grade 8,fill_blank,化学方程式的配平原则是______ (变式4),,质量守恒定律,化学反应前后原子种类和数量不变,4,balancing_equations,智能生成,exercise,2024,chemistry|自动生成,5,2
+chem_auto_0245,化学,Grade 8,fill_blank,化学方程式的配平原则是______ (变式5),,质量守恒定律,化学反应前后原子种类和数量不变,1,balancing_equations,智能生成,exercise,2024,chemistry|自动生成,5,2
+chem_auto_0246,化学,Grade 7,fill_blank,化学方程式的配平原则是______ (变式6),,质量守恒定律,化学反应前后原子种类和数量不变,3,balancing_equations,智能生成,exercise,2024,chemistry|自动生成,4,3
+chem_auto_0247,化学,Grade 8,fill_blank,化学方程式的配平原则是______ (变式7),,质量守恒定律,化学反应前后原子种类和数量不变,4,balancing_equations,智能生成,exercise,2024,chemistry|自动生成,5,1
+chem_auto_0248,化学,Grade 7,fill_blank,化学方程式的配平原则是______ (变式8),,质量守恒定律,化学反应前后原子种类和数量不变,3,balancing_equations,智能生成,exercise,2024,chemistry|自动生成,3,3
+chem_auto_0249,化学,Grade 8,fill_blank,化学方程式的配平原则是______ (变式9),,质量守恒定律,化学反应前后原子种类和数量不变,3,balancing_equations,智能生成,exercise,2024,chemistry|自动生成,5,1
+chem_auto_0250,化学,Grade 8,fill_blank,化学方程式的配平原则是______ (变式10),,质量守恒定律,化学反应前后原子种类和数量不变,3,balancing_equations,智能生成,exercise,2024,chemistry|自动生成,4,3
+chem_auto_0251,化学,Grade 8,fill_blank,化学方程式的配平原则是______ (变式11),,质量守恒定律,化学反应前后原子种类和数量不变,2,balancing_equations,智能生成,exercise,2024,chemistry|自动生成,4,3
+chem_auto_0252,化学,Grade 8,fill_blank,化学方程式的配平原则是______ (变式12),,质量守恒定律,化学反应前后原子种类和数量不变,1,balancing_equations,智能生成,exercise,2024,chemistry|自动生成,3,1
+chem_auto_0253,化学,Grade 8,fill_blank,化学方程式的配平原则是______ (变式13),,质量守恒定律,化学反应前后原子种类和数量不变,2,balancing_equations,智能生成,exercise,2024,chemistry|自动生成,4,1
+chem_auto_0254,化学,Grade 7,fill_blank,化学方程式的配平原则是______ (变式14),,质量守恒定律,化学反应前后原子种类和数量不变,3,balancing_equations,智能生成,exercise,2024,chemistry|自动生成,5,2
+chem_auto_0255,化学,Grade 7,fill_blank,化学方程式的配平原则是______ (变式15),,质量守恒定律,化学反应前后原子种类和数量不变,3,balancing_equations,智能生成,exercise,2024,chemistry|自动生成,3,3
+chem_auto_0256,化学,Grade 8,fill_blank,化学方程式的配平原则是______ (变式16),,质量守恒定律,化学反应前后原子种类和数量不变,2,balancing_equations,智能生成,exercise,2024,chemistry|自动生成,3,2
+chem_auto_0257,化学,Grade 9,fill_blank,化学方程式的配平原则是______ (变式17),,质量守恒定律,化学反应前后原子种类和数量不变,2,balancing_equations,智能生成,exercise,2024,chemistry|自动生成,3,3
+chem_auto_0258,化学,Grade 8,fill_blank,化学方程式的配平原则是______ (变式18),,质量守恒定律,化学反应前后原子种类和数量不变,3,balancing_equations,智能生成,exercise,2024,chemistry|自动生成,5,2
+chem_auto_0259,化学,Grade 7,fill_blank,化学方程式的配平原则是______ (变式19),,质量守恒定律,化学反应前后原子种类和数量不变,2,balancing_equations,智能生成,exercise,2024,chemistry|自动生成,4,3
+chem_auto_0260,化学,Grade 9,fill_blank,化学方程式的配平原则是______ (变式20),,质量守恒定律,化学反应前后原子种类和数量不变,4,balancing_equations,智能生成,exercise,2024,chemistry|自动生成,4,1
+chem_auto_0261,化学,Grade 7,fill_blank,溶液的浓度单位有______,,mol/L、g/L等,常见浓度单位包括摩尔浓度、质量浓度等,4,solution_concentration,智能生成,exercise,2024,chemistry|自动生成,5,3
+chem_auto_0262,化学,Grade 9,fill_blank,溶液的浓度单位有______ (变式2),,mol/L、g/L等,常见浓度单位包括摩尔浓度、质量浓度等,4,solution_concentration,智能生成,exercise,2024,chemistry|自动生成,3,1
+chem_auto_0263,化学,Grade 7,fill_blank,溶液的浓度单位有______ (变式3),,mol/L、g/L等,常见浓度单位包括摩尔浓度、质量浓度等,1,solution_concentration,智能生成,exercise,2024,chemistry|自动生成,4,1
+chem_auto_0264,化学,Grade 7,fill_blank,溶液的浓度单位有______ (变式4),,mol/L、g/L等,常见浓度单位包括摩尔浓度、质量浓度等,3,solution_concentration,智能生成,exercise,2024,chemistry|自动生成,5,2
+chem_auto_0265,化学,Grade 9,fill_blank,溶液的浓度单位有______ (变式5),,mol/L、g/L等,常见浓度单位包括摩尔浓度、质量浓度等,3,solution_concentration,智能生成,exercise,2024,chemistry|自动生成,3,3
+chem_auto_0266,化学,Grade 8,fill_blank,溶液的浓度单位有______ (变式6),,mol/L、g/L等,常见浓度单位包括摩尔浓度、质量浓度等,1,solution_concentration,智能生成,exercise,2024,chemistry|自动生成,3,2
+chem_auto_0267,化学,Grade 9,fill_blank,溶液的浓度单位有______ (变式7),,mol/L、g/L等,常见浓度单位包括摩尔浓度、质量浓度等,2,solution_concentration,智能生成,exercise,2024,chemistry|自动生成,4,1
+chem_auto_0268,化学,Grade 9,fill_blank,溶液的浓度单位有______ (变式8),,mol/L、g/L等,常见浓度单位包括摩尔浓度、质量浓度等,1,solution_concentration,智能生成,exercise,2024,chemistry|自动生成,5,3
+chem_auto_0269,化学,Grade 7,fill_blank,溶液的浓度单位有______ (变式9),,mol/L、g/L等,常见浓度单位包括摩尔浓度、质量浓度等,1,solution_concentration,智能生成,exercise,2024,chemistry|自动生成,5,3
+chem_auto_0270,化学,Grade 8,fill_blank,溶液的浓度单位有______ (变式10),,mol/L、g/L等,常见浓度单位包括摩尔浓度、质量浓度等,2,solution_concentration,智能生成,exercise,2024,chemistry|自动生成,3,3
+chem_auto_0271,化学,Grade 8,fill_blank,溶液的浓度单位有______ (变式11),,mol/L、g/L等,常见浓度单位包括摩尔浓度、质量浓度等,3,solution_concentration,智能生成,exercise,2024,chemistry|自动生成,3,3
+chem_auto_0272,化学,Grade 8,fill_blank,溶液的浓度单位有______ (变式12),,mol/L、g/L等,常见浓度单位包括摩尔浓度、质量浓度等,4,solution_concentration,智能生成,exercise,2024,chemistry|自动生成,5,1
+chem_auto_0273,化学,Grade 8,fill_blank,溶液的浓度单位有______ (变式13),,mol/L、g/L等,常见浓度单位包括摩尔浓度、质量浓度等,3,solution_concentration,智能生成,exercise,2024,chemistry|自动生成,5,3
+chem_auto_0274,化学,Grade 8,fill_blank,溶液的浓度单位有______ (变式14),,mol/L、g/L等,常见浓度单位包括摩尔浓度、质量浓度等,4,solution_concentration,智能生成,exercise,2024,chemistry|自动生成,5,1
+chem_auto_0275,化学,Grade 7,fill_blank,溶液的浓度单位有______ (变式15),,mol/L、g/L等,常见浓度单位包括摩尔浓度、质量浓度等,1,solution_concentration,智能生成,exercise,2024,chemistry|自动生成,5,1
+chem_auto_0276,化学,Grade 8,fill_blank,溶液的浓度单位有______ (变式16),,mol/L、g/L等,常见浓度单位包括摩尔浓度、质量浓度等,2,solution_concentration,智能生成,exercise,2024,chemistry|自动生成,4,2
+chem_auto_0277,化学,Grade 7,fill_blank,溶液的浓度单位有______ (变式17),,mol/L、g/L等,常见浓度单位包括摩尔浓度、质量浓度等,2,solution_concentration,智能生成,exercise,2024,chemistry|自动生成,5,1
+chem_auto_0278,化学,Grade 9,fill_blank,溶液的浓度单位有______ (变式18),,mol/L、g/L等,常见浓度单位包括摩尔浓度、质量浓度等,1,solution_concentration,智能生成,exercise,2024,chemistry|自动生成,3,1
+chem_auto_0279,化学,Grade 8,fill_blank,溶液的浓度单位有______ (变式19),,mol/L、g/L等,常见浓度单位包括摩尔浓度、质量浓度等,1,solution_concentration,智能生成,exercise,2024,chemistry|自动生成,4,2
+chem_auto_0280,化学,Grade 8,fill_blank,溶液的浓度单位有______ (变式20),,mol/L、g/L等,常见浓度单位包括摩尔浓度、质量浓度等,4,solution_concentration,智能生成,exercise,2024,chemistry|自动生成,4,1

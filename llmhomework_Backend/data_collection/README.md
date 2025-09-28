@@ -6,11 +6,11 @@ AI智能作业批改系统的数据收集、处理和管理模块。
 
 ```
 data_collection/
-├── 📂 collectors/           # 数据收集器
-│   ├── smart_data_generator.py      # AI智能数据生成器
-│   ├── legal_education_crawler.py   # 合法教育网站爬虫
-│   ├── pdf_document_processor.py    # PDF文档处理器
-│   └── crawler_manager.py           # 爬虫统一管理器
+├── 📂 collectors/           # 数据收集器（已精简）
+│   ├── smart_data_generator.py      # AI智能数据生成器（核心）
+│   ├── data_enhancer.py            # 数据增强器（质量提升）
+│   ├── legal_education_crawler.py   # 合法教育网站爬虫（唯一爬虫）
+│   └── pdf_document_processor.py    # PDF文档处理器
 ├── 📂 raw/                  # 原始数据存储
 │   └── subjects/            # 按学科分类的原始数据
 │       ├── math/            # 数学
@@ -37,8 +37,10 @@ data_collection/
 │   └── question_schema.json         # 题目数据结构
 ├── 📂 scripts/              # 数据处理脚本
 │   ├── unify_data.py                # 数据统一处理
+│   ├── unify_data_new.py            # 新版数据统一处理
 │   ├── validate_data.py             # 数据验证
 │   └── import_to_db.py              # 导入数据库
+├── data_collection_manager.py       # 数据收集管理平台（统一入口）
 ├── config.json              # 配置文件
 └── README.md               # 本文档
 ```
@@ -48,13 +50,20 @@ data_collection/
 ### 1. 运行数据收集
 
 ```bash
-# 方式1: 使用统一管理器（推荐）
-python collectors/crawler_manager.py
+# 方式1: 使用统一管理平台（推荐）
+python data_collection_manager.py full
 
 # 方式2: 单独运行各个收集器
 python collectors/smart_data_generator.py     # AI生成数据
+python collectors/data_enhancer.py           # 数据质量增强
 python collectors/legal_education_crawler.py  # 爬取网站数据
 python collectors/pdf_document_processor.py   # 处理PDF文档
+
+# 方式3: 分步骤执行
+python data_collection_manager.py step collection   # 数据收集
+python data_collection_manager.py step unification  # 数据统一
+python data_collection_manager.py step enhancement  # 数据增强
+python data_collection_manager.py step validation   # 数据验证
 ```
 
 ### 2. 数据处理流程
@@ -168,31 +177,30 @@ generator = SmartDataGenerator()
 generator.generate_all_subjects()  # 生成所有学科数据
 ```
 
-#### 2. 教育网站爬虫
+#### 2. 数据增强器
+```python
+# 使用示例
+from collectors.data_enhancer import DataEnhancer
+
+enhancer = DataEnhancer()
+kp_file, q_file = enhancer.run_full_enhancement()  # 增强数据质量
+```
+
+#### 3. 合法教育爬虫
 ```python
 # 使用示例
 from collectors.legal_education_crawler import LegalEducationCrawler
 
 crawler = LegalEducationCrawler()
-crawler.crawl_zhongkao_resources()  # 爬取中考网
-crawler.crawl_zxxk_resources()      # 爬取学科网
-```
-
-#### 3. 爬虫管理器
-```python
-# 使用示例
-from collectors.crawler_manager import CrawlerManager
-
-manager = CrawlerManager()
-manager.run_all_crawlers()  # 运行所有爬虫
+kp_count, q_count = crawler.run_full_crawl()  # 爬取合法教育资源
 ```
 
 ### 数据处理脚本 (Scripts)
 
 #### 1. 数据统一处理
-- **脚本**: `scripts/unify_data.py`
-- **功能**: 将不同来源的数据统一格式
-- **输出**: `processed/knowledge_points_unified.csv`, `processed/questions_unified.csv`
+- **脚本**: `scripts/unify_data_new.py` (推荐)
+- **功能**: 将不同来源的数据统一格式，支持去重和质量修复
+- **输出**: `processed/knowledge_points_unified_*.csv`, `processed/questions_unified_*.csv`
 
 #### 2. 数据质量验证
 - **脚本**: `scripts/validate_data.py`
@@ -202,6 +210,10 @@ manager.run_all_crawlers()  # 运行所有爬虫
 #### 3. 数据库导入
 - **脚本**: `scripts/import_to_db.py`
 - **功能**: 将处理后的数据导入系统数据库
+
+#### 4. 统一管理平台
+- **脚本**: `data_collection_manager.py`
+- **功能**: 一站式数据收集、处理、增强管理平台
 
 ## 📈 数据统计
 
@@ -217,7 +229,7 @@ manager.run_all_crawlers()  # 运行所有爬虫
 ### 添加新的数据源
 1. 在 `collectors/` 目录下创建新的收集器
 2. 继承基础类并实现必要方法
-3. 在 `crawler_manager.py` 中注册新收集器
+3. 在 `data_collection_manager.py` 中注册新收集器
 4. 更新配置文件 `config.json`
 
 ### 数据质量控制

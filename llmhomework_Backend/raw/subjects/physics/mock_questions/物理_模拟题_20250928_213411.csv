@@ -1,0 +1,41 @@
+question_id,subject,grade,question_type,stem,options,correct_answer,explanation,difficulty_level,knowledge_points,source,source_type,year,tags,score,time_limit
+phys_auto_0161,物理,Grade 7,fill_blank,力的单位是______,,牛顿,力的国际单位是牛顿，符号是N,2,force_units,智能生成,exercise,2024,physics|自动生成,5,3
+phys_auto_0162,物理,Grade 8,fill_blank,力的单位是______ (变式2),,牛顿,力的国际单位是牛顿，符号是N,4,force_units,智能生成,exercise,2024,physics|自动生成,5,1
+phys_auto_0163,物理,Grade 8,fill_blank,力的单位是______ (变式3),,牛顿,力的国际单位是牛顿，符号是N,1,force_units,智能生成,exercise,2024,physics|自动生成,5,2
+phys_auto_0164,物理,Grade 7,fill_blank,力的单位是______ (变式4),,牛顿,力的国际单位是牛顿，符号是N,1,force_units,智能生成,exercise,2024,physics|自动生成,4,3
+phys_auto_0165,物理,Grade 7,fill_blank,力的单位是______ (变式5),,牛顿,力的国际单位是牛顿，符号是N,4,force_units,智能生成,exercise,2024,physics|自动生成,3,1
+phys_auto_0166,物理,Grade 9,fill_blank,力的单位是______ (变式6),,牛顿,力的国际单位是牛顿，符号是N,2,force_units,智能生成,exercise,2024,physics|自动生成,3,3
+phys_auto_0167,物理,Grade 8,fill_blank,力的单位是______ (变式7),,牛顿,力的国际单位是牛顿，符号是N,3,force_units,智能生成,exercise,2024,physics|自动生成,4,3
+phys_auto_0168,物理,Grade 9,fill_blank,力的单位是______ (变式8),,牛顿,力的国际单位是牛顿，符号是N,2,force_units,智能生成,exercise,2024,physics|自动生成,3,1
+phys_auto_0169,物理,Grade 7,fill_blank,力的单位是______ (变式9),,牛顿,力的国际单位是牛顿，符号是N,1,force_units,智能生成,exercise,2024,physics|自动生成,4,1
+phys_auto_0170,物理,Grade 9,fill_blank,力的单位是______ (变式10),,牛顿,力的国际单位是牛顿，符号是N,3,force_units,智能生成,exercise,2024,physics|自动生成,3,3
+phys_auto_0171,物理,Grade 7,fill_blank,力的单位是______ (变式11),,牛顿,力的国际单位是牛顿，符号是N,4,force_units,智能生成,exercise,2024,physics|自动生成,4,1
+phys_auto_0172,物理,Grade 7,fill_blank,力的单位是______ (变式12),,牛顿,力的国际单位是牛顿，符号是N,4,force_units,智能生成,exercise,2024,physics|自动生成,5,1
+phys_auto_0173,物理,Grade 8,fill_blank,力的单位是______ (变式13),,牛顿,力的国际单位是牛顿，符号是N,3,force_units,智能生成,exercise,2024,physics|自动生成,5,3
+phys_auto_0174,物理,Grade 9,fill_blank,力的单位是______ (变式14),,牛顿,力的国际单位是牛顿，符号是N,2,force_units,智能生成,exercise,2024,physics|自动生成,4,3
+phys_auto_0175,物理,Grade 7,fill_blank,力的单位是______ (变式15),,牛顿,力的国际单位是牛顿，符号是N,4,force_units,智能生成,exercise,2024,physics|自动生成,3,2
+phys_auto_0176,物理,Grade 7,fill_blank,力的单位是______ (变式16),,牛顿,力的国际单位是牛顿，符号是N,2,force_units,智能生成,exercise,2024,physics|自动生成,3,2
+phys_auto_0177,物理,Grade 9,fill_blank,力的单位是______ (变式17),,牛顿,力的国际单位是牛顿，符号是N,4,force_units,智能生成,exercise,2024,physics|自动生成,4,1
+phys_auto_0178,物理,Grade 8,fill_blank,力的单位是______ (变式18),,牛顿,力的国际单位是牛顿，符号是N,3,force_units,智能生成,exercise,2024,physics|自动生成,4,3
+phys_auto_0179,物理,Grade 8,fill_blank,力的单位是______ (变式19),,牛顿,力的国际单位是牛顿，符号是N,1,force_units,智能生成,exercise,2024,physics|自动生成,4,3
+phys_auto_0180,物理,Grade 7,fill_blank,力的单位是______ (变式20),,牛顿,力的国际单位是牛顿，符号是N,2,force_units,智能生成,exercise,2024,physics|自动生成,5,1
+phys_auto_0181,物理,Grade 9,fill_blank,速度的计算公式是______,,v = s/t,速度等于路程除以时间,4,speed_formula,智能生成,exercise,2024,physics|自动生成,5,2
+phys_auto_0182,物理,Grade 8,fill_blank,速度的计算公式是______ (变式2),,v = s/t,速度等于路程除以时间,4,speed_formula,智能生成,exercise,2024,physics|自动生成,5,3
+phys_auto_0183,物理,Grade 8,fill_blank,速度的计算公式是______ (变式3),,v = s/t,速度等于路程除以时间,1,speed_formula,智能生成,exercise,2024,physics|自动生成,4,3
+phys_auto_0184,物理,Grade 8,fill_blank,速度的计算公式是______ (变式4),,v = s/t,速度等于路程除以时间,4,speed_formula,智能生成,exercise,2024,physics|自动生成,3,2
+phys_auto_0185,物理,Grade 8,fill_blank,速度的计算公式是______ (变式5),,v = s/t,速度等于路程除以时间,1,speed_formula,智能生成,exercise,2024,physics|自动生成,3,2
+phys_auto_0186,物理,Grade 9,fill_blank,速度的计算公式是______ (变式6),,v = s/t,速度等于路程除以时间,3,speed_formula,智能生成,exercise,2024,physics|自动生成,3,3
+phys_auto_0187,物理,Grade 9,fill_blank,速度的计算公式是______ (变式7),,v = s/t,速度等于路程除以时间,3,speed_formula,智能生成,exercise,2024,physics|自动生成,3,1
+phys_auto_0188,物理,Grade 7,fill_blank,速度的计算公式是______ (变式8),,v = s/t,速度等于路程除以时间,1,speed_formula,智能生成,exercise,2024,physics|自动生成,4,2
+phys_auto_0189,物理,Grade 8,fill_blank,速度的计算公式是______ (变式9),,v = s/t,速度等于路程除以时间,4,speed_formula,智能生成,exercise,2024,physics|自动生成,4,1
+phys_auto_0190,物理,Grade 7,fill_blank,速度的计算公式是______ (变式10),,v = s/t,速度等于路程除以时间,2,speed_formula,智能生成,exercise,2024,physics|自动生成,5,3
+phys_auto_0191,物理,Grade 9,fill_blank,速度的计算公式是______ (变式11),,v = s/t,速度等于路程除以时间,2,speed_formula,智能生成,exercise,2024,physics|自动生成,3,2
+phys_auto_0192,物理,Grade 8,fill_blank,速度的计算公式是______ (变式12),,v = s/t,速度等于路程除以时间,4,speed_formula,智能生成,exercise,2024,physics|自动生成,4,3
+phys_auto_0193,物理,Grade 8,fill_blank,速度的计算公式是______ (变式13),,v = s/t,速度等于路程除以时间,2,speed_formula,智能生成,exercise,2024,physics|自动生成,3,3
+phys_auto_0194,物理,Grade 9,fill_blank,速度的计算公式是______ (变式14),,v = s/t,速度等于路程除以时间,3,speed_formula,智能生成,exercise,2024,physics|自动生成,4,1
+phys_auto_0195,物理,Grade 8,fill_blank,速度的计算公式是______ (变式15),,v = s/t,速度等于路程除以时间,2,speed_formula,智能生成,exercise,2024,physics|自动生成,3,2
+phys_auto_0196,物理,Grade 8,fill_blank,速度的计算公式是______ (变式16),,v = s/t,速度等于路程除以时间,2,speed_formula,智能生成,exercise,2024,physics|自动生成,3,1
+phys_auto_0197,物理,Grade 8,fill_blank,速度的计算公式是______ (变式17),,v = s/t,速度等于路程除以时间,4,speed_formula,智能生成,exercise,2024,physics|自动生成,4,2
+phys_auto_0198,物理,Grade 8,fill_blank,速度的计算公式是______ (变式18),,v = s/t,速度等于路程除以时间,3,speed_formula,智能生成,exercise,2024,physics|自动生成,3,3
+phys_auto_0199,物理,Grade 7,fill_blank,速度的计算公式是______ (变式19),,v = s/t,速度等于路程除以时间,3,speed_formula,智能生成,exercise,2024,physics|自动生成,5,3
+phys_auto_0200,物理,Grade 8,fill_blank,速度的计算公式是______ (变式20),,v = s/t,速度等于路程除以时间,2,speed_formula,智能生成,exercise,2024,physics|自动生成,5,2

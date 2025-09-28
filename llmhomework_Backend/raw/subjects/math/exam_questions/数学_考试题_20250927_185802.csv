@@ -1,0 +1,100 @@
+question_id,subject,grade,question_type,stem,options,correct_answer,explanation,difficulty_level,knowledge_points,source,source_type,year,tags,score,time_limit
+math_auto_0001,数学,Grade 7,choice,下列各数中，是有理数的是（  ）,B. -3|C. π|A. √2|D. √3,B,-3是有理数，因为有理数是有理数集中的数，可以写成分数形式,3,number_classification,智能生成,exercise,2024,math|自动生成,5,1
+math_auto_0002,数学,Grade 9,choice,下列各数中，是无理数的是（  ）,D. 1/2|A. -3|B. √2|C. 0,B,√2是无理数，因为无理数是无限不循环小数，不能写成分数形式,4,number_classification,智能生成,exercise,2024,math|自动生成,5,3
+math_auto_0003,数学,Grade 7,choice,下列各数中，是无理数的是（  ） (变式3),A. -3|B. π|D. 1/2|C. 0,B,π是无理数，因为圆周率π是无理数,3,number_classification,智能生成,exercise,2024,math|自动生成,4,2
+math_auto_0004,数学,Grade 8,choice,下列各数中，是有理数的是（  ） (变式4),C. π|D. √3|A. √2|B. 0,B,0是有理数，因为0是有理数，是整数的特殊形式,4,number_classification,智能生成,exercise,2024,math|自动生成,5,1
+math_auto_0005,数学,Grade 8,choice,下列各数中，是有理数的是（  ） (变式5),A. √2|B. 1/2|D. √3|C. π,B,1/2是有理数，因为分数是有理数的一种形式,1,number_classification,智能生成,exercise,2024,math|自动生成,5,3
+math_auto_0006,数学,Grade 9,choice,下列各数中，是有理数的是（  ） (变式6),C. π|A. √2|D. √3|B. -5.5,B,-5.5是有理数，因为负小数是有理数,1,number_classification,智能生成,exercise,2024,math|自动生成,5,2
+math_auto_0007,数学,Grade 8,choice,下列各数中，是无理数的是（  ） (变式7),D. 1/2|A. -3|C. 0|B. √3,B,√3是无理数，因为立方根也是无理数,4,number_classification,智能生成,exercise,2024,math|自动生成,4,2
+math_auto_0008,数学,Grade 7,choice,下列各数中，是无理数的是（  ） (变式8),C. 0|B. 3.14|A. -3|D. 1/2,B,3.14是无理数，因为有限小数是有理数,2,number_classification,智能生成,exercise,2024,math|自动生成,4,2
+math_auto_0009,数学,Grade 7,choice,下列各数中，是有理数的是（  ） (变式9),A. √2|B. -3|D. √3|C. π,B,-3是有理数，因为有理数是有理数集中的数，可以写成分数形式,3,number_classification,智能生成,exercise,2024,math|自动生成,4,2
+math_auto_0010,数学,Grade 9,choice,下列各数中，是无理数的是（  ） (变式10),C. 0|A. -3|B. √2|D. 1/2,B,√2是无理数，因为无理数是无限不循环小数，不能写成分数形式,3,number_classification,智能生成,exercise,2024,math|自动生成,4,1
+math_auto_0011,数学,Grade 7,choice,下列各数中，是无理数的是（  ） (变式11),B. π|C. 0|A. -3|D. 1/2,B,π是无理数，因为圆周率π是无理数,2,number_classification,智能生成,exercise,2024,math|自动生成,3,3
+math_auto_0012,数学,Grade 9,choice,下列各数中，是有理数的是（  ） (变式12),D. √3|A. √2|C. π|B. 0,B,0是有理数，因为0是有理数，是整数的特殊形式,1,number_classification,智能生成,exercise,2024,math|自动生成,5,2
+math_auto_0013,数学,Grade 9,choice,下列各数中，是有理数的是（  ） (变式13),A. √2|C. π|D. √3|B. 1/2,B,1/2是有理数，因为分数是有理数的一种形式,4,number_classification,智能生成,exercise,2024,math|自动生成,4,3
+math_auto_0014,数学,Grade 9,choice,下列各数中，是有理数的是（  ） (变式14),D. √3|A. √2|C. π|B. -5.5,B,-5.5是有理数，因为负小数是有理数,4,number_classification,智能生成,exercise,2024,math|自动生成,3,2
+math_auto_0015,数学,Grade 9,choice,下列各数中，是无理数的是（  ） (变式15),D. 1/2|B. √3|A. -3|C. 0,B,√3是无理数，因为立方根也是无理数,3,number_classification,智能生成,exercise,2024,math|自动生成,3,2
+math_auto_0016,数学,Grade 8,choice,下列各数中，是无理数的是（  ） (变式16),A. -3|C. 0|B. 3.14|D. 1/2,B,3.14是无理数，因为有限小数是有理数,1,number_classification,智能生成,exercise,2024,math|自动生成,5,1
+math_auto_0017,数学,Grade 8,choice,下列各数中，是有理数的是（  ） (变式17),C. π|B. -3|A. √2|D. √3,B,-3是有理数，因为有理数是有理数集中的数，可以写成分数形式,2,number_classification,智能生成,exercise,2024,math|自动生成,3,1
+math_auto_0018,数学,Grade 9,choice,下列各数中，是无理数的是（  ） (变式18),D. 1/2|B. √2|C. 0|A. -3,B,√2是无理数，因为无理数是无限不循环小数，不能写成分数形式,1,number_classification,智能生成,exercise,2024,math|自动生成,5,3
+math_auto_0019,数学,Grade 8,choice,下列各数中，是无理数的是（  ） (变式19),A. -3|B. π|C. 0|D. 1/2,B,π是无理数，因为圆周率π是无理数,1,number_classification,智能生成,exercise,2024,math|自动生成,5,3
+math_auto_0020,数学,Grade 8,choice,下列各数中，是有理数的是（  ） (变式20),C. π|A. √2|D. √3|B. 0,B,0是有理数，因为0是有理数，是整数的特殊形式,2,number_classification,智能生成,exercise,2024,math|自动生成,3,1
+math_auto_0021,数学,Grade 9,choice,下列各数中，是有理数的是（  ） (变式21),A. √2|B. 1/2|C. π|D. √3,B,1/2是有理数，因为分数是有理数的一种形式,3,number_classification,智能生成,exercise,2024,math|自动生成,3,3
+math_auto_0022,数学,Grade 9,choice,下列各数中，是有理数的是（  ） (变式22),C. π|B. -5.5|D. √3|A. √2,B,-5.5是有理数，因为负小数是有理数,3,number_classification,智能生成,exercise,2024,math|自动生成,5,3
+math_auto_0023,数学,Grade 7,choice,下列各数中，是无理数的是（  ） (变式23),B. √3|A. -3|C. 0|D. 1/2,B,√3是无理数，因为立方根也是无理数,2,number_classification,智能生成,exercise,2024,math|自动生成,3,1
+math_auto_0024,数学,Grade 9,choice,下列各数中，是无理数的是（  ） (变式24),B. 3.14|D. 1/2|C. 0|A. -3,B,3.14是无理数，因为有限小数是有理数,1,number_classification,智能生成,exercise,2024,math|自动生成,4,3
+math_auto_0025,数学,Grade 9,choice,下列各数中，是有理数的是（  ） (变式25),B. -3|C. π|A. √2|D. √3,B,-3是有理数，因为有理数是有理数集中的数，可以写成分数形式,4,number_classification,智能生成,exercise,2024,math|自动生成,3,2
+math_auto_0026,数学,Grade 9,choice,下列各数中，是无理数的是（  ） (变式26),C. 0|B. √2|D. 1/2|A. -3,B,√2是无理数，因为无理数是无限不循环小数，不能写成分数形式,4,number_classification,智能生成,exercise,2024,math|自动生成,3,1
+math_auto_0027,数学,Grade 7,choice,下列各数中，是无理数的是（  ） (变式27),C. 0|A. -3|B. π|D. 1/2,B,π是无理数，因为圆周率π是无理数,4,number_classification,智能生成,exercise,2024,math|自动生成,4,3
+math_auto_0028,数学,Grade 9,choice,下列各数中，是有理数的是（  ） (变式28),A. √2|D. √3|B. 0|C. π,B,0是有理数，因为0是有理数，是整数的特殊形式,1,number_classification,智能生成,exercise,2024,math|自动生成,5,3
+math_auto_0029,数学,Grade 7,choice,下列各数中，是有理数的是（  ） (变式29),C. π|B. 1/2|A. √2|D. √3,B,1/2是有理数，因为分数是有理数的一种形式,2,number_classification,智能生成,exercise,2024,math|自动生成,5,1
+math_auto_0030,数学,Grade 7,choice,下列各数中，是有理数的是（  ） (变式30),A. √2|D. √3|B. -5.5|C. π,B,-5.5是有理数，因为负小数是有理数,2,number_classification,智能生成,exercise,2024,math|自动生成,4,1
+math_auto_0031,数学,Grade 7,choice,下列各数中，是无理数的是（  ） (变式31),C. 0|A. -3|B. √3|D. 1/2,B,√3是无理数，因为立方根也是无理数,3,number_classification,智能生成,exercise,2024,math|自动生成,5,3
+math_auto_0032,数学,Grade 8,choice,下列各数中，是无理数的是（  ） (变式32),D. 1/2|C. 0|B. 3.14|A. -3,B,3.14是无理数，因为有限小数是有理数,1,number_classification,智能生成,exercise,2024,math|自动生成,3,3
+math_auto_0033,数学,Grade 8,choice,下列各数中，是有理数的是（  ） (变式33),C. π|A. √2|B. -3|D. √3,B,-3是有理数，因为有理数是有理数集中的数，可以写成分数形式,2,number_classification,智能生成,exercise,2024,math|自动生成,4,3
+math_auto_0034,数学,Grade 8,choice,计算(-3) + 5的结果是（  ）,B. -8|A. -2|D. 8|C. 2,A,(-3) + 5的计算过程：负数加法：-3 + 5 = 2 = 2,2,calculation,智能生成,exercise,2024,math|自动生成,3,2
+math_auto_0035,数学,Grade 8,choice,计算8 - (-2)的结果是（  ）,A. -4|B. 6|C. 10|D. -6,C,8 - (-2)的计算过程：减去负数等于加上正数：8 + 2 = 10 = 10,3,calculation,智能生成,exercise,2024,math|自动生成,5,3
+math_auto_0036,数学,Grade 9,choice,计算3 × (-4)的结果是（  ）,D. 4|A. 12|C. -12|B. -3,C,3 × (-4)的计算过程：正数乘以负数等于负数：3 × -4 = -12 = -12,2,calculation,智能生成,exercise,2024,math|自动生成,4,3
+math_auto_0037,数学,Grade 8,choice,计算(-6) ÷ 2的结果是（  ）,D. 2|C. -3|A. 3|B. -6,C,(-6) ÷ 2的计算过程：负数除以正数等于负数：-6 ÷ 2 = -3 = -3,2,calculation,智能生成,exercise,2024,math|自动生成,3,1
+math_auto_0038,数学,Grade 9,choice,计算(-2)²的结果是（  ）,B. 6|C. 4|D. -6|A. -4,C,(-2)²的计算过程：负数的平方等于正数：(-2) × (-2) = 4 = 4,2,calculation,智能生成,exercise,2024,math|自动生成,5,3
+math_auto_0039,数学,Grade 7,choice,计算|-5|的结果是（  ）,D. -6|B. 6|C. 5|A. -4,C,|-5|的计算过程：绝对值运算：去掉符号取正数 = 5,3,calculation,智能生成,exercise,2024,math|自动生成,4,2
+math_auto_0040,数学,Grade 7,choice,计算(-3) + 5的结果是（  ） (变式7),D. 8|B. -8|C. 2|A. -2,C,(-3) + 5的计算过程：负数加法：-3 + 5 = 2 = 2,2,calculation,智能生成,exercise,2024,math|自动生成,3,1
+math_auto_0041,数学,Grade 9,choice,计算8 - (-2)的结果是（  ） (变式8),A. -4|B. 6|D. -6|C. 10,C,8 - (-2)的计算过程：减去负数等于加上正数：8 + 2 = 10 = 10,1,calculation,智能生成,exercise,2024,math|自动生成,5,3
+math_auto_0042,数学,Grade 7,choice,计算3 × (-4)的结果是（  ） (变式9),C. -12|A. 12|D. 4|B. -3,C,3 × (-4)的计算过程：正数乘以负数等于负数：3 × -4 = -12 = -12,2,calculation,智能生成,exercise,2024,math|自动生成,3,3
+math_auto_0043,数学,Grade 7,choice,计算(-6) ÷ 2的结果是（  ） (变式10),C. -3|A. 3|B. -6|D. 2,C,(-6) ÷ 2的计算过程：负数除以正数等于负数：-6 ÷ 2 = -3 = -3,4,calculation,智能生成,exercise,2024,math|自动生成,4,3
+math_auto_0044,数学,Grade 8,choice,计算(-2)²的结果是（  ） (变式11),A. -4|B. 6|D. -6|C. 4,A,(-2)²的计算过程：负数的平方等于正数：(-2) × (-2) = 4 = 4,4,calculation,智能生成,exercise,2024,math|自动生成,4,3
+math_auto_0045,数学,Grade 7,choice,计算|-5|的结果是（  ） (变式12),B. 6|D. -6|C. 5|A. -4,C,|-5|的计算过程：绝对值运算：去掉符号取正数 = 5,4,calculation,智能生成,exercise,2024,math|自动生成,5,1
+math_auto_0046,数学,Grade 7,choice,计算(-3) + 5的结果是（  ） (变式13),D. 8|C. 2|B. -8|A. -2,C,(-3) + 5的计算过程：负数加法：-3 + 5 = 2 = 2,3,calculation,智能生成,exercise,2024,math|自动生成,4,3
+math_auto_0047,数学,Grade 7,choice,计算8 - (-2)的结果是（  ） (变式14),C. 10|B. 6|D. -6|A. -4,C,8 - (-2)的计算过程：减去负数等于加上正数：8 + 2 = 10 = 10,3,calculation,智能生成,exercise,2024,math|自动生成,5,1
+math_auto_0048,数学,Grade 7,choice,计算3 × (-4)的结果是（  ） (变式15),D. 4|B. -3|A. 12|C. -12,C,3 × (-4)的计算过程：正数乘以负数等于负数：3 × -4 = -12 = -12,3,calculation,智能生成,exercise,2024,math|自动生成,4,3
+math_auto_0049,数学,Grade 9,choice,计算(-6) ÷ 2的结果是（  ） (变式16),B. -6|C. -3|D. 2|A. 3,C,(-6) ÷ 2的计算过程：负数除以正数等于负数：-6 ÷ 2 = -3 = -3,2,calculation,智能生成,exercise,2024,math|自动生成,5,2
+math_auto_0050,数学,Grade 7,choice,计算(-2)²的结果是（  ） (变式17),D. -6|A. -4|B. 6|C. 4,A,(-2)²的计算过程：负数的平方等于正数：(-2) × (-2) = 4 = 4,1,calculation,智能生成,exercise,2024,math|自动生成,5,1
+math_auto_0051,数学,Grade 7,choice,计算|-5|的结果是（  ） (变式18),B. 6|A. -4|D. -6|C. 5,C,|-5|的计算过程：绝对值运算：去掉符号取正数 = 5,1,calculation,智能生成,exercise,2024,math|自动生成,3,3
+math_auto_0052,数学,Grade 7,choice,计算(-3) + 5的结果是（  ） (变式19),C. 2|D. 8|A. -2|B. -8,C,(-3) + 5的计算过程：负数加法：-3 + 5 = 2 = 2,2,calculation,智能生成,exercise,2024,math|自动生成,3,2
+math_auto_0053,数学,Grade 9,choice,计算8 - (-2)的结果是（  ） (变式20),D. -6|C. 10|A. -4|B. 6,C,8 - (-2)的计算过程：减去负数等于加上正数：8 + 2 = 10 = 10,1,calculation,智能生成,exercise,2024,math|自动生成,5,1
+math_auto_0054,数学,Grade 9,choice,计算3 × (-4)的结果是（  ） (变式21),C. -12|D. 4|A. 12|B. -3,C,3 × (-4)的计算过程：正数乘以负数等于负数：3 × -4 = -12 = -12,1,calculation,智能生成,exercise,2024,math|自动生成,3,2
+math_auto_0055,数学,Grade 7,choice,计算(-6) ÷ 2的结果是（  ） (变式22),B. -6|A. 3|D. 2|C. -3,C,(-6) ÷ 2的计算过程：负数除以正数等于负数：-6 ÷ 2 = -3 = -3,1,calculation,智能生成,exercise,2024,math|自动生成,4,2
+math_auto_0056,数学,Grade 7,choice,计算(-2)²的结果是（  ） (变式23),A. -4|D. -6|B. 6|C. 4,A,(-2)²的计算过程：负数的平方等于正数：(-2) × (-2) = 4 = 4,2,calculation,智能生成,exercise,2024,math|自动生成,4,1
+math_auto_0057,数学,Grade 8,choice,计算|-5|的结果是（  ） (变式24),C. 5|D. -6|A. -4|B. 6,C,|-5|的计算过程：绝对值运算：去掉符号取正数 = 5,1,calculation,智能生成,exercise,2024,math|自动生成,4,3
+math_auto_0058,数学,Grade 7,choice,计算(-3) + 5的结果是（  ） (变式25),D. 8|B. -8|C. 2|A. -2,C,(-3) + 5的计算过程：负数加法：-3 + 5 = 2 = 2,1,calculation,智能生成,exercise,2024,math|自动生成,5,3
+math_auto_0059,数学,Grade 8,choice,计算8 - (-2)的结果是（  ） (变式26),C. 10|B. 6|D. -6|A. -4,C,8 - (-2)的计算过程：减去负数等于加上正数：8 + 2 = 10 = 10,3,calculation,智能生成,exercise,2024,math|自动生成,5,1
+math_auto_0060,数学,Grade 8,choice,计算3 × (-4)的结果是（  ） (变式27),B. -3|A. 12|D. 4|C. -12,C,3 × (-4)的计算过程：正数乘以负数等于负数：3 × -4 = -12 = -12,2,calculation,智能生成,exercise,2024,math|自动生成,4,2
+math_auto_0061,数学,Grade 8,choice,计算(-6) ÷ 2的结果是（  ） (变式28),D. 2|B. -6|A. 3|C. -3,C,(-6) ÷ 2的计算过程：负数除以正数等于负数：-6 ÷ 2 = -3 = -3,1,calculation,智能生成,exercise,2024,math|自动生成,3,1
+math_auto_0062,数学,Grade 7,choice,计算(-2)²的结果是（  ） (变式29),A. -4|C. 4|D. -6|B. 6,A,(-2)²的计算过程：负数的平方等于正数：(-2) × (-2) = 4 = 4,1,calculation,智能生成,exercise,2024,math|自动生成,3,1
+math_auto_0063,数学,Grade 9,choice,计算|-5|的结果是（  ） (变式30),A. -4|B. 6|D. -6|C. 5,C,|-5|的计算过程：绝对值运算：去掉符号取正数 = 5,4,calculation,智能生成,exercise,2024,math|自动生成,4,1
+math_auto_0064,数学,Grade 7,choice,计算(-3) + 5的结果是（  ） (变式31),A. -2|D. 8|B. -8|C. 2,A,(-3) + 5的计算过程：负数加法：-3 + 5 = 2 = 2,1,calculation,智能生成,exercise,2024,math|自动生成,3,1
+math_auto_0065,数学,Grade 9,choice,计算8 - (-2)的结果是（  ） (变式32),D. -6|C. 10|B. 6|A. -4,C,8 - (-2)的计算过程：减去负数等于加上正数：8 + 2 = 10 = 10,4,calculation,智能生成,exercise,2024,math|自动生成,5,1
+math_auto_0066,数学,Grade 8,choice,计算3 × (-4)的结果是（  ） (变式33),C. -12|A. 12|D. 4|B. -3,C,3 × (-4)的计算过程：正数乘以负数等于负数：3 × -4 = -12 = -12,4,calculation,智能生成,exercise,2024,math|自动生成,5,3
+math_auto_0067,数学,Grade 9,choice,下列属于有理数加法交换律的是（  ）,D. a + b = b - a|B. a × b = a ÷ b|C. a + b = b + a|A. a + b = a - b,C,有理数加法交换律的正确表述是：a + b = b + a，这是有理数运算的基本规律,2,operations,智能生成,exercise,2024,math|自动生成,5,2
+math_auto_0068,数学,Grade 7,choice,下列属于有理数乘法交换律的是（  ）,D. a + b = b - a|A. a + b = a - b|B. a × b = a ÷ b|C. a × b = b × a,C,有理数乘法交换律的正确表述是：a × b = b × a，这是有理数运算的基本规律,2,operations,智能生成,exercise,2024,math|自动生成,5,3
+math_auto_0069,数学,Grade 8,choice,下列属于有理数乘法结合律的是（  ）,D. (a × b) × c = a × (b + c)|B. a × (b × c) = (a × b) × c|A. (a + b) + c = a + (b - c)|C. (a × b) × c = a × (b × c),C,有理数乘法结合律的正确表述是：(a × b) × c = a × (b × c)，这是有理数运算的基本规律,2,operations,智能生成,exercise,2024,math|自动生成,3,2
+math_auto_0070,数学,Grade 8,choice,下列属于加法分配律的是（  ）,B. a + (b × c) = (a + b) × (a + c)|A. a × (b + c) = a × b - a × c|C. a × (b + c) = a × b + a × c|D. a × (b - c) = a × b - a × c,C,加法分配律的正确表述是：a × (b + c) = a × b + a × c，这是有理数运算的基本规律,4,operations,智能生成,exercise,2024,math|自动生成,3,3
+math_auto_0071,数学,Grade 7,choice,下列属于有理数加法交换律的是（  ） (变式5),B. a × b = a ÷ b|C. a + b = b + a|D. a + b = b - a|A. a + b = a - b,C,有理数加法交换律的正确表述是：a + b = b + a，这是有理数运算的基本规律,3,operations,智能生成,exercise,2024,math|自动生成,3,2
+math_auto_0072,数学,Grade 7,choice,下列属于有理数乘法交换律的是（  ） (变式6),C. a × b = b × a|A. a + b = a - b|B. a × b = a ÷ b|D. a + b = b - a,C,有理数乘法交换律的正确表述是：a × b = b × a，这是有理数运算的基本规律,2,operations,智能生成,exercise,2024,math|自动生成,3,2
+math_auto_0073,数学,Grade 9,choice,下列属于有理数乘法结合律的是（  ） (变式7),D. (a × b) × c = a × (b + c)|A. (a + b) + c = a + (b - c)|C. (a × b) × c = a × (b × c)|B. a × (b × c) = (a × b) × c,C,有理数乘法结合律的正确表述是：(a × b) × c = a × (b × c)，这是有理数运算的基本规律,3,operations,智能生成,exercise,2024,math|自动生成,5,2
+math_auto_0074,数学,Grade 7,choice,下列属于加法分配律的是（  ） (变式8),C. a × (b + c) = a × b + a × c|D. a × (b - c) = a × b - a × c|B. a + (b × c) = (a + b) × (a + c)|A. a × (b + c) = a × b - a × c,C,加法分配律的正确表述是：a × (b + c) = a × b + a × c，这是有理数运算的基本规律,4,operations,智能生成,exercise,2024,math|自动生成,5,3
+math_auto_0075,数学,Grade 8,choice,下列属于有理数加法交换律的是（  ） (变式9),B. a × b = a ÷ b|D. a + b = b - a|C. a + b = b + a|A. a + b = a - b,C,有理数加法交换律的正确表述是：a + b = b + a，这是有理数运算的基本规律,1,operations,智能生成,exercise,2024,math|自动生成,5,3
+math_auto_0076,数学,Grade 8,choice,下列属于有理数乘法交换律的是（  ） (变式10),B. a × b = a ÷ b|D. a + b = b - a|C. a × b = b × a|A. a + b = a - b,C,有理数乘法交换律的正确表述是：a × b = b × a，这是有理数运算的基本规律,3,operations,智能生成,exercise,2024,math|自动生成,3,3
+math_auto_0077,数学,Grade 7,choice,下列属于有理数乘法结合律的是（  ） (变式11),B. a × (b × c) = (a × b) × c|D. (a × b) × c = a × (b + c)|A. (a + b) + c = a + (b - c)|C. (a × b) × c = a × (b × c),C,有理数乘法结合律的正确表述是：(a × b) × c = a × (b × c)，这是有理数运算的基本规律,2,operations,智能生成,exercise,2024,math|自动生成,5,3
+math_auto_0078,数学,Grade 7,choice,下列属于加法分配律的是（  ） (变式12),D. a × (b - c) = a × b - a × c|C. a × (b + c) = a × b + a × c|B. a + (b × c) = (a + b) × (a + c)|A. a × (b + c) = a × b - a × c,C,加法分配律的正确表述是：a × (b + c) = a × b + a × c，这是有理数运算的基本规律,4,operations,智能生成,exercise,2024,math|自动生成,3,1
+math_auto_0079,数学,Grade 9,choice,下列属于有理数加法交换律的是（  ） (变式13),C. a + b = b + a|D. a + b = b - a|A. a + b = a - b|B. a × b = a ÷ b,C,有理数加法交换律的正确表述是：a + b = b + a，这是有理数运算的基本规律,4,operations,智能生成,exercise,2024,math|自动生成,3,3
+math_auto_0080,数学,Grade 9,choice,下列属于有理数乘法交换律的是（  ） (变式14),A. a + b = a - b|D. a + b = b - a|C. a × b = b × a|B. a × b = a ÷ b,C,有理数乘法交换律的正确表述是：a × b = b × a，这是有理数运算的基本规律,3,operations,智能生成,exercise,2024,math|自动生成,3,2
+math_auto_0081,数学,Grade 7,choice,下列属于有理数乘法结合律的是（  ） (变式15),C. (a × b) × c = a × (b × c)|A. (a + b) + c = a + (b - c)|B. a × (b × c) = (a × b) × c|D. (a × b) × c = a × (b + c),C,有理数乘法结合律的正确表述是：(a × b) × c = a × (b × c)，这是有理数运算的基本规律,4,operations,智能生成,exercise,2024,math|自动生成,5,2
+math_auto_0082,数学,Grade 8,choice,下列属于加法分配律的是（  ） (变式16),A. a × (b + c) = a × b - a × c|C. a × (b + c) = a × b + a × c|B. a + (b × c) = (a + b) × (a + c)|D. a × (b - c) = a × b - a × c,C,加法分配律的正确表述是：a × (b + c) = a × b + a × c，这是有理数运算的基本规律,4,operations,智能生成,exercise,2024,math|自动生成,5,1
+math_auto_0083,数学,Grade 9,choice,下列属于有理数加法交换律的是（  ） (变式17),A. a + b = a - b|D. a + b = b - a|C. a + b = b + a|B. a × b = a ÷ b,C,有理数加法交换律的正确表述是：a + b = b + a，这是有理数运算的基本规律,4,operations,智能生成,exercise,2024,math|自动生成,3,2
+math_auto_0084,数学,Grade 7,choice,下列属于有理数乘法交换律的是（  ） (变式18),A. a + b = a - b|C. a × b = b × a|B. a × b = a ÷ b|D. a + b = b - a,C,有理数乘法交换律的正确表述是：a × b = b × a，这是有理数运算的基本规律,3,operations,智能生成,exercise,2024,math|自动生成,4,2
+math_auto_0085,数学,Grade 8,choice,下列属于有理数乘法结合律的是（  ） (变式19),C. (a × b) × c = a × (b × c)|B. a × (b × c) = (a × b) × c|D. (a × b) × c = a × (b + c)|A. (a + b) + c = a + (b - c),C,有理数乘法结合律的正确表述是：(a × b) × c = a × (b × c)，这是有理数运算的基本规律,2,operations,智能生成,exercise,2024,math|自动生成,5,3
+math_auto_0086,数学,Grade 8,choice,下列属于加法分配律的是（  ） (变式20),A. a × (b + c) = a × b - a × c|C. a × (b + c) = a × b + a × c|B. a + (b × c) = (a + b) × (a + c)|D. a × (b - c) = a × b - a × c,C,加法分配律的正确表述是：a × (b + c) = a × b + a × c，这是有理数运算的基本规律,3,operations,智能生成,exercise,2024,math|自动生成,3,1
+math_auto_0087,数学,Grade 7,choice,下列属于有理数加法交换律的是（  ） (变式21),B. a × b = a ÷ b|C. a + b = b + a|D. a + b = b - a|A. a + b = a - b,C,有理数加法交换律的正确表述是：a + b = b + a，这是有理数运算的基本规律,3,operations,智能生成,exercise,2024,math|自动生成,3,1
+math_auto_0088,数学,Grade 7,choice,下列属于有理数乘法交换律的是（  ） (变式22),B. a × b = a ÷ b|A. a + b = a - b|C. a × b = b × a|D. a + b = b - a,C,有理数乘法交换律的正确表述是：a × b = b × a，这是有理数运算的基本规律,1,operations,智能生成,exercise,2024,math|自动生成,4,1
+math_auto_0089,数学,Grade 7,choice,下列属于有理数乘法结合律的是（  ） (变式23),D. (a × b) × c = a × (b + c)|B. a × (b × c) = (a × b) × c|C. (a × b) × c = a × (b × c)|A. (a + b) + c = a + (b - c),C,有理数乘法结合律的正确表述是：(a × b) × c = a × (b × c)，这是有理数运算的基本规律,4,operations,智能生成,exercise,2024,math|自动生成,4,2
+math_auto_0090,数学,Grade 9,choice,下列属于加法分配律的是（  ） (变式24),A. a × (b + c) = a × b - a × c|D. a × (b - c) = a × b - a × c|C. a × (b + c) = a × b + a × c|B. a + (b × c) = (a + b) × (a + c),C,加法分配律的正确表述是：a × (b + c) = a × b + a × c，这是有理数运算的基本规律,1,operations,智能生成,exercise,2024,math|自动生成,5,2
+math_auto_0091,数学,Grade 7,choice,下列属于有理数加法交换律的是（  ） (变式25),B. a × b = a ÷ b|A. a + b = a - b|D. a + b = b - a|C. a + b = b + a,C,有理数加法交换律的正确表述是：a + b = b + a，这是有理数运算的基本规律,1,operations,智能生成,exercise,2024,math|自动生成,3,1
+math_auto_0092,数学,Grade 9,choice,下列属于有理数乘法交换律的是（  ） (变式26),A. a + b = a - b|D. a + b = b - a|C. a × b = b × a|B. a × b = a ÷ b,C,有理数乘法交换律的正确表述是：a × b = b × a，这是有理数运算的基本规律,1,operations,智能生成,exercise,2024,math|自动生成,5,2
+math_auto_0093,数学,Grade 9,choice,下列属于有理数乘法结合律的是（  ） (变式27),C. (a × b) × c = a × (b × c)|B. a × (b × c) = (a × b) × c|A. (a + b) + c = a + (b - c)|D. (a × b) × c = a × (b + c),C,有理数乘法结合律的正确表述是：(a × b) × c = a × (b × c)，这是有理数运算的基本规律,2,operations,智能生成,exercise,2024,math|自动生成,4,3
+math_auto_0094,数学,Grade 8,choice,下列属于加法分配律的是（  ） (变式28),A. a × (b + c) = a × b - a × c|B. a + (b × c) = (a + b) × (a + c)|D. a × (b - c) = a × b - a × c|C. a × (b + c) = a × b + a × c,C,加法分配律的正确表述是：a × (b + c) = a × b + a × c，这是有理数运算的基本规律,1,operations,智能生成,exercise,2024,math|自动生成,4,3
+math_auto_0095,数学,Grade 7,choice,下列属于有理数加法交换律的是（  ） (变式29),A. a + b = a - b|C. a + b = b + a|D. a + b = b - a|B. a × b = a ÷ b,C,有理数加法交换律的正确表述是：a + b = b + a，这是有理数运算的基本规律,3,operations,智能生成,exercise,2024,math|自动生成,4,2
+math_auto_0096,数学,Grade 9,choice,下列属于有理数乘法交换律的是（  ） (变式30),B. a × b = a ÷ b|C. a × b = b × a|A. a + b = a - b|D. a + b = b - a,C,有理数乘法交换律的正确表述是：a × b = b × a，这是有理数运算的基本规律,2,operations,智能生成,exercise,2024,math|自动生成,5,1
+math_auto_0097,数学,Grade 8,choice,下列属于有理数乘法结合律的是（  ） (变式31),A. (a + b) + c = a + (b - c)|D. (a × b) × c = a × (b + c)|C. (a × b) × c = a × (b × c)|B. a × (b × c) = (a × b) × c,C,有理数乘法结合律的正确表述是：(a × b) × c = a × (b × c)，这是有理数运算的基本规律,4,operations,智能生成,exercise,2024,math|自动生成,4,2
+math_auto_0098,数学,Grade 7,choice,下列属于加法分配律的是（  ） (变式32),A. a × (b + c) = a × b - a × c|D. a × (b - c) = a × b - a × c|B. a + (b × c) = (a + b) × (a + c)|C. a × (b + c) = a × b + a × c,C,加法分配律的正确表述是：a × (b + c) = a × b + a × c，这是有理数运算的基本规律,4,operations,智能生成,exercise,2024,math|自动生成,4,1
+math_auto_0099,数学,Grade 7,choice,下列属于有理数加法交换律的是（  ） (变式33),A. a + b = a - b|B. a × b = a ÷ b|D. a + b = b - a|C. a + b = b + a,C,有理数加法交换律的正确表述是：a + b = b + a，这是有理数运算的基本规律,4,operations,智能生成,exercise,2024,math|自动生成,5,2

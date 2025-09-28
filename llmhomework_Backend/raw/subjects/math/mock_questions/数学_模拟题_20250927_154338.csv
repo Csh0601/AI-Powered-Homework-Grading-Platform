@@ -1,0 +1,41 @@
+question_id,subject,grade,question_type,stem,options,correct_answer,explanation,difficulty_level,knowledge_points,source,source_type,year,tags,score,time_limit
+math_auto_0040,数学,Grade 7,fill_blank,-4的相反数是______,,4,相反数是与原数相加等于0的数，-4+(4)=0,3,opposite_numbers,智能生成,exercise,2024,math|自动生成,4,3
+math_auto_0041,数学,Grade 7,fill_blank,-2的相反数是______,,2,相反数是与原数相加等于0的数，-2+(2)=0,2,opposite_numbers,智能生成,exercise,2024,math|自动生成,5,3
+math_auto_0042,数学,Grade 8,fill_blank,-6的相反数是______,,6,相反数是与原数相加等于0的数，-6+(6)=0,4,opposite_numbers,智能生成,exercise,2024,math|自动生成,3,3
+math_auto_0043,数学,Grade 8,fill_blank,2的相反数是______,,-2,相反数是与原数相加等于0的数，2+(-2)=0,3,opposite_numbers,智能生成,exercise,2024,math|自动生成,3,3
+math_auto_0044,数学,Grade 7,fill_blank,3的相反数是______,,-3,相反数是与原数相加等于0的数，3+(-3)=0,1,opposite_numbers,智能生成,exercise,2024,math|自动生成,3,1
+math_auto_0045,数学,Grade 7,fill_blank,-5的相反数是______,,5,相反数是与原数相加等于0的数，-5+(5)=0,1,opposite_numbers,智能生成,exercise,2024,math|自动生成,5,2
+math_auto_0046,数学,Grade 7,fill_blank,-8的相反数是______,,8,相反数是与原数相加等于0的数，-8+(8)=0,4,opposite_numbers,智能生成,exercise,2024,math|自动生成,3,2
+math_auto_0047,数学,Grade 9,fill_blank,10的相反数是______,,-10,相反数是与原数相加等于0的数，10+(-10)=0,2,opposite_numbers,智能生成,exercise,2024,math|自动生成,3,2
+math_auto_0048,数学,Grade 7,fill_blank,2的相反数是______ (变式9),,-2,相反数是与原数相加等于0的数，2+(-2)=0,4,opposite_numbers,智能生成,exercise,2024,math|自动生成,4,2
+math_auto_0049,数学,Grade 8,fill_blank,-5的相反数是______ (变式10),,5,相反数是与原数相加等于0的数，-5+(5)=0,2,opposite_numbers,智能生成,exercise,2024,math|自动生成,5,2
+math_auto_0050,数学,Grade 9,fill_blank,2的相反数是______ (变式11),,-2,相反数是与原数相加等于0的数，2+(-2)=0,4,opposite_numbers,智能生成,exercise,2024,math|自动生成,3,2
+math_auto_0051,数学,Grade 8,fill_blank,-10的相反数是______,,10,相反数是与原数相加等于0的数，-10+(10)=0,3,opposite_numbers,智能生成,exercise,2024,math|自动生成,3,3
+math_auto_0052,数学,Grade 8,fill_blank,-10的相反数是______ (变式13),,10,相反数是与原数相加等于0的数，-10+(10)=0,4,opposite_numbers,智能生成,exercise,2024,math|自动生成,5,3
+math_auto_0053,数学,Grade 8,fill_blank,4的相反数是______,,-4,相反数是与原数相加等于0的数，4+(-4)=0,2,opposite_numbers,智能生成,exercise,2024,math|自动生成,3,3
+math_auto_0054,数学,Grade 9,fill_blank,-5的相反数是______ (变式15),,5,相反数是与原数相加等于0的数，-5+(5)=0,2,opposite_numbers,智能生成,exercise,2024,math|自动生成,4,3
+math_auto_0055,数学,Grade 8,fill_blank,-10的相反数是______ (变式16),,10,相反数是与原数相加等于0的数，-10+(10)=0,1,opposite_numbers,智能生成,exercise,2024,math|自动生成,3,1
+math_auto_0056,数学,Grade 7,fill_blank,9的相反数是______,,-9,相反数是与原数相加等于0的数，9+(-9)=0,4,opposite_numbers,智能生成,exercise,2024,math|自动生成,3,2
+math_auto_0057,数学,Grade 8,fill_blank,-8的相反数是______ (变式18),,8,相反数是与原数相加等于0的数，-8+(8)=0,3,opposite_numbers,智能生成,exercise,2024,math|自动生成,5,2
+math_auto_0058,数学,Grade 8,fill_blank,-1的相反数是______,,1,相反数是与原数相加等于0的数，-1+(1)=0,1,opposite_numbers,智能生成,exercise,2024,math|自动生成,3,1
+math_auto_0059,数学,Grade 9,fill_blank,-1的相反数是______ (变式20),,1,相反数是与原数相加等于0的数，-1+(1)=0,1,opposite_numbers,智能生成,exercise,2024,math|自动生成,3,1
+math_auto_0060,数学,Grade 7,fill_blank,默认填空题,,默认答案,默认解析,2,absolute_value,智能生成,exercise,2024,math|自动生成,3,2
+math_auto_0061,数学,Grade 7,fill_blank,默认填空题 (变式2),,默认答案,默认解析,1,absolute_value,智能生成,exercise,2024,math|自动生成,5,1
+math_auto_0062,数学,Grade 8,fill_blank,默认填空题 (变式3),,默认答案,默认解析,4,absolute_value,智能生成,exercise,2024,math|自动生成,3,1
+math_auto_0063,数学,Grade 7,fill_blank,默认填空题 (变式4),,默认答案,默认解析,4,absolute_value,智能生成,exercise,2024,math|自动生成,3,2
+math_auto_0064,数学,Grade 7,fill_blank,默认填空题 (变式5),,默认答案,默认解析,1,absolute_value,智能生成,exercise,2024,math|自动生成,4,2
+math_auto_0065,数学,Grade 7,fill_blank,默认填空题 (变式6),,默认答案,默认解析,3,absolute_value,智能生成,exercise,2024,math|自动生成,3,3
+math_auto_0066,数学,Grade 7,fill_blank,默认填空题 (变式7),,默认答案,默认解析,1,absolute_value,智能生成,exercise,2024,math|自动生成,4,3
+math_auto_0067,数学,Grade 9,fill_blank,默认填空题 (变式8),,默认答案,默认解析,3,absolute_value,智能生成,exercise,2024,math|自动生成,4,2
+math_auto_0068,数学,Grade 7,fill_blank,默认填空题 (变式9),,默认答案,默认解析,2,absolute_value,智能生成,exercise,2024,math|自动生成,4,1
+math_auto_0069,数学,Grade 7,fill_blank,默认填空题 (变式10),,默认答案,默认解析,2,absolute_value,智能生成,exercise,2024,math|自动生成,5,1
+math_auto_0070,数学,Grade 8,fill_blank,默认填空题 (变式11),,默认答案,默认解析,2,absolute_value,智能生成,exercise,2024,math|自动生成,3,1
+math_auto_0071,数学,Grade 8,fill_blank,默认填空题 (变式12),,默认答案,默认解析,3,absolute_value,智能生成,exercise,2024,math|自动生成,5,1
+math_auto_0072,数学,Grade 9,fill_blank,默认填空题 (变式13),,默认答案,默认解析,1,absolute_value,智能生成,exercise,2024,math|自动生成,5,2
+math_auto_0073,数学,Grade 8,fill_blank,默认填空题 (变式14),,默认答案,默认解析,3,absolute_value,智能生成,exercise,2024,math|自动生成,3,1
+math_auto_0074,数学,Grade 9,fill_blank,默认填空题 (变式15),,默认答案,默认解析,2,absolute_value,智能生成,exercise,2024,math|自动生成,3,2
+math_auto_0075,数学,Grade 9,fill_blank,默认填空题 (变式16),,默认答案,默认解析,3,absolute_value,智能生成,exercise,2024,math|自动生成,5,1
+math_auto_0076,数学,Grade 8,fill_blank,默认填空题 (变式17),,默认答案,默认解析,3,absolute_value,智能生成,exercise,2024,math|自动生成,3,1
+math_auto_0077,数学,Grade 9,fill_blank,默认填空题 (变式18),,默认答案,默认解析,1,absolute_value,智能生成,exercise,2024,math|自动生成,4,2
+math_auto_0078,数学,Grade 8,fill_blank,默认填空题 (变式19),,默认答案,默认解析,3,absolute_value,智能生成,exercise,2024,math|自动生成,3,1
+math_auto_0079,数学,Grade 8,fill_blank,默认填空题 (变式20),,默认答案,默认解析,4,absolute_value,智能生成,exercise,2024,math|自动生成,3,2

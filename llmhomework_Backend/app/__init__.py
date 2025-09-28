@@ -6,6 +6,7 @@ from .routes.result import result_bp
 from .routes.status import status_bp
 from .routes.classify import classify_bp
 from .api.knowledge_endpoints import knowledge_api
+from .api.question_bank_endpoints import question_bank_bp
 import logging
 import os
 
@@ -29,6 +30,7 @@ def create_app():
     app.register_blueprint(status_bp)
     app.register_blueprint(classify_bp)
     app.register_blueprint(knowledge_api)
+    app.register_blueprint(question_bank_bp)
     
     # 创建上传目录
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)

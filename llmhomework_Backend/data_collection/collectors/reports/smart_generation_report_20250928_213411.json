@@ -1,0 +1,25 @@
+{
+  "start_time": "2025-09-28T21:34:11.897245",
+  "subjects_processed": 6,
+  "knowledge_points_generated": 283,
+  "questions_generated": 360,
+  "files_created": [
+    "E:\\AI_powered_app\\AI-Powered-Homework-Grading-Platform\\llmhomework_Backend\\data_collection\\collectors\\..\\..\\raw\\subjects\\math\\knowledge_points\\数学_知识点_20250928_213411.csv",
+    "E:\\AI_powered_app\\AI-Powered-Homework-Grading-Platform\\llmhomework_Backend\\data_collection\\collectors\\..\\..\\raw\\subjects\\math\\exam_questions\\数学_考试题_20250928_213411.csv",
+    "E:\\AI_powered_app\\AI-Powered-Homework-Grading-Platform\\llmhomework_Backend\\data_collection\\collectors\\..\\..\\raw\\subjects\\math\\mock_questions\\数学_模拟题_20250928_213411.csv",
+    "E:\\AI_powered_app\\AI-Powered-Homework-Grading-Platform\\llmhomework_Backend\\data_collection\\collectors\\..\\..\\raw\\subjects\\chinese\\knowledge_points\\语文_知识点_20250928_213411.csv",
+    "E:\\AI_powered_app\\AI-Powered-Homework-Grading-Platform\\llmhomework_Backend\\data_collection\\collectors\\..\\..\\raw\\subjects\\chinese\\exam_questions\\语文_考试题_20250928_213411.csv",
+    "E:\\AI_powered_app\\AI-Powered-Homework-Grading-Platform\\llmhomework_Backend\\data_collection\\collectors\\..\\..\\raw\\subjects\\chinese\\mock_questions\\语文_模拟题_20250928_213411.csv",
+    "E:\\AI_powered_app\\AI-Powered-Homework-Grading-Platform\\llmhomework_Backend\\data_collection\\collectors\\..\\..\\raw\\subjects\\english\\knowledge_points\\英语_知识点_20250928_213411.csv",
+    "E:\\AI_powered_app\\AI-Powered-Homework-Grading-Platform\\llmhomework_Backend\\data_collection\\collectors\\..\\..\\raw\\subjects\\physics\\knowledge_points\\物理_知识点_20250928_213411.csv",
+    "E:\\AI_powered_app\\AI-Powered-Homework-Grading-Platform\\llmhomework_Backend\\data_collection\\collectors\\..\\..\\raw\\subjects\\physics\\exam_questions\\物理_考试题_20250928_213411.csv",
+    "E:\\AI_powered_app\\AI-Powered-Homework-Grading-Platform\\llmhomework_Backend\\data_collection\\collectors\\..\\..\\raw\\subjects\\physics\\mock_questions\\物理_模拟题_20250928_213411.csv",
+    "E:\\AI_powered_app\\AI-Powered-Homework-Grading-Platform\\llmhomework_Backend\\data_collection\\collectors\\..\\..\\raw\\subjects\\chemistry\\knowledge_points\\化学_知识点_20250928_213411.csv",
+    "E:\\AI_powered_app\\AI-Powered-Homework-Grading-Platform\\llmhomework_Backend\\data_collection\\collectors\\..\\..\\raw\\subjects\\chemistry\\exam_questions\\化学_考试题_20250928_213411.csv",
+    "E:\\AI_powered_app\\AI-Powered-Homework-Grading-Platform\\llmhomework_Backend\\data_collection\\collectors\\..\\..\\raw\\subjects\\chemistry\\mock_questions\\化学_模拟题_20250928_213411.csv",
+    "E:\\AI_powered_app\\AI-Powered-Homework-Grading-Platform\\llmhomework_Backend\\data_collection\\collectors\\..\\..\\raw\\subjects\\biology\\knowledge_points\\生物_知识点_20250928_213411.csv",
+    "E:\\AI_powered_app\\AI-Powered-Homework-Grading-Platform\\llmhomework_Backend\\data_collection\\collectors\\..\\..\\raw\\subjects\\biology\\exam_questions\\生物_考试题_20250928_213411.csv",
+    "E:\\AI_powered_app\\AI-Powered-Homework-Grading-Platform\\llmhomework_Backend\\data_collection\\collectors\\..\\..\\raw\\subjects\\biology\\mock_questions\\生物_模拟题_20250928_213411.csv"
+  ],
+  "end_time": "2025-09-28T21:34:11.930360"
+}

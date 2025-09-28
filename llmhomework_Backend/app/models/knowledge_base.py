@@ -55,6 +55,42 @@ class BaseModel:
                     result[column.name] = value
         return result
 
+class HierarchyMixin:
+    """层级结构混合类，为具有层级关系的模型提供通用方法"""
+    
+    def get_children_count(self, session: Session, child_relation_name: str) -> int:
+        """获取子级项目数量"""
+        if hasattr(self, child_relation_name):
+            children = getattr(self, child_relation_name)
+            if hasattr(children, 'count'):
+                return children.count()
+            elif hasattr(children, '__len__'):
+                return len(children)
+        return 0
+    
+    @classmethod
+    def get_active_items(cls, session: Session, is_active_field: str = 'is_active'):
+        """获取激活状态的项目"""
+        if hasattr(cls, is_active_field):
+            return session.query(cls).filter(getattr(cls, is_active_field) == True).all()
+        return session.query(cls).all()
+    
+    def generate_standard_repr(self, key_fields: List[str] = None) -> str:
+        """生成标准的字符串表示"""
+        key_fields = key_fields or ['id', 'name']
+        class_name = self.__class__.__name__
+        field_strs = []
+        
+        for field in key_fields:
+            if hasattr(self, field):
+                value = getattr(self, field)
+                if isinstance(value, str):
+                    field_strs.append(f"{field}='{value}'")
+                else:
+                    field_strs.append(f"{field}={value}")
+        
+        return f"<{class_name}({', '.join(field_strs)})>"
+
 # ========================================
 # 枚举定义
 # ========================================
@@ -160,7 +196,7 @@ knowledge_relationship = Table(
 # 基础层级结构表
 # ========================================
 
-class Grade(Base, BaseModel):
+class Grade(Base, BaseModel, HierarchyMixin):
     """年级表"""
     __tablename__ = 'grades'
     
@@ -182,7 +218,7 @@ class Grade(Base, BaseModel):
     )
     
     def __repr__(self):
-        return f"<Grade(id={self.id}, name='{self.name}', code='{self.code}')>"
+        return self.generate_standard_repr(['id', 'name', 'code'])
     
     @classmethod
     def get_active_grades(cls, session: Session) -> List['Grade']:
@@ -191,7 +227,7 @@ class Grade(Base, BaseModel):
     
     def get_subjects_count(self, session: Session) -> int:
         """获取该年级的学科数量"""
-        return session.query(Subject).filter(Subject.grade_id == self.id, Subject.is_active == True).count()
+        return self.get_children_count(session, 'subjects')
 
 class Subject(Base, BaseModel):
     """学科表"""
@@ -211,7 +247,7 @@ class Subject(Base, BaseModel):
     questions = relationship("Question", back_populates="subject", cascade="all, delete-orphan")
     textbooks = relationship("Textbook", back_populates="subject", cascade="all, delete-orphan")
     exam_papers = relationship("ExamPaper", back_populates="subject", cascade="all, delete-orphan")
-    question_banks = relationship("QuestionBank", back_populates="subject", cascade="all, delete-orphan")
+    # question_banks relationship moved to question_bank.py
     
     # 索引优化
     __table_args__ = (
@@ -656,6 +692,7 @@ class GradingResult(Base):
     
     # 关系
     question_rel = relationship("Question")
+    task_record = relationship("TaskRecord", back_populates="grading_results")
     
     # 索引优化
     __table_args__ = (
@@ -692,7 +729,7 @@ class TaskRecord(Base):
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
     
     # 关系
-    grading_results = relationship("GradingResult", backref="task_record")
+    grading_results = relationship("GradingResult", back_populates="task_record")
     
     # 索引优化
     __table_args__ = (
@@ -766,29 +803,7 @@ class ExamPaper(Base):
         Index('idx_exam_active', 'is_active'),
     )
 
-class QuestionBank(Base):
-    """题库表"""
-    __tablename__ = 'question_banks'
-    
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    subject_id = Column(Integer, ForeignKey('subjects.id', ondelete='CASCADE'), nullable=False, comment='学科ID')
-    name = Column(String(200), nullable=False, comment='题库名称')
-    description = Column(Text, comment='题库描述')
-    question_count = Column(Integer, default=0, nullable=False, comment='题目数量')
-    difficulty_distribution = Column(JSON, comment='难度分布，JSON格式')
-    is_active = Column(Boolean, default=True, nullable=False, comment='是否启用')
-    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
-    
-    # 关系
-    subject = relationship("Subject", back_populates="question_banks")
-    
-    # 索引优化
-    __table_args__ = (
-        Index('idx_bank_subject', 'subject_id'),
-        Index('idx_bank_name', 'name'),
-        Index('idx_bank_active', 'is_active'),
-    )
+# QuestionBank类已移动到question_bank.py中，避免重复定义
 
 # ========================================
 # 学习分析表

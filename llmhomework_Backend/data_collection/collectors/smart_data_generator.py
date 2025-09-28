@@ -11,31 +11,36 @@ import pandas as pd
 import json
 import os
 import random
-import uuid
 from datetime import datetime
 from typing import List, Dict, Any, Set
-import itertools
 
 class SmartDataGenerator:
     """智能数据生成器"""
     
-    def __init__(self):
+    def __init__(self, use_cache: bool = True):
         self.base_dir = os.path.dirname(__file__)
-        self.raw_dir = os.path.join(self.base_dir, 'raw', 'subjects')
-        
+        self.raw_dir = os.path.join(self.base_dir, '..', '..', 'raw', 'subjects')  # 修正路径
+        self.use_cache = use_cache
+
         # 确保目录结构存在
         self.ensure_directory_structure()
-        
-        # 跟踪已生成的内容，避免重复
-        self.generated_knowledge_points: Set[str] = set()
+
+        # 持久化存储已生成的内容，避免重复
+        self.generated_cache_file = os.path.join(self.base_dir, 'generated_cache.json')
+
+        if use_cache:
+            self.generated_knowledge_points: Set[str] = self._load_generated_cache()
+        else:
+            self.generated_knowledge_points: Set[str] = set()
+
         self.generated_questions: Set[str] = set()
-        
+
         # 详细的知识点生成模板
         self.knowledge_templates = self._load_knowledge_templates()
-        
+
         # 多样化的题目生成模板
         self.question_generators = self._load_question_generators()
-        
+
         # 生成统计
         self.generation_stats = {
             'start_time': datetime.now().isoformat(),
@@ -44,17 +49,44 @@ class SmartDataGenerator:
             'questions_generated': 0,
             'files_created': []
         }
+
+    def _load_generated_cache(self) -> Set[str]:
+        """加载已生成的知识点缓存"""
+        try:
+            if os.path.exists(self.generated_cache_file):
+                with open(self.generated_cache_file, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                    return set(data.get('knowledge_points', []))
+        except Exception as e:
+            print(f"⚠️ 加载缓存失败: {e}")
+        return set()
+
+    def _save_generated_cache(self):
+        """保存已生成的知识点缓存"""
+        try:
+            cache_data = {
+                'knowledge_points': list(self.generated_knowledge_points),
+                'last_updated': datetime.now().isoformat()
+            }
+            with open(self.generated_cache_file, 'w', encoding='utf-8') as f:
+                json.dump(cache_data, f, ensure_ascii=False, indent=2)
+        except Exception as e:
+            print(f"⚠️ 保存缓存失败: {e}")
     
     def ensure_directory_structure(self):
         """确保目录结构存在"""
-        subjects = ['math', 'chinese', 'english', 'physics', 'chemistry', 
+        subjects = ['math', 'chinese', 'english', 'physics', 'chemistry',
                    'biology', 'history', 'geography', 'politics']
-        
+
         for subject in subjects:
             subject_dir = os.path.join(self.raw_dir, subject)
             for subdir in ['knowledge_points', 'exam_questions', 'mock_questions']:
                 dir_path = os.path.join(subject_dir, subdir)
                 os.makedirs(dir_path, exist_ok=True)
+
+        # 确保reports目录存在
+        reports_dir = os.path.join(self.base_dir, 'reports')
+        os.makedirs(reports_dir, exist_ok=True)
     
     def _load_knowledge_templates(self) -> Dict:
         """加载知识点生成模板"""
@@ -185,6 +217,173 @@ class SmartDataGenerator:
                         ]
                     }
                 }
+            },
+            'physics': {
+                'Grade 7': {
+                    '力学基础': {
+                        'concepts': [
+                            '力的概念', '力的三要素', '力的单位', '力的分类',
+                            '重力', '摩擦力', '弹力', '力的合成与分解'
+                        ],
+                        'properties': [
+                            '力的方向', '力的作用点', '力的效果', '力的平衡',
+                            '力的测量', '力的图示', '力的计算'
+                        ],
+                        'applications': [
+                            '日常生活中的力', '交通中的力', '体育运动中的力'
+                        ]
+                    },
+                    '运动学': {
+                        'concepts': [
+                            '机械运动', '参照物', '运动的相对性', '路程和位移',
+                            '速度', '平均速度', '瞬时速度', '加速度'
+                        ],
+                        'measurements': [
+                            '速度测量', '时间测量', '距离测量', '运动状态判断'
+                        ],
+                        'applications': [
+                            '交通速度计算', '体育运动分析', '机械运动分析'
+                        ]
+                    }
+                },
+                'Grade 8': {
+                    '光学': {
+                        'concepts': [
+                            '光的直线传播', '光的反射', '光的折射', '光的色散',
+                            '平面镜成像', '凸透镜成像', '凹透镜成像'
+                        ],
+                        'laws': [
+                            '光的反射定律', '光的折射定律', '全反射现象',
+                            '光的颜色', '光的波粒二象性'
+                        ],
+                        'applications': [
+                            '照相机原理', '显微镜原理', '眼镜的用途'
+                        ]
+                    },
+                    '热学': {
+                        'concepts': [
+                            '温度', '热量', '比热容', '热传递',
+                            '物态变化', '热机', '热效率'
+                        ],
+                        'measurements': [
+                            '温度测量', '热量计算', '效率计算'
+                        ],
+                        'applications': [
+                            '日常生活中的热', '工业中的热', '环境保护'
+                        ]
+                    }
+                }
+            },
+            'chemistry': {
+                'Grade 7': {
+                    '物质的性质': {
+                        'concepts': [
+                            '物质的三态', '物理性质', '化学性质', '物质的分类',
+                            '元素', '化合物', '混合物', '纯净物'
+                        ],
+                        'identification': [
+                            '物质的鉴别', '性质的观察', '实验的设计'
+                        ],
+                        'applications': [
+                            '日常生活中的物质', '工业生产中的物质'
+                        ]
+                    },
+                    '化学反应': {
+                        'concepts': [
+                            '化学反应的特征', '化学反应的类型', '化学方程式',
+                            '质量守恒定律', '反应物和生成物'
+                        ],
+                        'equations': [
+                            '化学方程式的书写', '化学方程式的配平',
+                            '化学方程式的意义'
+                        ],
+                        'applications': [
+                            '工业生产中的反应', '环境保护中的反应'
+                        ]
+                    }
+                },
+                'Grade 8': {
+                    '元素化合物': {
+                        'concepts': [
+                            '金属', '非金属', '金属活动性', '置换反应',
+                            '化合反应', '分解反应', '复分解反应'
+                        ],
+                        'properties': [
+                            '金属的物理性质', '金属的化学性质',
+                            '非金属的物理性质', '非金属的化学性质'
+                        ],
+                        'applications': [
+                            '金属在生活中的应用', '非金属在生活中的应用'
+                        ]
+                    },
+                    '溶液': {
+                        'concepts': [
+                            '溶液的组成', '溶液的浓度', '溶解度', '饱和溶液',
+                            '不饱和溶液', '溶剂和溶质'
+                        ],
+                        'calculations': [
+                            '溶液浓度的计算', '溶解度的计算', '稀释和浓缩'
+                        ],
+                        'applications': [
+                            '日常生活中的溶液', '工业生产中的溶液'
+                        ]
+                    }
+                }
+            },
+            'biology': {
+                'Grade 7': {
+                    '生命的基础': {
+                        'concepts': [
+                            '生命的特征', '生物的分类', '细胞的基本结构',
+                            '细胞的生理功能', '新陈代谢', '生长发育'
+                        ],
+                        'structures': [
+                            '细胞壁', '细胞膜', '细胞质', '细胞核',
+                            '细胞器', '组织器官系统'
+                        ],
+                        'processes': [
+                            '光合作用', '呼吸作用', '物质运输', '能量转换'
+                        ]
+                    },
+                    '生物多样性': {
+                        'concepts': [
+                            '生物的多样性', '生态系统', '食物链', '食物网',
+                            '生物与环境', '环境保护'
+                        ],
+                        'ecosystems': [
+                            '生态平衡', '生物圈', '环境保护', '可持续发展'
+                        ],
+                        'applications': [
+                            '环境保护', '资源利用', '生态保护'
+                        ]
+                    }
+                },
+                'Grade 8': {
+                    '遗传与进化': {
+                        'concepts': [
+                            '遗传信息的传递', 'DNA和RNA', '基因', '染色体',
+                            '遗传规律', '变异', '进化'
+                        ],
+                        'mechanisms': [
+                            '减数分裂', '有丝分裂', '基因重组', '自然选择'
+                        ],
+                        'applications': [
+                            '遗传病预防', '育种技术', '进化理论'
+                        ]
+                    },
+                    '人体生理': {
+                        'concepts': [
+                            '消化系统', '呼吸系统', '循环系统', '神经系统',
+                            '内分泌系统', '生殖系统', '免疫系统'
+                        ],
+                        'functions': [
+                            '各系统的功能', '系统间的协调', '人体稳态'
+                        ],
+                        'health': [
+                            '健康生活方式', '疾病预防', '医疗保健'
+                        ]
+                    }
+                }
             }
         }
     
@@ -247,6 +446,84 @@ class SmartDataGenerator:
                         'pattern': '{subject} __ {verb_phrase}.',
                         'options_generator': self._generate_tense_options,
                         'knowledge_area': 'tenses'
+                    }
+                ]
+            },
+            'physics': {
+                'choice_templates': [
+                    {
+                        'pattern': '下列关于{concept}的说法，正确的是（  ）',
+                        'options_generator': self._generate_physics_concept_options,
+                        'knowledge_area': 'physics_concepts'
+                    },
+                    {
+                        'pattern': '一个质量为{value}的物体，{situation}，其{property}是多少？',
+                        'options_generator': self._generate_physics_calculation_options,
+                        'knowledge_area': 'physics_calculations'
+                    }
+                ],
+                'fill_blank_templates': [
+                    {
+                        'pattern': '力的单位是______',
+                        'answer_generator': lambda: '牛顿',
+                        'knowledge_area': 'force_units'
+                    },
+                    {
+                        'pattern': '速度的计算公式是______',
+                        'answer_generator': lambda: 'v = s/t',
+                        'knowledge_area': 'speed_formula'
+                    }
+                ]
+            },
+            'chemistry': {
+                'choice_templates': [
+                    {
+                        'pattern': '下列物质中，{property}的是（  ）',
+                        'options_generator': self._generate_chemistry_property_options,
+                        'knowledge_area': 'chemistry_properties'
+                    },
+                    {
+                        'pattern': '化学反应{reaction_type}的特征是（  ）',
+                        'options_generator': self._generate_chemistry_reaction_options,
+                        'knowledge_area': 'chemistry_reactions'
+                    }
+                ],
+                'fill_blank_templates': [
+                    {
+                        'pattern': '化学方程式的配平原则是______',
+                        'answer_generator': lambda: '质量守恒定律',
+                        'knowledge_area': 'balancing_equations'
+                    },
+                    {
+                        'pattern': '溶液的浓度单位有______',
+                        'answer_generator': lambda: 'mol/L、g/L等',
+                        'knowledge_area': 'solution_concentration'
+                    }
+                ]
+            },
+            'biology': {
+                'choice_templates': [
+                    {
+                        'pattern': '细胞的{structure}功能是（  ）',
+                        'options_generator': self._generate_biology_structure_options,
+                        'knowledge_area': 'cell_structure'
+                    },
+                    {
+                        'pattern': '生态系统中，{role}的是（  ）',
+                        'options_generator': self._generate_biology_ecology_options,
+                        'knowledge_area': 'ecology'
+                    }
+                ],
+                'fill_blank_templates': [
+                    {
+                        'pattern': '光合作用的反应式是______',
+                        'answer_generator': lambda: 'CO₂ + H₂O → C₆H₁₂O₆ + O₂',
+                        'knowledge_area': 'photosynthesis'
+                    },
+                    {
+                        'pattern': 'DNA的全称是______',
+                        'answer_generator': lambda: '脱氧核糖核酸',
+                        'knowledge_area': 'dna_structure'
                     }
                 ]
             }
@@ -389,9 +666,10 @@ class SmartDataGenerator:
         """生成选择题"""
         # 基于模板和索引生成不同的题目
         if template['knowledge_area'] == 'number_classification':
-            numbers = ['-3', '√2', 'π', '0', '1/2', '-5.5']
+            # 有理数与无理数分类
+            numbers = ['-3', '√2', 'π', '0', '1/2', '-5.5', '√3', '3.14']
             target_num = numbers[index % len(numbers)]
-            
+
             if target_num in ['-3', '0', '1/2', '-5.5']:
                 condition = '是有理数'
                 correct = target_num
@@ -400,38 +678,205 @@ class SmartDataGenerator:
                 condition = '是无理数'
                 correct = target_num
                 wrong_nums = ['-3', '0', '1/2']
-            
+
             stem = f"下列各数中，{condition}的是（  ）"
             options = [f"A. {wrong_nums[0]}", f"B. {correct}", f"C. {wrong_nums[1]}", f"D. {wrong_nums[2]}"]
             random.shuffle(options)
-            
+
             # 找到正确答案的位置
             correct_answer = None
             for opt in options:
                 if correct in opt:
                     correct_answer = opt[0]  # A, B, C, D
                     break
-            
-            explanation = f"{correct}是{condition.replace('是', '')}，因为..."
-            
+
+            explanation = f"{correct}是{condition.replace('是', '')}，因为{self._get_number_classification_explanation(correct)}"
+
             return stem, options, correct_answer, explanation
-        
-        # 其他类型的选择题生成逻辑...
+
+        elif template['knowledge_area'] == 'calculation':
+            # 数值计算题目
+            calculations = [
+                ('(-3) + 5', '2'),
+                ('8 - (-2)', '10'),
+                ('3 × (-4)', '-12'),
+                ('(-6) ÷ 2', '-3'),
+                ('(-2)²', '4'),
+                ('|-5|', '5')
+            ]
+            calc, answer = calculations[index % len(calculations)]
+            stem = f"计算{calc}的结果是（  ）"
+
+            # 生成相似但错误的选项
+            wrong_answers = []
+            if calc.startswith('(-3)'):
+                wrong_answers = ['-2', '-8', '8']
+            elif '×' in calc:
+                wrong_answers = ['12', '-3', '4']
+            elif '÷' in calc:
+                wrong_answers = ['3', '-6', '2']
+            else:
+                wrong_answers = ['-4', '6', '-6']
+
+            options = [f"A. {wrong_answers[0]}", f"B. {wrong_answers[1]}", f"C. {answer}", f"D. {wrong_answers[2]}"]
+            random.shuffle(options)
+
+            # 找到正确答案的位置
+            correct_answer = None
+            for opt in options:
+                if answer in opt:
+                    correct_answer = opt[0]
+                    break
+
+            explanation = f"{calc}的计算过程：{self._get_calculation_explanation(calc)} = {answer}"
+            return stem, options, correct_answer, explanation
+
+        elif template['knowledge_area'] == 'operations':
+            # 运算规则题目
+            operations = [
+                ('有理数加法交换律', 'a + b = b + a'),
+                ('有理数乘法交换律', 'a × b = b × a'),
+                ('有理数乘法结合律', '(a × b) × c = a × (b × c)'),
+                ('加法分配律', 'a × (b + c) = a × b + a × c')
+            ]
+            concept, rule = operations[index % len(operations)]
+            stem = f"下列属于{concept}的是（  ）"
+
+            # 生成错误的运算规则
+            wrong_rules = []
+            if '交换律' in concept:
+                wrong_rules = ['a + b = a - b', 'a × b = a ÷ b', 'a + b = b - a']
+            elif '结合律' in concept:
+                wrong_rules = ['(a + b) + c = a + (b - c)', 'a × (b × c) = (a × b) × c', '(a × b) × c = a × (b + c)']
+            else:
+                wrong_rules = ['a × (b + c) = a × b - a × c', 'a + (b × c) = (a + b) × (a + c)', 'a × (b - c) = a × b - a × c']
+
+            options = [f"A. {wrong_rules[0]}", f"B. {wrong_rules[1]}", f"C. {rule}", f"D. {wrong_rules[2]}"]
+            random.shuffle(options)
+
+            # 找到正确答案的位置
+            correct_answer = None
+            for opt in options:
+                if rule in opt:
+                    correct_answer = opt[0]
+                    break
+
+            explanation = f"{concept}的正确表述是：{rule}，这是有理数运算的基本规律"
+            return stem, options, correct_answer, explanation
+
+
+        # 其他学科的题目生成
+        knowledge_area = template.get('knowledge_area', '')
+
+        if knowledge_area == 'physics_concepts':
+            concept = ['力的概念', '光的反射', '机械运动', '牛顿第一定律'][index % 4]
+            options, correct_answer, explanation = self._generate_physics_concept_options(concept, index)
+            return f"下列关于{concept}的说法，正确的是（  ）", options, correct_answer, explanation
+
+        elif knowledge_area == 'physics_calculations':
+            values = ['5kg', '10m/s', '100J', '20°C']
+            situations = ['在水平地面上静止', '自由下落', '加热过程', '恒温过程']
+            properties = ['重力', '速度', '内能', '温度']
+
+            value = values[index % len(values)]
+            situation = situations[index % len(situations)]
+            property_name = properties[index % len(properties)]
+
+            options, correct_answer, explanation = self._generate_physics_calculation_options(value, situation, property_name, index)
+            return f"一个{property_name}为{value}的物体，{situation}，其{property_name}是多少？", options, correct_answer, explanation
+
+        elif knowledge_area == 'chemistry_properties':
+            properties = ['金属', '酸', '碱', '盐']
+            property_name = properties[index % len(properties)]
+            options, correct_answer, explanation = self._generate_chemistry_property_options(property_name, index)
+            return f"下列物质中，{property_name}的是（  ）", options, correct_answer, explanation
+
+        elif knowledge_area == 'chemistry_reactions':
+            reactions = ['氧化反应', '还原反应', '化合反应']
+            reaction_type = reactions[index % len(reactions)]
+            options, correct_answer, explanation = self._generate_chemistry_reaction_options(reaction_type, index)
+            return f"化学反应{reaction_type}的特征是（  ）", options, correct_answer, explanation
+
+        elif knowledge_area == 'cell_structure':
+            structures = ['细胞膜', '细胞核', '叶绿体', '线粒体']
+            structure = structures[index % len(structures)]
+            options, correct_answer, explanation = self._generate_biology_structure_options(structure, index)
+            return f"细胞的{structure}功能是（  ）", options, correct_answer, explanation
+
+        elif knowledge_area == 'ecology':
+            roles = ['生产者', '消费者', '分解者']
+            role = roles[index % len(roles)]
+            options, correct_answer, explanation = self._generate_biology_ecology_options(role, index)
+            return f"生态系统中，{role}的是（  ）", options, correct_answer, explanation
+
+        # 默认情况
         return "默认题干", ["A. 选项1", "B. 选项2", "C. 选项3", "D. 选项4"], "A", "默认解析"
     
     def _generate_fill_blank_question(self, template: Dict, index: int) -> tuple:
         """生成填空题"""
-        if template['knowledge_area'] == 'opposite_numbers':
+        knowledge_area = template.get('knowledge_area', '')
+
+        if knowledge_area == 'opposite_numbers':
             number = random.randint(-10, 10)
             while number == 0:
                 number = random.randint(-10, 10)
-            
+
             stem = f"{number}的相反数是______"
             answer = str(-number)
             explanation = f"相反数是与原数相加等于0的数，{number}+({answer})=0"
-            
+
             return stem, answer, explanation
-        
+
+        elif knowledge_area == 'absolute_value':
+            number = random.randint(-20, 20)
+            stem = f"|{number}|=______"
+            answer = str(abs(number))
+            explanation = f"绝对值是去掉符号取正数，{number}的绝对值是{answer}"
+
+            return stem, answer, explanation
+
+        elif knowledge_area == 'force_units':
+            stem = "力的单位是______"
+            answer = "牛顿"
+            explanation = "力的国际单位是牛顿，符号是N"
+
+            return stem, answer, explanation
+
+        elif knowledge_area == 'speed_formula':
+            stem = "速度的计算公式是______"
+            answer = "v = s/t"
+            explanation = "速度等于路程除以时间"
+
+            return stem, answer, explanation
+
+        elif knowledge_area == 'balancing_equations':
+            stem = "化学方程式的配平原则是______"
+            answer = "质量守恒定律"
+            explanation = "化学反应前后原子种类和数量不变"
+
+            return stem, answer, explanation
+
+        elif knowledge_area == 'solution_concentration':
+            stem = "溶液的浓度单位有______"
+            answer = "mol/L、g/L等"
+            explanation = "常见浓度单位包括摩尔浓度、质量浓度等"
+
+            return stem, answer, explanation
+
+        elif knowledge_area == 'photosynthesis':
+            stem = "光合作用的反应式是______"
+            answer = "CO₂ + H₂O → C₆H₁₂O₆ + O₂"
+            explanation = "植物通过光合作用将二氧化碳和水转化为葡萄糖和氧气"
+
+            return stem, answer, explanation
+
+        elif knowledge_area == 'dna_structure':
+            stem = "DNA的全称是______"
+            answer = "脱氧核糖核酸"
+            explanation = "DNA是遗传物质的主要载体"
+
+            return stem, answer, explanation
+
         return "默认填空题", "默认答案", "默认解析"
     
     def save_to_directory_structure(self, subject: str, knowledge_points: List[Dict], questions: List[Dict]):
@@ -590,47 +1035,410 @@ class SmartDataGenerator:
         """生成关键词"""
         return f"{name}|{category}|初中|基础知识"
     
-    # 选择题选项生成器（占位符，可以进一步完善）
-    def _generate_number_options(self, *args): pass
-    def _generate_calculation_options(self, *args): pass  
-    def _generate_operation_options(self, *args): pass
-    def _generate_author_options(self, *args): pass
-    def _generate_character_options(self, *args): pass
-    def _generate_verb_options(self, *args): pass
-    def _generate_tense_options(self, *args): pass
+    # 选择题选项生成器
+    def _generate_number_options(self, condition: str, index: int):
+        """生成数分类选项"""
+        numbers = ['-3', '√2', 'π', '0', '1/2', '-5.5', '√3', '3.14']
+        target_num = numbers[index % len(numbers)]
+
+        if target_num in ['-3', '0', '1/2', '-5.5']:
+            correct = target_num
+            wrong_nums = ['√2', 'π', '√3']
+        else:
+            correct = target_num
+            wrong_nums = ['-3', '0', '1/2']
+
+        options = [f"A. {wrong_nums[0]}", f"B. {correct}", f"C. {wrong_nums[1]}", f"D. {wrong_nums[2]}"]
+        random.shuffle(options)
+
+        # 找到正确答案的位置
+        correct_answer = None
+        for opt in options:
+            if correct in opt:
+                correct_answer = opt[0]
+                break
+
+        return options, correct_answer, f"{correct}是{condition.replace('是', '')}，因为{self._get_number_classification_explanation(correct)}"
+
+    def _generate_calculation_options(self, expression: str, index: int):
+        """生成计算题选项"""
+        calculations = [
+            ('(-3) + 5', '2'),
+            ('8 - (-2)', '10'),
+            ('3 × (-4)', '-12'),
+            ('(-6) ÷ 2', '-3'),
+            ('(-2)²', '4'),
+            ('|-5|', '5')
+        ]
+        calc, answer = calculations[index % len(calculations)]
+
+        wrong_answers = []
+        if calc.startswith('(-3)'):
+            wrong_answers = ['-2', '-8', '8']
+        elif '×' in calc:
+            wrong_answers = ['12', '-3', '4']
+        elif '÷' in calc:
+            wrong_answers = ['3', '-6', '2']
+        else:
+            wrong_answers = ['-4', '6', '-6']
+
+        options = [f"A. {wrong_answers[0]}", f"B. {wrong_answers[1]}", f"C. {answer}", f"D. {wrong_answers[2]}"]
+        random.shuffle(options)
+
+        correct_answer = None
+        for opt in options:
+            if answer in opt:
+                correct_answer = opt[0]
+                break
+
+        return options, correct_answer, f"{calc}的计算过程：{self._get_calculation_explanation(calc)} = {answer}"
+
+    def _generate_operation_options(self, index: int):
+        """生成运算规则选项"""
+        operations = [
+            ('有理数加法交换律', 'a + b = b + a'),
+            ('有理数乘法交换律', 'a × b = b × a'),
+            ('有理数乘法结合律', '(a × b) × c = a × (b × c)'),
+            ('加法分配律', 'a × (b + c) = a × b + a × c')
+        ]
+        concept, rule = operations[index % len(operations)]
+
+        wrong_rules = []
+        if '交换律' in concept:
+            wrong_rules = ['a + b = a - b', 'a × b = a ÷ b', 'a + b = b - a']
+        elif '结合律' in concept:
+            wrong_rules = ['(a + b) + c = a + (b - c)', 'a × (b × c) = (a × b) × c', '(a × b) × c = a × (b + c)']
+        else:
+            wrong_rules = ['a × (b + c) = a × b - a × c', 'a + (b × c) = (a + b) × (a + c)', 'a × (b - c) = a × b - a × c']
+
+        options = [f"A. {wrong_rules[0]}", f"B. {wrong_rules[1]}", f"C. {rule}", f"D. {wrong_rules[2]}"]
+        random.shuffle(options)
+
+        correct_answer = None
+        for opt in options:
+            if rule in opt:
+                correct_answer = opt[0]
+                break
+
+        return options, correct_answer, f"{concept}的正确表述是：{rule}，这是有理数运算的基本规律"
+
+    def _generate_author_options(self, work: str, index: int):
+        """生成作者选项"""
+        authors = ['鲁迅', '老舍', '巴金', '茅盾', '沈从文', '朱自清', '冰心']
+        correct_author = authors[index % len(authors)]
+
+        wrong_authors = [a for a in authors if a != correct_author]
+        random.shuffle(wrong_authors)
+
+        options = [f"A. {wrong_authors[0]}", f"B. {wrong_authors[1]}", f"C. {correct_author}", f"D. {wrong_authors[2]}"]
+        random.shuffle(options)
+
+        correct_answer = None
+        for opt in options:
+            if correct_author in opt:
+                correct_answer = opt[0]
+                break
+
+        return options, correct_answer, f"《{work}》的作者是{correct_author}，这是中国现代文学的经典作品"
+
+    def _generate_character_options(self, index: int):
+        """生成字词辨析选项"""
+        correct_words = ['正确', '准确', '精确', '标准', '规范']
+        wrong_words = ['错误', '错别字', '别字', '误写']
+
+        correct_word = correct_words[index % len(correct_words)]
+        wrong_sample = wrong_words[index % len(wrong_words)]
+
+        # 构造有错别字的选项
+        wrong_options = [
+            correct_word.replace('确', '却'),
+            correct_word.replace('准', '淮'),
+            correct_word.replace('精', '菁'),
+            wrong_sample
+        ]
+
+        options = [f"A. {wrong_options[0]}", f"B. {correct_word}", f"C. {wrong_options[1]}", f"D. {wrong_options[2]}"]
+        random.shuffle(options)
+
+        correct_answer = None
+        for opt in options:
+            if correct_word in opt:
+                correct_answer = opt[0]
+                break
+
+        return options, correct_answer, f"'{correct_word}'是正确的写法，没有错别字"
+
+    def _generate_verb_options(self, verb_phrase: str, index: int):
+        """生成动词形式选项"""
+        verb_forms = ['am', 'is', 'are', 'was', 'were', 'be', 'been']
+        correct_form = verb_forms[index % len(verb_forms)]
+
+        wrong_forms = [f for f in verb_forms if f != correct_form]
+        random.shuffle(wrong_forms)
+
+        options = [f"A. {wrong_forms[0]}", f"B. {wrong_forms[1]}", f"C. {correct_form}", f"D. {wrong_forms[2]}"]
+        random.shuffle(options)
+
+        correct_answer = None
+        for opt in options:
+            if correct_form in opt:
+                correct_answer = opt[0]
+                break
+
+        return options, correct_answer, f"正确的使用{correct_form}，这是英语系动词的基本用法"
+
+    def _generate_tense_options(self, subject: str, verb_phrase: str, index: int):
+        """生成时态选项"""
+        tenses = ['is going', 'goes', 'went', 'will go']
+        correct_tense = tenses[index % len(tenses)]
+
+        wrong_tenses = [t for t in tenses if t != correct_tense]
+        random.shuffle(wrong_tenses)
+
+        options = [f"A. {wrong_tenses[0]}", f"B. {wrong_tenses[1]}", f"C. {correct_tense}", f"D. {wrong_tenses[2]}"]
+        random.shuffle(options)
+
+        correct_answer = None
+        for opt in options:
+            if correct_tense in opt:
+                correct_answer = opt[0]
+                break
+
+        return options, correct_answer, f"使用{correct_tense}表示正确的时态，这是英语语法的基本要求"
+
+    # 新增的学科选项生成器
+    def _generate_physics_concept_options(self, concept: str, index: int):
+        """生成物理概念选项"""
+        physics_concepts = {
+            '力的概念': ('力是物体间的相互作用', ['能量', '质量', '时间']),
+            '光的反射': ('光遇到两种介质的分界面时会改变传播方向', ['折射', '衍射', '干涉']),
+            '机械运动': ('物体位置随时间的变化', ['化学变化', '生物过程', '地理现象']),
+            '牛顿第一定律': ('物体保持静止或匀速直线运动状态', ['加速度', '力', '能量'])
+        }
+
+        if concept in physics_concepts:
+            correct_def, wrong_items = physics_concepts[concept]
+            options = [f"A. {wrong_items[0]}", f"B. {wrong_items[1]}", f"C. {correct_def}", f"D. {wrong_items[2]}"]
+            random.shuffle(options)
+
+            correct_answer = None
+            for opt in options:
+                if correct_def in opt:
+                    correct_answer = opt[0]
+                    break
+
+            return options, correct_answer, f"{concept}的正确定义是：{correct_def}"
+
+        return ["A. 选项A", "B. 选项B", "C. 选项C", "D. 选项D"], "C", "默认解释"
+
+    def _generate_physics_calculation_options(self, value: str, situation: str, property_name: str, index: int):
+        """生成物理计算选项"""
+        calculations = [
+            ('5kg', '在水平地面上静止', '重力', '50N'),
+            ('10m/s', '自由下落', '速度', '10m/s'),
+            ('100J', '加热过程', '内能', '100J'),
+            ('20°C', '恒温过程', '温度', '20°C')
+        ]
+
+        mass, sit, prop, answer = calculations[index % len(calculations)]
+
+        wrong_answers = []
+        if 'kg' in mass:
+            wrong_answers = ['25N', '100N', '5N']
+        elif 'm/s' in mass:
+            wrong_answers = ['5m/s', '15m/s', '20m/s']
+        elif 'J' in mass:
+            wrong_answers = ['50J', '200J', '0J']
+        else:
+            wrong_answers = ['10°C', '30°C', '0°C']
+
+        options = [f"A. {wrong_answers[0]}", f"B. {wrong_answers[1]}", f"C. {answer}", f"D. {wrong_answers[2]}"]
+        random.shuffle(options)
+
+        correct_answer = None
+        for opt in options:
+            if answer in opt:
+                correct_answer = opt[0]
+                break
+
+        return options, correct_answer, f"根据{property_name}计算，{mass}物体{sit}时{property_name}为{answer}"
+
+    def _generate_chemistry_property_options(self, property_name: str, index: int):
+        """生成化学性质选项"""
+        chemistry_properties = {
+            '金属': ('能与酸反应产生氢气', ['能与碱反应', '不导电', '易溶于水']),
+            '酸': ('能与碱反应产生盐和水', ['能与金属反应', '呈碱性', '不导电']),
+            '碱': ('能与酸反应产生盐和水', ['能与金属反应', '呈酸性', '易挥发']),
+            '盐': ('由金属离子和酸根离子组成', ['由非金属组成', '呈酸性', '易分解'])
+        }
+
+        if property_name in chemistry_properties:
+            correct_def, wrong_items = chemistry_properties[property_name]
+            options = [f"A. {wrong_items[0]}", f"B. {wrong_items[1]}", f"C. {correct_def}", f"D. {wrong_items[2]}"]
+            random.shuffle(options)
+
+            correct_answer = None
+            for opt in options:
+                if correct_def in opt:
+                    correct_answer = opt[0]
+                    break
+
+            return options, correct_answer, f"{property_name}的典型性质是：{correct_def}"
+
+        return ["A. 选项A", "B. 选项B", "C. 选项C", "D. 选项D"], "C", "默认解释"
+
+    def _generate_chemistry_reaction_options(self, reaction_type: str, index: int):
+        """生成化学反应选项"""
+        reactions = {
+            '氧化反应': ('物质与氧气反应', ['物质与水反应', '物质自身反应', '物质与酸反应']),
+            '还原反应': ('物质得到电子', ['物质失去电子', '物质与氧反应', '物质分解']),
+            '化合反应': ('两种或多种物质生成一种物质', ['一种物质生成两种物质', '物质不变', '物质溶解'])
+        }
+
+        if reaction_type in reactions:
+            correct_def, wrong_items = reactions[reaction_type]
+            options = [f"A. {wrong_items[0]}", f"B. {wrong_items[1]}", f"C. {correct_def}", f"D. {wrong_items[2]}"]
+            random.shuffle(options)
+
+            correct_answer = None
+            for opt in options:
+                if correct_def in opt:
+                    correct_answer = opt[0]
+                    break
+
+            return options, correct_answer, f"{reaction_type}的特征是：{correct_def}"
+
+        return ["A. 选项A", "B. 选项B", "C. 选项C", "D. 选项D"], "C", "默认解释"
+
+    def _generate_biology_structure_options(self, structure: str, index: int):
+        """生成生物结构选项"""
+        structures = {
+            '细胞膜': ('控制物质进出细胞', ['产生能量', '遗传信息', '合成蛋白质']),
+            '细胞核': ('储存遗传信息', ['光合作用', '呼吸作用', '物质运输']),
+            '叶绿体': ('进行光合作用', ['细胞呼吸', '蛋白质合成', '物质运输']),
+            '线粒体': ('进行细胞呼吸', ['光合作用', '遗传信息', '物质运输'])
+        }
+
+        if structure in structures:
+            correct_func, wrong_items = structures[structure]
+            options = [f"A. {wrong_items[0]}", f"B. {wrong_items[1]}", f"C. {correct_func}", f"D. {wrong_items[2]}"]
+            random.shuffle(options)
+
+            correct_answer = None
+            for opt in options:
+                if correct_func in opt:
+                    correct_answer = opt[0]
+                    break
+
+            return options, correct_answer, f"{structure}的主要功能是：{correct_func}"
+
+        return ["A. 选项A", "B. 选项B", "C. 选项C", "D. 选项D"], "C", "默认解释"
+
+    def _generate_biology_ecology_options(self, role: str, index: int):
+        """生成生态学选项"""
+        roles = {
+            '生产者': ('能制造有机物', ['消费有机物', '分解有机物', '运输物质']),
+            '消费者': ('摄取有机物', ['制造有机物', '分解有机物', '产生能量']),
+            '分解者': ('分解有机物', ['制造有机物', '摄取有机物', '运输物质'])
+        }
+
+        if role in roles:
+            correct_def, wrong_items = roles[role]
+            options = [f"A. {wrong_items[0]}", f"B. {wrong_items[1]}", f"C. {correct_def}", f"D. {wrong_items[2]}"]
+            random.shuffle(options)
+
+            correct_answer = None
+            for opt in options:
+                if correct_def in opt:
+                    correct_answer = opt[0]
+                    break
+
+            return options, correct_answer, f"在生态系统中，{role}的定义是：{correct_def}"
+
+        return ["A. 选项A", "B. 选项B", "C. 选项C", "D. 选项D"], "C", "默认解释"
+
+    # 题目生成辅助方法
+    def _get_number_classification_explanation(self, number: str) -> str:
+        """获取数分类的详细解释"""
+        explanations = {
+            '-3': '有理数是有理数集中的数，可以写成分数形式',
+            '√2': '无理数是无限不循环小数，不能写成分数形式',
+            'π': '圆周率π是无理数',
+            '0': '0是有理数，是整数的特殊形式',
+            '1/2': '分数是有理数的一种形式',
+            '-5.5': '负小数是有理数',
+            '√3': '立方根也是无理数',
+            '3.14': '有限小数是有理数'
+        }
+        return explanations.get(number, '根据数的性质进行分类')
+
+    def _get_calculation_explanation(self, expression: str) -> str:
+        """获取计算过程的详细解释"""
+        explanations = {
+            '(-3) + 5': '负数加法：-3 + 5 = 2',
+            '8 - (-2)': '减去负数等于加上正数：8 + 2 = 10',
+            '3 × (-4)': '正数乘以负数等于负数：3 × -4 = -12',
+            '(-6) ÷ 2': '负数除以正数等于负数：-6 ÷ 2 = -3',
+            '(-2)²': '负数的平方等于正数：(-2) × (-2) = 4',
+            '|-5|': '绝对值运算：去掉符号取正数'
+        }
+        return explanations.get(expression, '按照运算规则计算')
+
     
-    def generate_full_dataset(self, subjects: List[str] = None, kp_per_subject: int = 30, q_per_subject: int = 50):
-        """生成完整数据集"""
+    def generate_full_dataset(self, subjects: List[str] = None, kp_per_subject: int = 100, q_per_subject: int = 200):
+        """生成完整数据集（增加数量）"""
         if subjects is None:
-            subjects = ['math', 'chinese', 'english']
-        
+            subjects = ['math', 'chinese', 'english', 'physics', 'chemistry', 'biology']
+
         print("🚀 开始智能数据生成...")
         print(f"📋 目标: {len(subjects)}个学科，每科{kp_per_subject}个知识点，{q_per_subject}道题目")
-        
+
+        # 根据配置决定是否清空缓存
+        if not self.use_cache:
+            self.generated_knowledge_points.clear()
+            print("🔄 已清空缓存，开始生成新数据...")
+        else:
+            print(f"📋 使用缓存模式，已有 {len(self.generated_knowledge_points)} 个知识点")
+
+        # 预先生成所有内容，避免重复
+        all_subjects_data = {}
+
         for subject in subjects:
             print(f"\n📚 正在生成{self._get_chinese_subject_name(subject)}数据...")
-            
-            # 为每个年级生成知识点
+
+            # 为每个年级生成知识点（增加数量）
             all_kp = []
             for grade in ['Grade 7', 'Grade 8', 'Grade 9']:
+                # 每个年级生成更多知识点
+                grade_kp_count = max(kp_per_subject // 2, 30)  # 至少30个
                 kp_data = self.generate_diverse_knowledge_points(
-                    subject, grade, kp_per_subject // 3
+                    subject, grade, grade_kp_count
                 )
                 all_kp.extend(kp_data)
-            
-            # 生成题目
+                print(f"    📖 {grade}: {len(kp_data)}个知识点")
+
+            # 生成更多题目
             q_data = self.generate_diverse_questions(subject, q_per_subject)
-            
-            # 保存到目录结构
-            self.save_to_directory_structure(subject, all_kp, q_data)
-            
+
+            all_subjects_data[subject] = {
+                'knowledge_points': all_kp,
+                'questions': q_data
+            }
+
             # 更新统计
             self.generation_stats['subjects_processed'] += 1
             self.generation_stats['knowledge_points_generated'] += len(all_kp)
             self.generation_stats['questions_generated'] += len(q_data)
-            
+
             print(f"  ✅ 完成: {len(all_kp)}个知识点, {len(q_data)}道题目")
-        
+
+        # 统一保存到目录结构
+        for subject, data in all_subjects_data.items():
+            self.save_to_directory_structure(subject, data['knowledge_points'], data['questions'])
+
+        # 保存缓存
+        self._save_generated_cache()
+
         # 生成统计报告
         self._save_generation_report()
         
@@ -652,16 +1460,29 @@ class SmartDataGenerator:
 
 def main():
     """主函数"""
+    import sys
+
     print("🧠 启动智能数据生成器...")
-    
+
+    # 检查命令行参数
+    use_cache = '--no-cache' not in sys.argv
+    force_regenerate = '--force' in sys.argv
+
+    if force_regenerate:
+        print("🔄 强制重新生成模式：将清空缓存")
+        use_cache = False
+
     try:
-        generator = SmartDataGenerator()
-        
+        generator = SmartDataGenerator(use_cache=use_cache)
+
+        if not use_cache:
+            print("⚠️ 缓存已禁用，将生成新数据")
+
         # 生成数据
         generator.generate_full_dataset(
-            subjects=['math', 'chinese', 'english'],  # 可以扩展到所有学科
-            kp_per_subject=60,  # 每科60个知识点
-            q_per_subject=80    # 每科80道题目
+            subjects=['math', 'chinese', 'english', 'physics', 'chemistry', 'biology'],  # 所有学科
+            kp_per_subject=100,  # 每科100个知识点
+            q_per_subject=200    # 每科200道题目
         )
         
         print(f"\n🔄 后续操作:")

@@ -1,0 +1,33 @@
+{
+  "timestamp": "2025-09-27T15:43:25.791768",
+  "optimization_summary": {
+    "directories_removed": [],
+    "files_reorganized": 0,
+    "new_structure": {
+      "raw": {
+        "csv": 7,
+        "json": 0,
+        "txt": 0,
+        "other": 0
+      },
+      "processed": {
+        "csv": 2,
+        "json": 4,
+        "txt": 0,
+        "other": 1
+      },
+      "collectors": {
+        "csv": 8,
+        "json": 12,
+        "txt": 0,
+        "other": 12
+      },
+      "scripts": {
+        "csv": 0,
+        "json": 0,
+        "txt": 0,
+        "other": 6
+      }
+    }
+  }
+}

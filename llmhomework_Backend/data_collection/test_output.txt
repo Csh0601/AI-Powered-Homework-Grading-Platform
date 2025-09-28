@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "E:\AI_powered_app\AI-Powered-Homework-Grading-Platform\llmhomework_Backend\data_collection\collectors\smart_data_generator.py", line 827, in <module>
+    main()
+  File "E:\AI_powered_app\AI-Powered-Homework-Grading-Platform\llmhomework_Backend\data_collection\collectors\smart_data_generator.py", line 804, in main
+    print("\U0001f9e0 启动智能数据生成器...")
+UnicodeEncodeError: 'gbk' codec can't encode character '\U0001f9e0' in position 0: illegal multibyte sequence

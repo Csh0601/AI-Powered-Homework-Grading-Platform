@@ -1,0 +1,41 @@
+question_id,subject,grade,question_type,stem,options,correct_answer,explanation,difficulty_level,knowledge_points,source,source_type,year,tags,score,time_limit
+phys_auto_0121,物理,Grade 7,choice,下列关于力的概念的说法，正确的是（  ）,A. 能量|B. 质量|D. 时间|C. 力是物体间的相互作用,C,力的概念的正确定义是：力是物体间的相互作用,4,physics_concepts,智能生成,exercise,2024,physics|自动生成,4,1
+phys_auto_0122,物理,Grade 8,choice,下列关于光的反射的说法，正确的是（  ）,D. 干涉|B. 衍射|A. 折射|C. 光遇到两种介质的分界面时会改变传播方向,C,光的反射的正确定义是：光遇到两种介质的分界面时会改变传播方向,1,physics_concepts,智能生成,exercise,2024,physics|自动生成,3,3
+phys_auto_0123,物理,Grade 8,choice,下列关于机械运动的说法，正确的是（  ）,B. 生物过程|C. 物体位置随时间的变化|D. 地理现象|A. 化学变化,C,机械运动的正确定义是：物体位置随时间的变化,2,physics_concepts,智能生成,exercise,2024,physics|自动生成,3,1
+phys_auto_0124,物理,Grade 9,choice,下列关于牛顿第一定律的说法，正确的是（  ）,A. 加速度|B. 力|D. 能量|C. 物体保持静止或匀速直线运动状态,C,牛顿第一定律的正确定义是：物体保持静止或匀速直线运动状态,3,physics_concepts,智能生成,exercise,2024,physics|自动生成,5,2
+phys_auto_0125,物理,Grade 9,choice,下列关于力的概念的说法，正确的是（  ） (变式5),D. 时间|A. 能量|B. 质量|C. 力是物体间的相互作用,C,力的概念的正确定义是：力是物体间的相互作用,4,physics_concepts,智能生成,exercise,2024,physics|自动生成,4,3
+phys_auto_0126,物理,Grade 7,choice,下列关于光的反射的说法，正确的是（  ） (变式6),C. 光遇到两种介质的分界面时会改变传播方向|D. 干涉|B. 衍射|A. 折射,C,光的反射的正确定义是：光遇到两种介质的分界面时会改变传播方向,2,physics_concepts,智能生成,exercise,2024,physics|自动生成,5,3
+phys_auto_0127,物理,Grade 7,choice,下列关于机械运动的说法，正确的是（  ） (变式7),A. 化学变化|D. 地理现象|C. 物体位置随时间的变化|B. 生物过程,C,机械运动的正确定义是：物体位置随时间的变化,3,physics_concepts,智能生成,exercise,2024,physics|自动生成,5,2
+phys_auto_0128,物理,Grade 8,choice,下列关于牛顿第一定律的说法，正确的是（  ） (变式8),A. 加速度|B. 力|C. 物体保持静止或匀速直线运动状态|D. 能量,C,牛顿第一定律的正确定义是：物体保持静止或匀速直线运动状态,3,physics_concepts,智能生成,exercise,2024,physics|自动生成,5,1
+phys_auto_0129,物理,Grade 7,choice,下列关于力的概念的说法，正确的是（  ） (变式9),D. 时间|C. 力是物体间的相互作用|A. 能量|B. 质量,C,力的概念的正确定义是：力是物体间的相互作用,3,physics_concepts,智能生成,exercise,2024,physics|自动生成,3,3
+phys_auto_0130,物理,Grade 9,choice,下列关于光的反射的说法，正确的是（  ） (变式10),A. 折射|C. 光遇到两种介质的分界面时会改变传播方向|B. 衍射|D. 干涉,C,光的反射的正确定义是：光遇到两种介质的分界面时会改变传播方向,3,physics_concepts,智能生成,exercise,2024,physics|自动生成,4,3
+phys_auto_0131,物理,Grade 8,choice,下列关于机械运动的说法，正确的是（  ） (变式11),B. 生物过程|D. 地理现象|C. 物体位置随时间的变化|A. 化学变化,C,机械运动的正确定义是：物体位置随时间的变化,2,physics_concepts,智能生成,exercise,2024,physics|自动生成,3,2
+phys_auto_0132,物理,Grade 7,choice,下列关于牛顿第一定律的说法，正确的是（  ） (变式12),D. 能量|C. 物体保持静止或匀速直线运动状态|B. 力|A. 加速度,C,牛顿第一定律的正确定义是：物体保持静止或匀速直线运动状态,3,physics_concepts,智能生成,exercise,2024,physics|自动生成,5,2
+phys_auto_0133,物理,Grade 9,choice,下列关于力的概念的说法，正确的是（  ） (变式13),C. 力是物体间的相互作用|A. 能量|D. 时间|B. 质量,C,力的概念的正确定义是：力是物体间的相互作用,1,physics_concepts,智能生成,exercise,2024,physics|自动生成,4,1
+phys_auto_0134,物理,Grade 8,choice,下列关于光的反射的说法，正确的是（  ） (变式14),D. 干涉|C. 光遇到两种介质的分界面时会改变传播方向|A. 折射|B. 衍射,C,光的反射的正确定义是：光遇到两种介质的分界面时会改变传播方向,4,physics_concepts,智能生成,exercise,2024,physics|自动生成,4,2
+phys_auto_0135,物理,Grade 7,choice,下列关于机械运动的说法，正确的是（  ） (变式15),A. 化学变化|D. 地理现象|C. 物体位置随时间的变化|B. 生物过程,C,机械运动的正确定义是：物体位置随时间的变化,1,physics_concepts,智能生成,exercise,2024,physics|自动生成,4,3
+phys_auto_0136,物理,Grade 7,choice,下列关于牛顿第一定律的说法，正确的是（  ） (变式16),D. 能量|A. 加速度|B. 力|C. 物体保持静止或匀速直线运动状态,C,牛顿第一定律的正确定义是：物体保持静止或匀速直线运动状态,4,physics_concepts,智能生成,exercise,2024,physics|自动生成,4,1
+phys_auto_0137,物理,Grade 9,choice,下列关于力的概念的说法，正确的是（  ） (变式17),B. 质量|D. 时间|A. 能量|C. 力是物体间的相互作用,C,力的概念的正确定义是：力是物体间的相互作用,4,physics_concepts,智能生成,exercise,2024,physics|自动生成,3,2
+phys_auto_0138,物理,Grade 7,choice,下列关于光的反射的说法，正确的是（  ） (变式18),B. 衍射|D. 干涉|A. 折射|C. 光遇到两种介质的分界面时会改变传播方向,C,光的反射的正确定义是：光遇到两种介质的分界面时会改变传播方向,4,physics_concepts,智能生成,exercise,2024,physics|自动生成,4,2
+phys_auto_0139,物理,Grade 9,choice,下列关于机械运动的说法，正确的是（  ） (变式19),D. 地理现象|A. 化学变化|B. 生物过程|C. 物体位置随时间的变化,C,机械运动的正确定义是：物体位置随时间的变化,1,physics_concepts,智能生成,exercise,2024,physics|自动生成,4,3
+phys_auto_0140,物理,Grade 7,choice,下列关于牛顿第一定律的说法，正确的是（  ） (变式20),C. 物体保持静止或匀速直线运动状态|A. 加速度|B. 力|D. 能量,C,牛顿第一定律的正确定义是：物体保持静止或匀速直线运动状态,3,physics_concepts,智能生成,exercise,2024,physics|自动生成,5,3
+phys_auto_0141,物理,Grade 9,choice,一个重力为5kg的物体，在水平地面上静止，其重力是多少？,D. 5N|C. 50N|B. 100N|A. 25N,C,根据重力计算，5kg物体在水平地面上静止时重力为50N,4,physics_calculations,智能生成,exercise,2024,physics|自动生成,3,3
+phys_auto_0142,物理,Grade 7,choice,一个速度为10m/s的物体，自由下落，其速度是多少？,B. 15m/s|D. 20m/s|A. 5m/s|C. 10m/s,C,根据速度计算，10m/s物体自由下落时速度为10m/s,1,physics_calculations,智能生成,exercise,2024,physics|自动生成,5,1
+phys_auto_0143,物理,Grade 9,choice,一个内能为100J的物体，加热过程，其内能是多少？,D. 0J|B. 200J|A. 50J|C. 100J,C,根据内能计算，100J物体加热过程时内能为100J,2,physics_calculations,智能生成,exercise,2024,physics|自动生成,3,3
+phys_auto_0144,物理,Grade 8,choice,一个温度为20°C的物体，恒温过程，其温度是多少？,C. 20°C|B. 30°C|D. 0°C|A. 10°C,C,根据温度计算，20°C物体恒温过程时温度为20°C,3,physics_calculations,智能生成,exercise,2024,physics|自动生成,4,1
+phys_auto_0145,物理,Grade 9,choice,一个重力为5kg的物体，在水平地面上静止，其重力是多少？ (变式5),B. 100N|A. 25N|D. 5N|C. 50N,C,根据重力计算，5kg物体在水平地面上静止时重力为50N,1,physics_calculations,智能生成,exercise,2024,physics|自动生成,5,1
+phys_auto_0146,物理,Grade 8,choice,一个速度为10m/s的物体，自由下落，其速度是多少？ (变式6),A. 5m/s|C. 10m/s|D. 20m/s|B. 15m/s,C,根据速度计算，10m/s物体自由下落时速度为10m/s,2,physics_calculations,智能生成,exercise,2024,physics|自动生成,5,2
+phys_auto_0147,物理,Grade 7,choice,一个内能为100J的物体，加热过程，其内能是多少？ (变式7),A. 50J|C. 100J|B. 200J|D. 0J,C,根据内能计算，100J物体加热过程时内能为100J,4,physics_calculations,智能生成,exercise,2024,physics|自动生成,5,1
+phys_auto_0148,物理,Grade 7,choice,一个温度为20°C的物体，恒温过程，其温度是多少？ (变式8),D. 0°C|A. 10°C|B. 30°C|C. 20°C,C,根据温度计算，20°C物体恒温过程时温度为20°C,1,physics_calculations,智能生成,exercise,2024,physics|自动生成,3,2
+phys_auto_0149,物理,Grade 8,choice,一个重力为5kg的物体，在水平地面上静止，其重力是多少？ (变式9),C. 50N|B. 100N|D. 5N|A. 25N,C,根据重力计算，5kg物体在水平地面上静止时重力为50N,1,physics_calculations,智能生成,exercise,2024,physics|自动生成,3,3
+phys_auto_0150,物理,Grade 7,choice,一个速度为10m/s的物体，自由下落，其速度是多少？ (变式10),B. 15m/s|D. 20m/s|C. 10m/s|A. 5m/s,C,根据速度计算，10m/s物体自由下落时速度为10m/s,3,physics_calculations,智能生成,exercise,2024,physics|自动生成,3,2
+phys_auto_0151,物理,Grade 9,choice,一个内能为100J的物体，加热过程，其内能是多少？ (变式11),D. 0J|C. 100J|A. 50J|B. 200J,C,根据内能计算，100J物体加热过程时内能为100J,1,physics_calculations,智能生成,exercise,2024,physics|自动生成,3,3
+phys_auto_0152,物理,Grade 9,choice,一个温度为20°C的物体，恒温过程，其温度是多少？ (变式12),D. 0°C|C. 20°C|B. 30°C|A. 10°C,C,根据温度计算，20°C物体恒温过程时温度为20°C,1,physics_calculations,智能生成,exercise,2024,physics|自动生成,3,1
+phys_auto_0153,物理,Grade 7,choice,一个重力为5kg的物体，在水平地面上静止，其重力是多少？ (变式13),A. 25N|B. 100N|D. 5N|C. 50N,C,根据重力计算，5kg物体在水平地面上静止时重力为50N,4,physics_calculations,智能生成,exercise,2024,physics|自动生成,4,3
+phys_auto_0154,物理,Grade 7,choice,一个速度为10m/s的物体，自由下落，其速度是多少？ (变式14),B. 15m/s|A. 5m/s|C. 10m/s|D. 20m/s,C,根据速度计算，10m/s物体自由下落时速度为10m/s,2,physics_calculations,智能生成,exercise,2024,physics|自动生成,5,3
+phys_auto_0155,物理,Grade 7,choice,一个内能为100J的物体，加热过程，其内能是多少？ (变式15),B. 200J|A. 50J|C. 100J|D. 0J,C,根据内能计算，100J物体加热过程时内能为100J,4,physics_calculations,智能生成,exercise,2024,physics|自动生成,3,1
+phys_auto_0156,物理,Grade 9,choice,一个温度为20°C的物体，恒温过程，其温度是多少？ (变式16),B. 30°C|C. 20°C|D. 0°C|A. 10°C,C,根据温度计算，20°C物体恒温过程时温度为20°C,1,physics_calculations,智能生成,exercise,2024,physics|自动生成,4,2
+phys_auto_0157,物理,Grade 7,choice,一个重力为5kg的物体，在水平地面上静止，其重力是多少？ (变式17),C. 50N|A. 25N|B. 100N|D. 5N,C,根据重力计算，5kg物体在水平地面上静止时重力为50N,1,physics_calculations,智能生成,exercise,2024,physics|自动生成,5,2
+phys_auto_0158,物理,Grade 8,choice,一个速度为10m/s的物体，自由下落，其速度是多少？ (变式18),A. 5m/s|B. 15m/s|C. 10m/s|D. 20m/s,C,根据速度计算，10m/s物体自由下落时速度为10m/s,2,physics_calculations,智能生成,exercise,2024,physics|自动生成,5,2
+phys_auto_0159,物理,Grade 8,choice,一个内能为100J的物体，加热过程，其内能是多少？ (变式19),A. 50J|B. 200J|C. 100J|D. 0J,C,根据内能计算，100J物体加热过程时内能为100J,1,physics_calculations,智能生成,exercise,2024,physics|自动生成,3,3
+phys_auto_0160,物理,Grade 8,choice,一个温度为20°C的物体，恒温过程，其温度是多少？ (变式20),B. 30°C|C. 20°C|A. 10°C|D. 0°C,C,根据温度计算，20°C物体恒温过程时温度为20°C,2,physics_calculations,智能生成,exercise,2024,physics|自动生成,3,2

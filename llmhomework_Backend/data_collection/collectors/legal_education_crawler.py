@@ -11,11 +11,13 @@ import json
 import os
 import pandas as pd
 from bs4 import BeautifulSoup
-from urllib.parse import urljoin, urlparse
-from typing import List, Dict, Any
+from urllib.parse import urljoin, urlparse, urlencode
+from typing import List, Dict, Any, Optional, Set
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 import re
+import hashlib
+import sqlite3
 
 # 设置日志
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -36,9 +38,17 @@ class LegalEducationCrawler:
         
         self.output_dir = os.path.join(os.path.dirname(__file__), 'crawled_data')
         os.makedirs(self.output_dir, exist_ok=True)
-        
+
+        # 爬取进度数据库
+        self.db_path = os.path.join(self.output_dir, 'crawl_progress.db')
+        self._init_progress_db()
+
         # 请求间隔（秒），避免给服务器造成压力
         self.request_delay = 3
+
+        # 浏览器驱动（用于动态网站）
+        self.browser = None
+        # self._init_browser()  # 暂时禁用，需要时再启用
         
         # 合法的教育资源网站
         self.legal_sources = {
@@ -54,7 +64,17 @@ class LegalEducationCrawler:
                 'allowed': True,
                 'description': '专业中考资源平台，覆盖7-9年级全科目',
                 'target_grades': ['Grade 7', 'Grade 8', 'Grade 9'],
-                'subjects': ['数学', '语文', '英语', '物理', '化学', '生物', '历史', '地理', '政治']
+                'subject_urls': {
+                    'math': 'https://www.zhongkao.com/czsw/',     # 初中数学
+                    'chinese': 'https://www.zhongkao.com/czyw/',  # 初中语文
+                    'english': 'https://www.zhongkao.com/czyy/',  # 初中英语
+                    'physics': 'https://www.zhongkao.com/czwl/',   # 初中物理
+                    'chemistry': 'https://www.zhongkao.com/czhx/', # 初中化学
+                    'biology': 'https://www.zhongkao.com/czsw/',   # 初中生物
+                    'history': 'https://www.zhongkao.com/czls/',   # 初中历史
+                    'geography': 'https://www.zhongkao.com/czdl/', # 初中地理
+                    'politics': 'https://www.zhongkao.com/czzz/'   # 初中政治
+                }
             },
             'zxxk_com': {
                 'base_url': 'https://yw.zxxk.com/',
@@ -87,6 +107,95 @@ class LegalEducationCrawler:
                 'total_items': 0
             }
         }
+
+    def _init_progress_db(self):
+        """初始化爬取进度数据库"""
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+
+            # 创建爬取记录表
+            cursor.execute('''
+                CREATE TABLE IF NOT EXISTS crawl_records (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    source_name TEXT NOT NULL,
+                    url_hash TEXT NOT NULL,
+                    url TEXT NOT NULL,
+                    content_hash TEXT,
+                    last_crawl_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    status TEXT DEFAULT 'success',
+                    data_type TEXT,
+                    UNIQUE(source_name, url_hash)
+                )
+            ''')
+
+            # 创建数据质量统计表
+            cursor.execute('''
+                CREATE TABLE IF NOT EXISTS data_stats (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    source_name TEXT NOT NULL,
+                    crawl_date DATE NOT NULL,
+                    knowledge_points_count INTEGER DEFAULT 0,
+                    questions_count INTEGER DEFAULT 0,
+                    avg_quality_score FLOAT DEFAULT 0.0,
+                    UNIQUE(source_name, crawl_date)
+                )
+            ''')
+
+            conn.commit()
+            conn.close()
+            logger.info("✅ 爬取进度数据库初始化完成")
+
+        except Exception as e:
+            logger.error(f"❌ 数据库初始化失败: {e}")
+
+
+    def _is_url_crawled_recently(self, source_name: str, url: str, max_age_hours: int = 24) -> bool:
+        """检查URL是否最近被爬取过"""
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+
+            url_hash = hashlib.md5(url.encode()).hexdigest()
+            cutoff_time = datetime.now() - timedelta(hours=max_age_hours)
+
+            cursor.execute('''
+                SELECT last_crawl_time FROM crawl_records
+                WHERE source_name = ? AND url_hash = ? AND last_crawl_time > ?
+            ''', (source_name, url_hash, cutoff_time.isoformat()))
+
+            result = cursor.fetchone()
+            conn.close()
+
+            return result is not None
+
+        except Exception as e:
+            logger.error(f"❌ 检查爬取记录失败: {e}")
+            return False
+
+    def _record_crawl_result(self, source_name: str, url: str, content_hash: str = None, status: str = 'success', data_type: str = None):
+        """记录爬取结果"""
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+
+            url_hash = hashlib.md5(url.encode()).hexdigest()
+
+            cursor.execute('''
+                INSERT OR REPLACE INTO crawl_records
+                (source_name, url_hash, url, content_hash, last_crawl_time, status, data_type)
+                VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, ?, ?)
+            ''', (source_name, url_hash, url, content_hash, status, data_type))
+
+            conn.commit()
+            conn.close()
+
+        except Exception as e:
+            logger.error(f"❌ 记录爬取结果失败: {e}")
+
+    def _get_content_hash(self, content: str) -> str:
+        """计算内容哈希值"""
+        return hashlib.md5(content.encode('utf-8')).hexdigest()
     
     def check_robots_txt(self, base_url: str) -> bool:
         """检查robots.txt文件，确保合规"""
@@ -383,97 +492,91 @@ class LegalEducationCrawler:
         except Exception as e:
             logger.error(f"❌ 爬取过程中出错: {e}")
             raise
-    
+
+    def run_incremental_crawl(self) -> tuple:
+        """运行增量爬取（只爬取新内容）"""
+        logger.info("🔄 开始增量数据爬取...")
+
+        try:
+            # 只爬取有更新的数据源
+            results = self.crawl_zhongkao_resources()  # 中考网已有增量检查
+
+            # 保存数据
+            kp_count, q_count = self.save_crawled_data()
+
+            logger.info("✅ 增量爬取完成!")
+            logger.info(f"📊 新增内容: {kp_count}个知识点, {q_count}道题目")
+
+            return kp_count, q_count
+
+        except Exception as e:
+            logger.error(f"❌ 增量爬取过程中出错: {e}")
+            raise
+
     def crawl_zhongkao_resources(self) -> Dict[str, Any]:
-        """爬取中考网资源 - 专门针对7-9年级"""
+        """爬取中考网资源 - 使用正确的学科URL"""
         logger.info("🎯 开始爬取中考网资源...")
-        
+
         results = {
             'knowledge_points': 0,
             'questions': 0,
             'source': '中考网',
             'target_grades': ['Grade 7', 'Grade 8', 'Grade 9']
         }
-        
+
         try:
-            # 中考网主要栏目
-            sections = {
-                'math': '/shuxue/',      # 数学
-                'chinese': '/yuwen/',    # 语文  
-                'english': '/yingyu/',   # 英语
-                'physics': '/wuli/',     # 物理
-                'chemistry': '/huaxue/', # 化学
-                'politics': '/zhengzhi/',# 政治
-                'history': '/lishi/',    # 历史
-                'geography': '/dili/',   # 地理
-            }
-            
-            for subject, path in sections.items():
+            # 获取中考网的学科URL配置
+            source_config = self.legal_sources.get('zhongkao_com', {})
+            subject_urls = source_config.get('subject_urls', {})
+
+            if not subject_urls:
+                logger.warning("⚠️ 未找到中考网学科URL配置")
+                return results
+
+            # 爬取各个学科
+            for subject, url in subject_urls.items():
                 try:
-                    url = f"https://www.zhongkao.com{path}"
                     logger.info(f"  爬取 {subject} 栏目: {url}")
-                    
-                    response = self.session.get(url, timeout=10)
+
+                    # 检查是否需要爬取
+                    if self._is_url_crawled_recently('zhongkao', url):
+                        logger.info(f"    ⏭️ 跳过最近爬取的URL: {url}")
+                        continue
+
+                    response = self.session.get(url, timeout=15)
                     if response.status_code == 200:
                         soup = BeautifulSoup(response.text, 'html.parser')
-                        
-                        # 查找知识点和试题链接
-                        links = soup.find_all('a', href=True)
-                        
-                        knowledge_points = []
-                        questions = []
-                        
-                        for link in links[:20]:  # 限制数量避免过度爬取
-                            href = link.get('href', '')
-                            text = link.get_text(strip=True)
-                            
-                            if any(keyword in text for keyword in ['知识点', '考点', '重点', '难点']):
-                                knowledge_points.append({
-                                    'name': text,
-                                    'subject': subject,
-                                    'grade': 'Grade 8',  # 默认八年级
-                                    'chapter': '未分类',
-                                    'description': f"{subject}相关知识点：{text}",
-                                    'difficulty_level': 3,
-                                    'importance_level': 4,
-                                    'keywords': [subject, '中考', text],
-                                    'source_url': urljoin(url, href)
-                                })
-                            
-                            elif any(keyword in text for keyword in ['试题', '真题', '模拟', '练习']):
-                                questions.append({
-                                    'question_id': f"zhongkao_{subject}_{len(questions)+1}",
-                                    'subject': subject,
-                                    'grade': 'Grade 8',
-                                    'question_type': 'choice',
-                                    'stem': f"{subject}中考相关题目：{text}",
-                                    'options': ['A. 选项A', 'B. 选项B', 'C. 选项C', 'D. 选项D'],
-                                    'correct_answer': 'A',
-                                    'explanation': f"来源于中考网{subject}栏目",
-                                    'difficulty_level': 3,
-                                    'knowledge_points': [text],
-                                    'source': '中考网',
-                                    'source_url': urljoin(url, href)
-                                })
-                        
+
+                        # 1. 提取知识点（真实HTML解析）
+                        knowledge_points = self._extract_real_knowledge_points(soup, subject)
+
+                        # 2. 查找试题链接并尝试爬取真实题目
+                        question_links = self._find_question_links(soup, url)
+                        questions = self._crawl_real_questions(question_links, subject)
+
                         # 保存到爬取数据
                         self.crawled_data['knowledge_points'].extend(knowledge_points)
                         self.crawled_data['questions'].extend(questions)
-                        
+
                         results['knowledge_points'] += len(knowledge_points)
                         results['questions'] += len(questions)
-                        
+
+                        # 记录爬取结果
+                        content_hash = self._get_content_hash(response.text)
+                        self._record_crawl_result('zhongkao', url, content_hash, 'success', f'{subject}_main')
+
                         logger.info(f"    ✅ {subject}: {len(knowledge_points)}个知识点, {len(questions)}道题目")
-                    
+
                     time.sleep(self.request_delay)
-                    
+
                 except Exception as e:
                     logger.warning(f"    ⚠️ 爬取{subject}失败: {e}")
+                    self._record_crawl_result('zhongkao', url, None, 'failed', f'{subject}_main')
                     continue
-            
+
             logger.info(f"🎯 中考网爬取完成: {results['knowledge_points']}个知识点, {results['questions']}道题目")
             return results
-            
+
         except Exception as e:
             logger.error(f"❌ 中考网爬取失败: {e}")
             return results
@@ -587,25 +690,268 @@ def main():
     print("🌐 启动合法教育资源爬虫...")
     print("⚖️ 严格遵守robots.txt和网站使用条款")
     print("🎯 只爬取官方、公开、免费的教育资源")
-    
+
     try:
+        # 检查命令行参数
+        import sys
+        incremental = '--incremental' in sys.argv
+
         crawler = LegalEducationCrawler()
-        kp_count, q_count = crawler.run_full_crawl()
-        
+
+        if incremental:
+            print("🔄 运行增量爬取模式...")
+            kp_count, q_count = crawler.run_incremental_crawl()
+        else:
+            print("🚀 运行完整爬取模式...")
+            kp_count, q_count = crawler.run_full_crawl()
+
         print(f"\n🎉 爬取完成!")
         print(f"📈 统计:")
         print(f"  - 知识点: {kp_count} 个")
         print(f"  - 题目: {q_count} 道")
         print(f"📁 文件位置: {crawler.output_dir}")
-        
+        print(f"💾 进度数据库: {crawler.db_path}")
+
         print(f"\n🔄 下一步:")
         print(f"1. 检查爬取的数据质量")
-        print(f"2. 运行统一处理: python unify_generated_data.py")
-        print(f"3. 验证数据: python ../scripts/validate_collected_data.py")
-        print(f"4. 导入数据库: python ../scripts/import_collected_data.py")
-        
+        print(f"2. 运行数据验证: python scripts/validate_data_fixed.py")
+        print(f"3. 数据导入数据库: python scripts/simple_import.py")
+        print(f"4. 查看爬取统计: python -c \"import sqlite3; conn=sqlite3.connect('collectors/crawled_data/crawl_progress.db'); print('爬取记录:', len(conn.execute('SELECT * FROM crawl_records').fetchall())); conn.close()\"")
+
     except Exception as e:
         print(f"❌ 运行失败: {e}")
+        import traceback
+        traceback.print_exc()
+
+class LegalEducationCrawlerMethods:
+    """爬虫方法的扩展类"""
+    
+    def _extract_real_knowledge_points(self, soup: BeautifulSoup, subject: str) -> List[Dict]:
+        """从HTML中提取真实的知识点"""
+        knowledge_points = []
+
+        try:
+            # 多种选择器尝试提取知识点内容
+            selectors = [
+                'div.knowledge-point',
+                'div.exam-point',
+                'div.focus-point',
+                '.knowledge',
+                '.exam-focus',
+                'h3',
+                'h4',
+                '.title',
+                '.content h2',
+                '.content h3',
+                '.content h4'
+            ]
+
+            subject_keywords = {
+                'math': ['数学', '计算', '几何', '代数', '函数', '方程', '数', '式'],
+                'chinese': ['语文', '阅读', '写作', '古诗', '文言文', '作文', '字', '词'],
+                'english': ['英语', 'grammar', 'vocabulary', 'reading', 'listening', '英语'],
+                'physics': ['物理', '力学', '电学', '光学', '热学', '物理'],
+                'chemistry': ['化学', '元素', '化合物', '反应', '化学'],
+            }
+
+            keywords = subject_keywords.get(subject, [subject])
+
+            for selector in selectors:
+                elements = soup.select(selector)
+                for elem in elements[:15]:  # 限制数量
+                    text = elem.get_text(strip=True)
+                    if (text and len(text) > 8 and len(text) < 100 and
+                        any(keyword in text for keyword in keywords[:3])):
+
+                        # 检查是否已存在相同的知识点
+                        existing_names = [kp.get('name', '') for kp in knowledge_points]
+                        if text not in existing_names:
+                            knowledge_points.append({
+                                'name': text,
+                                'subject': subject,
+                                'grade': 'Grade 8',
+                                'chapter': '中考重点',
+                                'description': f"中考网{subject}相关知识点：{text}",
+                                'difficulty_level': 3,
+                                'importance_level': 4,
+                                'keywords': keywords + [text[:15]],
+                                'source': '中考网',
+                                'crawl_time': datetime.now().isoformat()
+                            })
+
+            # 如果没找到足够的内容，从链接文本中提取
+            if len(knowledge_points) < 3:
+                links = soup.find_all('a', href=True)
+                for link in links[:20]:
+                    text = link.get_text(strip=True)
+                    href = link.get('href', '')
+
+                    if (text and len(text) > 8 and len(text) < 80 and
+                        any(keyword in text for keyword in keywords) and
+                        any(indicator in href for indicator in ['detail', 'content', 'show', 'article'])):
+
+                        existing_names = [kp.get('name', '') for kp in knowledge_points]
+                        if text not in existing_names:
+                            knowledge_points.append({
+                                'name': text,
+                                'subject': subject,
+                                'grade': 'Grade 8',
+                                'chapter': '中考重点',
+                                'description': f"中考网{subject}相关内容：{text}",
+                                'difficulty_level': 3,
+                                'importance_level': 3,
+                                'keywords': keywords + [text[:10]],
+                                'source': '中考网',
+                                'source_url': urljoin(f"https://www.zhongkao.com/{subject}/", href),
+                                'crawl_time': datetime.now().isoformat()
+                            })
+
+        except Exception as e:
+            logger.warning(f"    ⚠️ 提取知识点失败: {e}")
+
+        return knowledge_points[:10]  # 限制数量
+
+    def _find_question_links(self, soup: BeautifulSoup, base_url: str) -> List[str]:
+        """查找试题页面链接"""
+        question_links = []
+
+        try:
+            # 多种选择器查找试题链接
+            link_patterns = [
+                'a[href*="test"]',
+                'a[href*="exam"]',
+                'a[href*="question"]',
+                'a[href*="practice"]',
+                'a[href*="zhenti"]',  # 真题
+                'a[href*="moniti"]',  # 模拟题
+                'a[href*="lianxi"]',  # 练习
+            ]
+
+            for pattern in link_patterns:
+                links = soup.select(pattern)
+                for link in links[:8]:  # 限制数量
+                    href = link.get('href', '')
+                    if href and not href.startswith('#') and not href.startswith('javascript'):
+                        full_url = urljoin(base_url, href)
+                        if (full_url not in question_links and
+                            not self._is_url_crawled_recently('zhongkao', full_url, 24)):  # 24小时内不重复爬取
+                            question_links.append(full_url)
+
+        except Exception as e:
+            logger.warning(f"    ⚠️ 查找试题链接失败: {e}")
+
+        return question_links[:5]  # 限制数量
+
+    def _crawl_real_questions(self, question_links: List[str], subject: str) -> List[Dict]:
+        """爬取真实的试题内容"""
+        questions = []
+
+        for url in question_links[:3]:  # 限制数量
+            try:
+                # 检查是否需要爬取
+                if self._is_url_crawled_recently('zhongkao', url, 12):  # 12小时内不重复爬取
+                    continue
+
+                response = self.session.get(url, timeout=15)
+                if response.status_code == 200:
+                    soup = BeautifulSoup(response.text, 'html.parser')
+
+                    # 尝试多种方式提取题目
+                    question_elements = (
+                        soup.select('div.question, .test-item, .exam-question, .practice-item') +
+                        soup.select('div[class*="question"], div[class*="test"], div[class*="exam"]')
+                    )
+
+                    for i, elem in enumerate(question_elements[:8]):  # 限制数量
+                        try:
+                            # 提取题干
+                            stem_selectors = ['.stem', '.question-text', '.title', 'p', '.content']
+                            stem = None
+                            for selector in stem_selectors:
+                                stem_elem = elem.select_one(selector)
+                                if stem_elem:
+                                    stem = stem_elem.get_text(strip=True)
+                                    break
+
+                            if not stem or len(stem) < 10:
+                                continue
+
+                            # 提取选项
+                            options = []
+                            option_selectors = ['.option', '.choice', 'li', '.answer-option']
+                            for selector in option_selectors:
+                                option_elems = elem.select(selector)
+                                for opt_elem in option_elems[:4]:
+                                    opt_text = opt_elem.get_text(strip=True)
+                                    if opt_text and len(opt_text) > 2:
+                                        # 清理选项格式
+                                        opt_text = re.sub(r'^[A-D]\.?\s*', '', opt_text)
+                                        if opt_text not in options:
+                                            options.append(opt_text)
+
+                            # 尝试提取答案
+                            correct_answer = 'A'  # 默认值
+                            answer_selectors = ['.answer', '.correct', '.solution', '.jiexi']
+                            for selector in answer_selectors:
+                                answer_elem = elem.select_one(selector)
+                                if answer_elem:
+                                    answer_text = answer_elem.get_text(strip=True)
+                                    # 从答案文本中提取选项字母
+                                    for letter in ['A', 'B', 'C', 'D']:
+                                        if letter in answer_text:
+                                            correct_answer = letter
+                                            break
+                                    break
+
+                            # 提取解析
+                            explanation = ''
+                            explanation_selectors = ['.explanation', '.analysis', '.solution', '.jiexi']
+                            for selector in explanation_selectors:
+                                explanation_elem = elem.select_one(selector)
+                                if explanation_elem and explanation_elem != answer_elem:
+                                    explanation = explanation_elem.get_text(strip=True)[:200]
+                                    break
+
+                            if not explanation:
+                                explanation = f"来源于中考网{subject}练习题"
+
+                            questions.append({
+                                'question_id': f"zhongkao_{subject}_{len(questions)+1:03d}",
+                                'subject': subject,
+                                'grade': 'Grade 8',
+                                'question_type': 'choice' if options else 'fill_blank',
+                                'stem': stem[:300],
+                                'options': '|'.join(options) if options else '',
+                                'correct_answer': correct_answer,
+                                'explanation': explanation,
+                                'difficulty_level': 3,
+                                'knowledge_points': [stem[:30]],
+                                'source': '中考网',
+                                'source_url': url,
+                                'crawl_time': datetime.now().isoformat()
+                            })
+
+                        except Exception as e:
+                            logger.debug(f"      ⚠️ 解析题目失败: {e}")
+                            continue
+
+                    # 记录爬取结果
+                    if questions:
+                        content_hash = self._get_content_hash(response.text)
+                        self._record_crawl_result('zhongkao', url, content_hash, 'success', f'{subject}_questions')
+
+                time.sleep(self.request_delay / 2)  # 试题页面间隔较短
+
+            except Exception as e:
+                logger.warning(f"    ⚠️ 爬取试题页面失败 {url}: {e}")
+                self._record_crawl_result('zhongkao', url, None, 'failed', f'{subject}_questions')
+
+        return questions
+
+# 将方法添加到主类中
+LegalEducationCrawler._extract_real_knowledge_points = LegalEducationCrawlerMethods._extract_real_knowledge_points
+LegalEducationCrawler._find_question_links = LegalEducationCrawlerMethods._find_question_links  
+LegalEducationCrawler._crawl_real_questions = LegalEducationCrawlerMethods._crawl_real_questions
 
 if __name__ == "__main__":
     main()

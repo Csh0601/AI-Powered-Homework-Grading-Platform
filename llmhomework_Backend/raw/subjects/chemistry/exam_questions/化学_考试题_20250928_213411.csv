@@ -1,0 +1,41 @@
+question_id,subject,grade,question_type,stem,options,correct_answer,explanation,difficulty_level,knowledge_points,source,source_type,year,tags,score,time_limit
+chem_auto_0201,化学,Grade 9,choice,下列物质中，金属的是（  ）,C. 能与酸反应产生氢气|B. 不导电|A. 能与碱反应|D. 易溶于水,C,金属的典型性质是：能与酸反应产生氢气,1,chemistry_properties,智能生成,exercise,2024,chemistry|自动生成,4,3
+chem_auto_0202,化学,Grade 7,choice,下列物质中，酸的是（  ）,D. 不导电|B. 呈碱性|C. 能与碱反应产生盐和水|A. 能与金属反应,C,酸的典型性质是：能与碱反应产生盐和水,1,chemistry_properties,智能生成,exercise,2024,chemistry|自动生成,5,1
+chem_auto_0203,化学,Grade 7,choice,下列物质中，碱的是（  ）,A. 能与金属反应|C. 能与酸反应产生盐和水|B. 呈酸性|D. 易挥发,C,碱的典型性质是：能与酸反应产生盐和水,2,chemistry_properties,智能生成,exercise,2024,chemistry|自动生成,4,3
+chem_auto_0204,化学,Grade 7,choice,下列物质中，盐的是（  ）,D. 易分解|C. 由金属离子和酸根离子组成|A. 由非金属组成|B. 呈酸性,C,盐的典型性质是：由金属离子和酸根离子组成,1,chemistry_properties,智能生成,exercise,2024,chemistry|自动生成,5,1
+chem_auto_0205,化学,Grade 9,choice,下列物质中，金属的是（  ） (变式5),D. 易溶于水|B. 不导电|C. 能与酸反应产生氢气|A. 能与碱反应,C,金属的典型性质是：能与酸反应产生氢气,1,chemistry_properties,智能生成,exercise,2024,chemistry|自动生成,4,3
+chem_auto_0206,化学,Grade 8,choice,下列物质中，酸的是（  ） (变式6),B. 呈碱性|A. 能与金属反应|C. 能与碱反应产生盐和水|D. 不导电,C,酸的典型性质是：能与碱反应产生盐和水,2,chemistry_properties,智能生成,exercise,2024,chemistry|自动生成,5,3
+chem_auto_0207,化学,Grade 9,choice,下列物质中，碱的是（  ） (变式7),A. 能与金属反应|D. 易挥发|B. 呈酸性|C. 能与酸反应产生盐和水,C,碱的典型性质是：能与酸反应产生盐和水,4,chemistry_properties,智能生成,exercise,2024,chemistry|自动生成,3,3
+chem_auto_0208,化学,Grade 7,choice,下列物质中，盐的是（  ） (变式8),C. 由金属离子和酸根离子组成|A. 由非金属组成|D. 易分解|B. 呈酸性,C,盐的典型性质是：由金属离子和酸根离子组成,4,chemistry_properties,智能生成,exercise,2024,chemistry|自动生成,3,3
+chem_auto_0209,化学,Grade 7,choice,下列物质中，金属的是（  ） (变式9),B. 不导电|D. 易溶于水|A. 能与碱反应|C. 能与酸反应产生氢气,C,金属的典型性质是：能与酸反应产生氢气,2,chemistry_properties,智能生成,exercise,2024,chemistry|自动生成,4,1
+chem_auto_0210,化学,Grade 9,choice,下列物质中，酸的是（  ） (变式10),C. 能与碱反应产生盐和水|B. 呈碱性|A. 能与金属反应|D. 不导电,C,酸的典型性质是：能与碱反应产生盐和水,3,chemistry_properties,智能生成,exercise,2024,chemistry|自动生成,3,1
+chem_auto_0211,化学,Grade 7,choice,下列物质中，碱的是（  ） (变式11),A. 能与金属反应|D. 易挥发|C. 能与酸反应产生盐和水|B. 呈酸性,C,碱的典型性质是：能与酸反应产生盐和水,3,chemistry_properties,智能生成,exercise,2024,chemistry|自动生成,4,1
+chem_auto_0212,化学,Grade 7,choice,下列物质中，盐的是（  ） (变式12),B. 呈酸性|C. 由金属离子和酸根离子组成|D. 易分解|A. 由非金属组成,C,盐的典型性质是：由金属离子和酸根离子组成,3,chemistry_properties,智能生成,exercise,2024,chemistry|自动生成,3,3
+chem_auto_0213,化学,Grade 7,choice,下列物质中，金属的是（  ） (变式13),B. 不导电|C. 能与酸反应产生氢气|D. 易溶于水|A. 能与碱反应,C,金属的典型性质是：能与酸反应产生氢气,4,chemistry_properties,智能生成,exercise,2024,chemistry|自动生成,3,1
+chem_auto_0214,化学,Grade 7,choice,下列物质中，酸的是（  ） (变式14),B. 呈碱性|D. 不导电|A. 能与金属反应|C. 能与碱反应产生盐和水,C,酸的典型性质是：能与碱反应产生盐和水,4,chemistry_properties,智能生成,exercise,2024,chemistry|自动生成,4,1
+chem_auto_0215,化学,Grade 9,choice,下列物质中，碱的是（  ） (变式15),B. 呈酸性|D. 易挥发|A. 能与金属反应|C. 能与酸反应产生盐和水,C,碱的典型性质是：能与酸反应产生盐和水,3,chemistry_properties,智能生成,exercise,2024,chemistry|自动生成,5,1
+chem_auto_0216,化学,Grade 9,choice,下列物质中，盐的是（  ） (变式16),C. 由金属离子和酸根离子组成|D. 易分解|B. 呈酸性|A. 由非金属组成,C,盐的典型性质是：由金属离子和酸根离子组成,1,chemistry_properties,智能生成,exercise,2024,chemistry|自动生成,3,1
+chem_auto_0217,化学,Grade 7,choice,下列物质中，金属的是（  ） (变式17),D. 易溶于水|B. 不导电|A. 能与碱反应|C. 能与酸反应产生氢气,C,金属的典型性质是：能与酸反应产生氢气,4,chemistry_properties,智能生成,exercise,2024,chemistry|自动生成,5,1
+chem_auto_0218,化学,Grade 8,choice,下列物质中，酸的是（  ） (变式18),B. 呈碱性|D. 不导电|C. 能与碱反应产生盐和水|A. 能与金属反应,C,酸的典型性质是：能与碱反应产生盐和水,2,chemistry_properties,智能生成,exercise,2024,chemistry|自动生成,5,3
+chem_auto_0219,化学,Grade 8,choice,下列物质中，碱的是（  ） (变式19),D. 易挥发|C. 能与酸反应产生盐和水|A. 能与金属反应|B. 呈酸性,C,碱的典型性质是：能与酸反应产生盐和水,2,chemistry_properties,智能生成,exercise,2024,chemistry|自动生成,4,1
+chem_auto_0220,化学,Grade 7,choice,下列物质中，盐的是（  ） (变式20),B. 呈酸性|D. 易分解|C. 由金属离子和酸根离子组成|A. 由非金属组成,C,盐的典型性质是：由金属离子和酸根离子组成,3,chemistry_properties,智能生成,exercise,2024,chemistry|自动生成,4,1
+chem_auto_0221,化学,Grade 7,choice,化学反应氧化反应的特征是（  ）,A. 物质与水反应|C. 物质与氧气反应|D. 物质与酸反应|B. 物质自身反应,C,氧化反应的特征是：物质与氧气反应,3,chemistry_reactions,智能生成,exercise,2024,chemistry|自动生成,3,2
+chem_auto_0222,化学,Grade 7,choice,化学反应还原反应的特征是（  ）,A. 物质失去电子|C. 物质得到电子|B. 物质与氧反应|D. 物质分解,C,还原反应的特征是：物质得到电子,3,chemistry_reactions,智能生成,exercise,2024,chemistry|自动生成,5,1
+chem_auto_0223,化学,Grade 8,choice,化学反应化合反应的特征是（  ）,B. 物质不变|D. 物质溶解|A. 一种物质生成两种物质|C. 两种或多种物质生成一种物质,C,化合反应的特征是：两种或多种物质生成一种物质,1,chemistry_reactions,智能生成,exercise,2024,chemistry|自动生成,4,1
+chem_auto_0224,化学,Grade 7,choice,化学反应氧化反应的特征是（  ） (变式4),A. 物质与水反应|C. 物质与氧气反应|D. 物质与酸反应|B. 物质自身反应,C,氧化反应的特征是：物质与氧气反应,1,chemistry_reactions,智能生成,exercise,2024,chemistry|自动生成,3,2
+chem_auto_0225,化学,Grade 9,choice,化学反应还原反应的特征是（  ） (变式5),D. 物质分解|B. 物质与氧反应|A. 物质失去电子|C. 物质得到电子,C,还原反应的特征是：物质得到电子,4,chemistry_reactions,智能生成,exercise,2024,chemistry|自动生成,3,2
+chem_auto_0226,化学,Grade 8,choice,化学反应化合反应的特征是（  ） (变式6),A. 一种物质生成两种物质|C. 两种或多种物质生成一种物质|D. 物质溶解|B. 物质不变,C,化合反应的特征是：两种或多种物质生成一种物质,3,chemistry_reactions,智能生成,exercise,2024,chemistry|自动生成,3,3
+chem_auto_0227,化学,Grade 8,choice,化学反应氧化反应的特征是（  ） (变式7),C. 物质与氧气反应|A. 物质与水反应|D. 物质与酸反应|B. 物质自身反应,C,氧化反应的特征是：物质与氧气反应,1,chemistry_reactions,智能生成,exercise,2024,chemistry|自动生成,5,3
+chem_auto_0228,化学,Grade 8,choice,化学反应还原反应的特征是（  ） (变式8),D. 物质分解|B. 物质与氧反应|A. 物质失去电子|C. 物质得到电子,C,还原反应的特征是：物质得到电子,4,chemistry_reactions,智能生成,exercise,2024,chemistry|自动生成,4,3
+chem_auto_0229,化学,Grade 7,choice,化学反应化合反应的特征是（  ） (变式9),C. 两种或多种物质生成一种物质|A. 一种物质生成两种物质|D. 物质溶解|B. 物质不变,C,化合反应的特征是：两种或多种物质生成一种物质,1,chemistry_reactions,智能生成,exercise,2024,chemistry|自动生成,5,3
+chem_auto_0230,化学,Grade 9,choice,化学反应氧化反应的特征是（  ） (变式10),B. 物质自身反应|D. 物质与酸反应|A. 物质与水反应|C. 物质与氧气反应,C,氧化反应的特征是：物质与氧气反应,4,chemistry_reactions,智能生成,exercise,2024,chemistry|自动生成,3,1
+chem_auto_0231,化学,Grade 8,choice,化学反应还原反应的特征是（  ） (变式11),C. 物质得到电子|D. 物质分解|A. 物质失去电子|B. 物质与氧反应,C,还原反应的特征是：物质得到电子,2,chemistry_reactions,智能生成,exercise,2024,chemistry|自动生成,4,2
+chem_auto_0232,化学,Grade 8,choice,化学反应化合反应的特征是（  ） (变式12),C. 两种或多种物质生成一种物质|A. 一种物质生成两种物质|D. 物质溶解|B. 物质不变,C,化合反应的特征是：两种或多种物质生成一种物质,2,chemistry_reactions,智能生成,exercise,2024,chemistry|自动生成,3,3
+chem_auto_0233,化学,Grade 7,choice,化学反应氧化反应的特征是（  ） (变式13),D. 物质与酸反应|A. 物质与水反应|B. 物质自身反应|C. 物质与氧气反应,C,氧化反应的特征是：物质与氧气反应,4,chemistry_reactions,智能生成,exercise,2024,chemistry|自动生成,5,1
+chem_auto_0234,化学,Grade 7,choice,化学反应还原反应的特征是（  ） (变式14),B. 物质与氧反应|D. 物质分解|C. 物质得到电子|A. 物质失去电子,C,还原反应的特征是：物质得到电子,1,chemistry_reactions,智能生成,exercise,2024,chemistry|自动生成,5,1
+chem_auto_0235,化学,Grade 7,choice,化学反应化合反应的特征是（  ） (变式15),A. 一种物质生成两种物质|D. 物质溶解|B. 物质不变|C. 两种或多种物质生成一种物质,C,化合反应的特征是：两种或多种物质生成一种物质,2,chemistry_reactions,智能生成,exercise,2024,chemistry|自动生成,5,3
+chem_auto_0236,化学,Grade 7,choice,化学反应氧化反应的特征是（  ） (变式16),A. 物质与水反应|B. 物质自身反应|C. 物质与氧气反应|D. 物质与酸反应,C,氧化反应的特征是：物质与氧气反应,1,chemistry_reactions,智能生成,exercise,2024,chemistry|自动生成,5,3
+chem_auto_0237,化学,Grade 7,choice,化学反应还原反应的特征是（  ） (变式17),B. 物质与氧反应|C. 物质得到电子|A. 物质失去电子|D. 物质分解,C,还原反应的特征是：物质得到电子,2,chemistry_reactions,智能生成,exercise,2024,chemistry|自动生成,3,3
+chem_auto_0238,化学,Grade 7,choice,化学反应化合反应的特征是（  ） (变式18),D. 物质溶解|C. 两种或多种物质生成一种物质|A. 一种物质生成两种物质|B. 物质不变,C,化合反应的特征是：两种或多种物质生成一种物质,1,chemistry_reactions,智能生成,exercise,2024,chemistry|自动生成,3,1
+chem_auto_0239,化学,Grade 7,choice,化学反应氧化反应的特征是（  ） (变式19),A. 物质与水反应|C. 物质与氧气反应|B. 物质自身反应|D. 物质与酸反应,C,氧化反应的特征是：物质与氧气反应,3,chemistry_reactions,智能生成,exercise,2024,chemistry|自动生成,5,2
+chem_auto_0240,化学,Grade 8,choice,化学反应还原反应的特征是（  ） (变式20),C. 物质得到电子|D. 物质分解|A. 物质失去电子|B. 物质与氧反应,C,还原反应的特征是：物质得到电子,3,chemistry_reactions,智能生成,exercise,2024,chemistry|自动生成,3,2

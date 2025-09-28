@@ -21,3 +21,13 @@ class Config:
     ENABLE_MULTIMODAL = True  # 启用多模态分析
     ENABLE_KNOWLEDGE_ANALYSIS = True  # 启用知识点分析
     ENABLE_PRACTICE_GENERATION = True  # 启用练习题生成
+    
+    # 数据库配置
+    SQLITE_DATABASE_URL = 'sqlite:///database/knowledge_base.db'
+    MYSQL_DATABASE_URL = None  # 可选的MySQL数据库URL
+    
+    # 题库配置
+    DEFAULT_QUESTION_BATCH_SIZE = 100  # 默认批处理大小
+    MAX_PRACTICE_QUESTIONS = 50  # 最大练习题数量
+    DUPLICATE_SIMILARITY_THRESHOLD = 0.8  # 重复检测相似度阈值
+    MIN_QUESTION_QUALITY_SCORE = 3.0  # 最低题目质量分数
