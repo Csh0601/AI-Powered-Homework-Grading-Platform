@@ -1,7 +1,5 @@
-import Slider from '@react-native-community/slider';
 import React, { useState } from 'react';
 import { 
-  Button, 
   Image, 
   StyleSheet, 
   Text, 
@@ -14,9 +12,13 @@ import {
   StatusBar,
   Alert
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import apiService from '../services/apiService';
 import imageService from '../services/imageService';
 import ImageCropper from './ImageCropper';
+import { DecorativeButton } from './DecorativeButton';
+import { RootStackParamList } from '../navigation/NavigationTypes';
 import { 
   primaryColor, 
   successColor, 
@@ -35,17 +37,25 @@ const { width: screenWidth } = Dimensions.get('window');
 
 interface ImageEditorProps {
   imageUri: string;
-  onEditComplete?: (result: any) => void;
+  taskId?: string;
+  onEditComplete?: (result: any) => void; // 保持向后兼容性，但新流程不使用
 }
 
-const ImageEditor: React.FC<ImageEditorProps> = ({ imageUri, onEditComplete }) => {
-  const [rotation, setRotation] = useState(0);
-  const [brightness, setBrightness] = useState(1);
+const ImageEditor: React.FC<ImageEditorProps> = ({ imageUri, taskId = 'unknown_task', onEditComplete }) => {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const [rotation, setRotation] = useState(0); // 累积旋转角度
   const [currentImageUri, setCurrentImageUri] = useState(imageUri);
+  const [originalImageUri] = useState(imageUri); // 保存原始图片URI
   const [showCropper, setShowCropper] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [scrollViewKey, setScrollViewKey] = useState(0); // 用于强制重新挂载ScrollView
   const [fadeAnim] = useState(new Animated.Value(1));
   const [scaleAnim] = useState(new Animated.Value(1));
   const [slideAnim] = useState(new Animated.Value(0));
+
+  console.log(`\n=== 🎨 [${taskId}] ImageEditor组件加载 ===`);
+  console.log(`🎨 [${taskId}] 初始图片URI:`, imageUri.substring(0, 50) + '...');
+  console.log(`🎨 [${taskId}] 当前状态 - 旋转: ${rotation}°`);
 
   // 启动进入动画
   React.useEffect(() => {
@@ -56,119 +66,175 @@ const ImageEditor: React.FC<ImageEditorProps> = ({ imageUri, onEditComplete }) =
     }).start();
   }, []);
 
-  const handleRotate = async () => {
-    try {
-      // 添加按压动画效果
-      Animated.sequence([
-        Animated.timing(scaleAnim, {
-          toValue: 0.95,
-          duration: 100,
-          useNativeDriver: true,
-        }),
-        Animated.timing(scaleAnim, {
-          toValue: 1,
-          duration: 100,
-          useNativeDriver: true,
-        }),
-      ]).start();
+  const handleRotate = () => {
+    if (isProcessing) return;
+    
+    console.log(`🔄 [${taskId}] 开始旋转预览...`);
+    
+    // 添加按压动画效果
+    Animated.sequence([
+      Animated.timing(scaleAnim, {
+        toValue: 0.95,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(scaleAnim, {
+        toValue: 1,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+    ]).start();
 
-      // 添加淡入淡出动画
-      Animated.sequence([
-        Animated.timing(fadeAnim, {
-          toValue: 0.3,
-          duration: 150,
-          useNativeDriver: true,
-        }),
-        Animated.timing(fadeAnim, {
-          toValue: 1,
-          duration: 300,
-          useNativeDriver: true,
-        }),
-      ]).start();
+    // 添加淡入淡出动画
+    Animated.sequence([
+      Animated.timing(fadeAnim, {
+        toValue: 0.3,
+        duration: 150,
+        useNativeDriver: true,
+      }),
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+    ]).start();
 
-      const newRotation = rotation + 90;
-      setRotation(newRotation);
-      
-      // 实际应用旋转
-      const result = await imageService.rotateImage(currentImageUri, newRotation);
-      setCurrentImageUri(result);
-    } catch (error) {
-      console.error('旋转失败:', error);
-      // 在生产环境中，这里应该使用Toast或其他UI组件显示错误
-      // 暂时保留console.error用于调试
-    }
+    // 只更新UI显示角度，不处理实际图片文件
+    const newRotation = (rotation + 90) % 360;
+    setRotation(newRotation);
+    console.log(`🔄 [${taskId}] UI预览角度: ${rotation}° → ${newRotation}°`);
+    console.log(`✅ [${taskId}] 预览旋转完成（实际图片将在完成编辑时处理）`);
   };
 
-  const handleBrightnessChange = (value: number) => {
-    setBrightness(value);
-  };
 
   const handleCrop = () => {
     setShowCropper(true);
   };
 
   const handleCropComplete = (croppedUri: string) => {
+    console.log(`✂️ [${taskId}] 裁剪完成，返回ImageEditor`);
     setCurrentImageUri(croppedUri);
     setShowCropper(false);
+    
+    // 强制重新挂载ScrollView，防止手势冲突
+    setTimeout(() => {
+      setScrollViewKey(prev => prev + 1);
+      console.log(`🔄 [${taskId}] 强制重新挂载ScrollView，key: ${scrollViewKey + 1}`);
+    }, 100);
   };
 
   const handleCropCancel = () => {
+    console.log(`❌ [${taskId}] 裁剪取消，返回ImageEditor`);
     setShowCropper(false);
+    
+    // 强制重新挂载ScrollView，防止手势冲突
+    setTimeout(() => {
+      setScrollViewKey(prev => prev + 1);
+      console.log(`🔄 [${taskId}] 强制重新挂载ScrollView，key: ${scrollViewKey + 1}`);
+    }, 100);
   };
 
-  // 完成编辑，上传图片并回调
+  // 重置图片到原始状态
+  const handleReset = async () => {
+    if (isProcessing) return;
+    
+    try {
+      setIsProcessing(true);
+      console.log(`🔄 [${taskId}] 重置图片到原始状态...`);
+      
+      // 重置所有状态到初始值
+      setCurrentImageUri(originalImageUri);
+      setRotation(0);
+      
+      console.log(`✅ [${taskId}] 图片重置完成 - 旋转: 0°`);
+    } catch (error) {
+      console.error(`❌ [${taskId}] 重置失败:`, error);
+      Alert.alert('重置失败', `无法重置图片: ${error instanceof Error ? error.message : '未知错误'}`);
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  // 完成编辑，准备文件并跳转到加载页面
   const handleEditComplete = async () => {
     try {
-      console.log('开始上传图片...', currentImageUri);
+      console.log(`\n=== 🚀 [${taskId}] 开始准备批改处理流程 ===`);
+      console.log(`🚀 [${taskId}] 准备图片文件...`);
+      console.log(`📁 [${taskId}] 当前图片URI:`, currentImageUri.substring(0, 50) + '...');
+      
+      // 处理最终图片：应用所有累积的变换
+      let finalImageUri = currentImageUri;
+      
+      // 如果有旋转角度，一次性应用旋转
+      if (rotation !== 0) {
+        console.log(`🔄 [${taskId}] 应用最终旋转: ${rotation}°`);
+        setIsProcessing(true);
+        try {
+          finalImageUri = await imageService.rotateImage(currentImageUri, rotation);
+          console.log(`✅ [${taskId}] 最终旋转完成`);
+        } catch (error) {
+          console.error(`❌ [${taskId}] 最终旋转失败:`, error);
+          Alert.alert('处理失败', `无法应用旋转: ${error instanceof Error ? error.message : '未知错误'}`);
+          return;
+        } finally {
+          setIsProcessing(false);
+        }
+      }
       
       // 智能生成文件名和类型
       let fileName = 'image.jpg';
       let fileType = 'image/jpeg';
       
-      if (currentImageUri.startsWith('data:')) {
+      if (finalImageUri.startsWith('data:')) {
+        console.log(`🔍 [${taskId}] 检测到data URI，开始解析MIME类型...`);
         // 从data URI中提取MIME类型
-        const mimeMatch = currentImageUri.match(/^data:([^;]+);/);
+        const mimeMatch = finalImageUri.match(/^data:([^;]+);/);
         if (mimeMatch) {
           fileType = mimeMatch[1];
           // 根据MIME类型设置正确的文件扩展名
           if (fileType === 'image/jpeg') {
-            fileName = `image_${Date.now()}.jpg`;
+            fileName = `${taskId}_image.jpg`;
           } else if (fileType === 'image/png') {
-            fileName = `image_${Date.now()}.png`;
+            fileName = `${taskId}_image.png`;
           } else if (fileType === 'image/gif') {
-            fileName = `image_${Date.now()}.gif`;
+            fileName = `${taskId}_image.gif`;
           } else {
-            fileName = `image_${Date.now()}.jpg`; // 默认使用jpg
+            fileName = `${taskId}_image.jpg`; // 默认使用jpg
           }
+          console.log(`✅ [${taskId}] MIME类型解析: ${fileType}`);
         }
       } else {
+        console.log(`🔍 [${taskId}] 处理文件路径URI...`);
         // 对于非data URI，尝试从路径中提取文件名
-        const pathParts = currentImageUri.split('/');
+        const pathParts = finalImageUri.split('/');
         const lastPart = pathParts[pathParts.length - 1];
         if (lastPart && lastPart.includes('.')) {
-          fileName = lastPart;
+          fileName = `${taskId}_${lastPart}`;
         } else {
-          fileName = `image_${Date.now()}.jpg`;
+          fileName = `${taskId}_image.jpg`;
         }
       }
       
       const file = {
-        uri: currentImageUri,
+        uri: finalImageUri,
         name: fileName,
         type: fileType,
       };
-      console.log('上传文件信息:', file);
+      console.log(`📦 [${taskId}] 准备传递给加载页面的文件:`, {
+        name: file.name,
+        type: file.type,
+        uri: file.uri.substring(0, 50) + '...'
+      });
       
-      const result = await apiService.uploadImage(file);
-      console.log('后端返回结果:', JSON.stringify(result, null, 2));
-      
-      if (onEditComplete) {
-        console.log('调用onEditComplete回调...');
-        onEditComplete(result);
-      }
+      console.log(`🚀 [${taskId}] 跳转到加载页面开始批改...`);
+      navigation.navigate('GradingLoading', {
+        imageFile: file,
+        taskId: taskId,
+        imageUri: finalImageUri,
+      });
     } catch (e: any) {
-      console.error('上传失败:', e);
-      Alert.alert('上传失败', `错误: ${e.message || '未知错误'}`);
+      console.error(`❌ [${taskId}] 上传/批改失败:`, e);
+      Alert.alert('批改失败', `错误: ${e.message || '未知错误'}`);
     }
   };
 
@@ -189,7 +255,13 @@ const ImageEditor: React.FC<ImageEditorProps> = ({ imageUri, onEditComplete }) =
       {/* 渐变背景装饰 */}
       <View style={styles.gradientBackground} />
       
-      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+      <ScrollView 
+        key={`editor-scrollview-${scrollViewKey}`}
+        style={styles.scrollView} 
+        showsVerticalScrollIndicator={false}
+        scrollEnabled={true}
+        nestedScrollEnabled={false}
+      >
         <Animated.View 
           style={[
             styles.container,
@@ -223,10 +295,9 @@ const ImageEditor: React.FC<ImageEditorProps> = ({ imageUri, onEditComplete }) =
                     styles.image,
                     {
                       transform: [
-                        { rotate: `${rotation}deg` },
+                        { rotate: `${rotation % 360}deg` },
                         { scale: scaleAnim }
                       ],
-                      opacity: brightness,
                     },
                     { opacity: fadeAnim }
                   ]}
@@ -236,9 +307,9 @@ const ImageEditor: React.FC<ImageEditorProps> = ({ imageUri, onEditComplete }) =
                 <View style={styles.imageBorder} />
               </View>
               <View style={styles.imageInfo}>
-                <Text style={styles.imageInfoText}>
-                  📐 旋转: {rotation}° | 💡 亮度: {Math.round(brightness * 100)}%
-                </Text>
+              <Text style={styles.imageInfoText}>
+                📐 旋转: {rotation % 360}°
+              </Text>
               </View>
             </View>
           </View>
@@ -247,68 +318,65 @@ const ImageEditor: React.FC<ImageEditorProps> = ({ imageUri, onEditComplete }) =
           <View style={styles.controlsSection}>
             {/* 快速操作 */}
             <View style={styles.quickActions}>
-              <TouchableOpacity 
-                style={[styles.quickActionButton, styles.rotateButton]} 
-                onPress={handleRotate}
-                activeOpacity={0.8}
-              >
-                <View style={styles.buttonIconContainer}>
-                  <Text style={styles.quickActionIcon}>🔄</Text>
-                </View>
-                <Text style={styles.quickActionText}>旋转</Text>
-                <Text style={styles.buttonHint}>点击旋转90°</Text>
-              </TouchableOpacity>
-              
-              <TouchableOpacity 
-                style={[styles.quickActionButton, styles.cropButton]} 
-                onPress={handleCrop}
-                activeOpacity={0.8}
-              >
-                <View style={styles.buttonIconContainer}>
-                  <Text style={styles.quickActionIcon}>✂️</Text>
-                </View>
-                <Text style={styles.quickActionText}>裁剪</Text>
-                <Text style={styles.buttonHint}>精确裁剪图片</Text>
-              </TouchableOpacity>
-            </View>
-
-            {/* 亮度调节 */}
-            <View style={styles.brightnessSection}>
-              <View style={styles.sectionHeader}>
-                <View style={styles.titleContainer}>
-                  <Text style={styles.sectionIcon}>💡</Text>
-                  <Text style={styles.sectionTitle}>亮度调节</Text>
-                </View>
-                <View style={styles.valueContainer}>
-                  <Text style={styles.sectionValue}>{Math.round(brightness * 100)}%</Text>
-                </View>
+              <View style={styles.decorativeButtonWrapper}>
+                <DecorativeButton
+                  onPress={handleRotate}
+                  iconName="refresh"
+                  size="md"
+                  disabled={isProcessing}
+                  gradientColors={['#FF9500', '#FF6B35']}
+                  outerColor="#FFD60A"
+                  borderColor="#FF8C00"
+                />
+                <Text style={styles.buttonLabel}>🔄 旋转</Text>
+                <Text style={styles.buttonHint}>
+                  {isProcessing ? '处理中...' : '点击旋转90°'}
+                </Text>
               </View>
               
-              <Slider
-                style={styles.slider}
-                minimumValue={0.2}
-                maximumValue={2}
-                value={brightness}
-                onValueChange={handleBrightnessChange}
-                step={0.01}
-                minimumTrackTintColor={primaryColor}
-                maximumTrackTintColor={systemGray5}
-              />
-              
-              <View style={styles.sliderLabels}>
-                <Text style={styles.sliderLabel}>🌙 暗</Text>
-                <Text style={styles.sliderLabel}>☀️ 亮</Text>
+              <View style={styles.decorativeButtonWrapper}>
+                <DecorativeButton
+                  onPress={handleCrop}
+                  iconName="crop"
+                  size="md"
+                  disabled={isProcessing}
+                  gradientColors={['#34C759', '#30D158']}
+                  outerColor="#A3F3BE"
+                  borderColor="#00C851"
+                />
+                <Text style={styles.buttonLabel}>✂️ 裁剪</Text>
+                <Text style={styles.buttonHint}>精确裁剪图片</Text>
+              </View>
+            </View>
+
+            {/* 附加操作 */}
+            <View style={styles.additionalActions}>
+              <View style={styles.decorativeButtonWrapper}>
+                <DecorativeButton
+                  onPress={handleReset}
+                  iconName="refresh-circle"
+                  size="sm"
+                  disabled={isProcessing}
+                  gradientColors={['#8E8E93', '#6D6D70']}
+                  outerColor="#D1D1D6"
+                  borderColor="#8E8E93"
+                />
+                <Text style={styles.buttonLabel}>🔄 重置</Text>
               </View>
             </View>
 
             {/* 完成按钮 */}
-            <TouchableOpacity 
-              style={styles.completeButton} 
-              onPress={handleEditComplete}
-              activeOpacity={0.9}
-            >
+            <View style={styles.completeButtonWrapper}>
+              <DecorativeButton
+                onPress={handleEditComplete}
+                iconName="checkmark-circle"
+                size="lg"
+                gradientColors={['#007AFF', '#5856D6']}
+                outerColor="#BF5AF2"
+                borderColor="#AF52DE"
+              />
               <Text style={styles.completeButtonText}>✨ 完成编辑</Text>
-            </TouchableOpacity>
+            </View>
           </View>
         </Animated.View>
       </ScrollView>
@@ -432,9 +500,26 @@ const styles = StyleSheet.create({
   },
   quickActions: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     marginBottom: 32,
     gap: 16,
+  },
+  decorativeButtonWrapper: {
+    alignItems: 'center',
+    gap: 8,
+    flex: 1,
+  },
+  buttonLabel: {
+    color: textColor,
+    fontSize: 14,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  buttonHint: {
+    color: secondaryTextColor,
+    fontSize: 12,
+    textAlign: 'center',
+    marginTop: 4,
   },
   quickActionButton: {
     flex: 1,
@@ -463,6 +548,36 @@ const styles = StyleSheet.create({
     borderColor: secondaryColor,
     borderWidth: 2,
   },
+  disabledButton: {
+    opacity: 0.6,
+  },
+  additionalActions: {
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  completeButtonWrapper: {
+    alignItems: 'center',
+    gap: 12,
+  },
+  additionalActionButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: borderColor,
+  },
+  additionalActionIcon: {
+    fontSize: 16,
+    marginRight: 8,
+  },
+  additionalActionText: {
+    fontSize: 14,
+    color: textColor,
+    fontWeight: '600',
+  },
   buttonIconContainer: {
     width: 50,
     height: 50,
@@ -480,86 +595,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     marginBottom: 4,
-  },
-  buttonHint: {
-    fontSize: 12,
-    color: secondaryTextColor,
-    textAlign: 'center',
-  },
-  brightnessSection: {
-    backgroundColor: cardBackgroundColor,
-    padding: 28,
-    borderRadius: 24,
-    marginBottom: 32,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.08,
-    shadowRadius: 16,
-    elevation: 6,
-    borderWidth: 1,
-    borderColor: 'rgba(0, 0, 0, 0.03)',
-  },
-  sectionHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 24,
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  sectionIcon: {
-    fontSize: 20,
-    marginRight: 8,
-  },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: textColor,
-  },
-  valueContainer: {
-    backgroundColor: 'rgba(0, 122, 255, 0.1)',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: 'rgba(0, 122, 255, 0.2)',
-  },
-  sectionValue: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: primaryColor,
-  },
-  slider: {
-    width: '100%',
-    height: 40,
-  },
-  sliderThumb: {
-    backgroundColor: primaryColor,
-    borderWidth: 3,
-    borderColor: '#FFFFFF',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 4,
-  },
-  sliderLabels: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 12,
-  },
-  sliderLabel: {
-    fontSize: 14,
-    color: secondaryTextColor,
-    fontWeight: '600',
   },
   completeButton: {
     backgroundColor: successColor,
@@ -585,10 +620,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   completeButtonText: {
-    color: '#FFFFFF',
-    fontSize: 20,
-    fontWeight: '800',
-    letterSpacing: 0.5,
+    color: textColor,
+    fontSize: 18,
+    fontWeight: '700',
+    textAlign: 'center',
+    marginTop: 8,
   },
 });
 

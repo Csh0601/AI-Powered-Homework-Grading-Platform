@@ -32,9 +32,25 @@
       "timestamp": {
         "type": "number",
         "description": "时间戳"
+      },
+      "subject": {
+        "type": "string",
+        "description": "学科分类"
+      },
+      "subject_code": {
+        "type": "string",
+        "description": "学科代码"
+      },
+      "classification_confidence": {
+        "type": "number",
+        "description": "分类置信度"
+      },
+      "classification_method": {
+        "type": "string",
+        "description": "分类方法"
       }
     },
     "required": ["number", "stem", "answer", "options", "type", "question_id", "timestamp"],
-    "additionalProperties": false
+    "additionalProperties": true
   }
 }

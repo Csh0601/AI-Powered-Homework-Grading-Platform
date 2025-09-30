@@ -2,6 +2,7 @@ from typing import List, Dict, Any
 import time
 import logging
 from app.services.qwen_service import QwenService
+from app.services.huggingface_service import get_huggingface_service
 from app.services.grading_new import evaluate_math_calculation, generate_question_hash
 from app.config import Config
 
@@ -9,8 +10,10 @@ logger = logging.getLogger(__name__)
 
 class QwenGradingEngine:
     """
-    基于 Qwen3:30B 的智能批改引擎
+    基于 Qwen2.5-VL 的智能批改引擎
     支持多模态分析和智能批改
+    注意：此引擎已迁移到qwen_vl_direct_service直接调用LoRA服务，此类主要用于兼容性
+    推荐使用：analyze_homework_with_direct_service()
     """
     
     def __init__(self):
@@ -23,10 +26,20 @@ class QwenGradingEngine:
         
         if self.use_qwen:
             try:
-                self.qwen_service = QwenService(Config.QWEN_MODEL_NAME)
-                logger.info("Qwen 批改引擎初始化成功")
+                # 检查是否启用直接调用服务
+                self.use_direct_service = getattr(Config, 'USE_DIRECT_LORA_SERVICE', True)
+                
+                if self.use_direct_service:
+                    logger.info("⚠️ 注意：建议使用qwen_vl_direct_service进行直接调用LoRA服务")
+                    logger.info("此批改引擎主要用于兼容性，新功能请使用直接调用服务")
+                
+                # 保留原有服务初始化以维持兼容性
+                self.huggingface_service = get_huggingface_service()
+                qwen_model_name = getattr(Config, 'QWEN_MODEL_NAME', 'qwen2.5-vl')
+                self.qwen_service = QwenService(qwen_model_name)
+                logger.info("AI批改引擎初始化成功 (兼容模式)")
             except Exception as e:
-                logger.error(f"Qwen 服务初始化失败: {e}")
+                logger.error(f"AI服务初始化失败: {e}")
                 logger.warning("将回退到传统批改方式")
                 self.use_qwen = False
     
@@ -81,16 +94,29 @@ class QwenGradingEngine:
             
             results.append(grading_result)
         
-        # 知识点分析
-        wrong_questions = [r for r in results if not r['correct']]
+        # 知识点分析 - 改进错题识别逻辑
+        wrong_questions = [r for r in results if not r['correct'] or r['score'] == 0]
         knowledge_points = []
         
+        # 如果有错题，进行知识点分析
         if self.enable_knowledge_analysis and wrong_questions and self.qwen_service:
             try:
                 knowledge_points = self.qwen_service.analyze_knowledge_points(wrong_questions)
                 logger.info(f"知识点分析完成，识别出 {len(knowledge_points)} 个知识点")
             except Exception as e:
                 logger.error(f"知识点分析失败: {e}")
+        
+        # 如果没有错题知识点但有错题，生成基础知识点提示
+        if wrong_questions and not knowledge_points:
+            # 根据题目类型生成基础知识点
+            question_types = [q.get('type', '未知题型') for q in wrong_questions]
+            if '计算题' in question_types:
+                knowledge_points = ['基础计算能力', '数学运算技巧']
+            elif '应用题' in question_types:
+                knowledge_points = ['应用题解题方法', '数学建模思维']
+            else:
+                knowledge_points = ['基础知识点']
+            logger.info(f"生成了 {len(knowledge_points)} 个基础知识点提示")
         
         # 生成练习题
         practice_questions = []

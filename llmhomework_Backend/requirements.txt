@@ -1,19 +1,30 @@
+# 核心Web框架
 Flask
 Flask-Cors
+
+# 基础图像处理（多模态仍需要）
 opencv-python
 numpy
-easyocr
 Pillow
-jieba
+
+# AI和机器学习核心
 transformers
 torch
-openai
 sentence-transformers
-paddleocr
 requests
-pytesseract
 jsonschema
-ollama
+
+# 文本处理
+jieba
+
+# OCR相关（Qwen2.5-VL迁移后可选，保留用于可能的回退）
+# easyocr  # 可选：如果完全不使用OCR可以注释
+# paddleocr  # 可选：如果完全不使用OCR可以注释
+# pytesseract  # 可选：如果完全不使用OCR可以注释
+
+# API客户端（已弃用）
+# openai  # 已不使用OpenAI
+# ollama  # 已不使用Ollama
 # 机器学习库
 scikit-learn
 scipy
@@ -27,3 +38,5 @@ tensorflow
 SQLAlchemy
 # HTTP客户端
 httpx
+# 腾讯云OCR SDK
+tencentcloud-sdk-python

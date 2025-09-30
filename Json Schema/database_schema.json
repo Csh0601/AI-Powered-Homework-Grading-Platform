@@ -47,10 +47,26 @@
           "timestamp": {
             "type": "number",
             "description": "时间戳"
+          },
+          "subject": {
+            "type": "string",
+            "description": "学科分类"
+          },
+          "subject_code": {
+            "type": "string",
+            "description": "学科代码"
+          },
+          "classification_confidence": {
+            "type": "number",
+            "description": "分类置信度"
+          },
+          "classification_method": {
+            "type": "string",
+            "description": "分类方法"
           }
         },
         "required": ["number", "stem", "answer", "options", "type", "question_id", "timestamp"],
-        "additionalProperties": false
+        "additionalProperties": true
       }
     },
     "grading_result": {
@@ -68,7 +84,7 @@
           },
           "type": {
             "type": "string",
-            "enum": ["选择题", "判断题", "填空题", "计算题", "应用题", "公式题", "口算题", "未知题型"],
+            "enum": ["选择题", "判断题", "填空题", "计算题", "应用题", "公式题", "口算题", "未知题型", "识别失败"],
             "description": "题目类型"
           },
           "correct": {
@@ -82,6 +98,10 @@
           "explanation": {
             "type": "string",
             "description": "批改说明"
+          },
+          "correct_answer": {
+            "type": "string",
+            "description": "正确答案"
           },
           "question_id": {
             "type": "string",

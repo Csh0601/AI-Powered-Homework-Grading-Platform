@@ -13,6 +13,8 @@ pip install -r requirements.txt
 python run.py
 ```
 
+> 注意：启动前会自动禁用 Flash Attention / Triton，以避免 `wrap_triton` 相关报错。
+
 ## 主要接口
 - `POST /upload_image`：上传作业图片，返回结构化批改结果
 - `GET /get_results`：获取历史批改记录

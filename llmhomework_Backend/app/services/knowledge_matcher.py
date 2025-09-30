@@ -35,13 +35,13 @@ try:
     from sklearn.metrics.pairwise import cosine_similarity
     from sklearn.decomposition import LatentDirichletAllocation
     from sklearn.cluster import KMeans
-    from sklearn.multiclass import MultiLabelBinarizer
+    from sklearn.preprocessing import MultiLabelBinarizer
     import gensim
     from gensim.models import Word2Vec
     ML_AVAILABLE = True
 except ImportError:
     ML_AVAILABLE = False
-    print("⚠️ 机器学习库未完全安装，部分功能可能受限")
+    print("[WARNING] 机器学习库未完全安装，部分功能可能受限")
 
 # 配置日志
 logging.basicConfig(level=logging.INFO)
@@ -821,7 +821,7 @@ class KnowledgeMatcher:
 
 def test_knowledge_matcher():
     """简单测试知识点匹配器"""
-    print("🧪 测试知识点匹配算法...")
+    print("[TEST] 测试知识点匹配算法...")
     
     matcher = KnowledgeMatcher()
     
@@ -841,7 +841,7 @@ def test_knowledge_matcher():
         else:
             print("   → 未找到匹配")
     
-    print("✅ 测试完成")
+    print("[OK] 测试完成")
     return matcher
 
 

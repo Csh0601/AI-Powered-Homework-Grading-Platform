@@ -13,49 +13,25 @@ const EditImageScreen: React.FC = () => {
   const route = useRoute<EditImageScreenRouteProp>();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   
-  console.log('📷 EditImageScreen已加载');
-  console.log('📷 接收到的route.params:', JSON.stringify(route.params, null, 2));
-  
   const imageUri = route.params?.imageUri;
-  console.log('📷 解析的imageUri:', imageUri);
+  const taskId = route.params?.taskId || 'unknown_task';
+  
+  console.log(`\n=== 📷 [${taskId}] 进入图片编辑页面 ===`);
+  console.log(`📷 [${taskId}] 接收到的route.params:`, JSON.stringify(route.params, null, 2));
+  console.log(`📷 [${taskId}] 解析的imageUri:`, imageUri ? imageUri.substring(0, 50) + '...' : 'null');
 
   if (!imageUri) {
-    console.log('❌ EditImageScreen: 未获取到图片URI');
+    console.log(`❌ [${taskId}] EditImageScreen: 未获取到图片URI`);
     Alert.alert('错误', '未获取到图片');
     navigation.goBack();
     return null;
   }
   
-  console.log('✅ EditImageScreen: 图片URI有效，准备渲染ImageEditor');
-
-  // 修复：编辑完成后跳转到结果页面
-  const handleEditComplete = (result: any) => {
-    console.log('EditImageScreen收到结果:', JSON.stringify(result, null, 2));
-    
-    if (result && result.grading_result) {
-      console.log('准备跳转到Result页面...');
-      console.log('传递给Result的数据结构:', {
-        gradingResult: result,  // 传递整个result对象
-        wrongKnowledges: result.wrong_knowledges || [],
-        taskId: result.task_id || 'unknown',
-        timestamp: result.timestamp || Date.now(),
-      });
-      
-      navigation.navigate('Result', {
-        gradingResult: result,  // 传递整个result对象，而不是只传递grading_result数组
-        wrongKnowledges: result.wrong_knowledges || [],
-        taskId: result.task_id || 'unknown',
-        timestamp: result.timestamp || Date.now(),
-      });
-    } else {
-      console.error('批改结果格式错误，缺少grading_result字段:', result);
-      Alert.alert('批改结果异常', `未能获取到批改结果。\n返回数据: ${JSON.stringify(result, null, 2)}`);
-    }
-  };
+  console.log(`✅ [${taskId}] EditImageScreen: 图片URI有效，准备渲染ImageEditor`);
 
   return (
     <View style={styles.container}>
-      <ImageEditor imageUri={imageUri} onEditComplete={handleEditComplete} />
+      <ImageEditor imageUri={imageUri} taskId={taskId} />
     </View>
   );
 };

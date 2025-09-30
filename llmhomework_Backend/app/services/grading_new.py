@@ -167,9 +167,8 @@ def grade_homework_improved(questions: List[Dict]) -> List[Dict]:
         })
     
     print(f"\n=== 批改完成，共{len(results)}题 ===")
-    total_score = sum(r['score'] for r in results)
     correct_count = sum(1 for r in results if r['correct'])
-    print(f"总分: {total_score}, 正确题数: {correct_count}/{len(results)}")
+    print(f"正确题数: {correct_count}/{len(results)}")
     
     # 构建符合Schema的输出格式
     llm_output = {

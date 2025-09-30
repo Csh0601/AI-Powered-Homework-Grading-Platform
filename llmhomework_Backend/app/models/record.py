@@ -50,13 +50,11 @@ def save_record(record):
         grading_results = record['grading_result']
         total_questions = len(grading_results)
         correct_count = sum(1 for r in grading_results if r.get('correct', False))
-        total_score = sum(r.get('score', 0) for r in grading_results)
         accuracy_rate = correct_count / total_questions if total_questions > 0 else 0
         
         record['summary'] = {
             'total_questions': total_questions,
             'correct_count': correct_count,
-            'total_score': total_score,
             'accuracy_rate': round(accuracy_rate, 2)
         }
     

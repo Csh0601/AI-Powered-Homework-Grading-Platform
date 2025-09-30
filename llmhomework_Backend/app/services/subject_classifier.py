@@ -404,7 +404,7 @@ class SubjectClassifier:
                 textcnn_subject, textcnn_conf = self.classify_by_textcnn(processed_text)
                 results['textcnn'] = (textcnn_subject, textcnn_conf)
             except Exception as e:
-                logger.warning(f"TextCNN分类失败: {e}")
+                logger.error(f"TextCNN分类错误: {e}")
                 results['textcnn'] = ('unknown', 0.0)
         else:
             results['textcnn'] = ('unknown', 0.0)
@@ -452,17 +452,31 @@ class SubjectClassifier:
             label_encoder_path = os.path.join(model_dir, 'label_encoder.pkl')
             
             if all(os.path.exists(p) for p in [model_path, vectorizer_path, label_encoder_path]):
-                # 加载向量化器和标签编码器
-                with open(vectorizer_path, 'rb') as f:
-                    self.vectorizer = pickle.load(f)
+                # 加载向量化器和标签编码器（带版本兼容性处理）
+                try:
+                    with open(vectorizer_path, 'rb') as f:
+                        self.vectorizer = pickle.load(f)
+                except Exception as e:
+                    logger.warning(f"TfidfVectorizer加载失败（可能是sklearn版本不兼容）: {e}")
+                    self.vectorizer = None
                 
-                with open(label_encoder_path, 'rb') as f:
-                    self.label_encoder = pickle.load(f)
+                try:
+                    with open(label_encoder_path, 'rb') as f:
+                        self.label_encoder = pickle.load(f)
+                except Exception as e:
+                    logger.warning(f"LabelEncoder加载失败（可能是sklearn版本不兼容）: {e}")
+                    self.label_encoder = None
                 
-                # 初始化模型结构
-                vocab_size = 5000
-                embed_dim = 128
-                num_classes = len(self.label_encoder.classes_)
+                # 初始化模型结构（只有当label_encoder成功加载时）
+                if self.label_encoder is not None:
+                    vocab_size = 5000
+                    embed_dim = 128
+                    num_classes = len(self.label_encoder.classes_)
+                else:
+                    # 如果label_encoder加载失败，使用默认值
+                    vocab_size = 5000
+                    embed_dim = 128
+                    num_classes = 9  # 默认学科数量
                 
                 self.textcnn_model = TextCNN(
                     vocab_size=vocab_size,
@@ -494,6 +508,11 @@ class SubjectClassifier:
         try:
             import torch
             import numpy as np
+            
+            # 检查向量化器是否已经fitted
+            if not hasattr(self.vectorizer, 'idf_'):
+                logger.warning("TfidfVectorizer未fitted，无法使用TextCNN分类")
+                return 'unknown', 0.0
             
             # 文本向量化
             text_vector = self.vectorizer.transform([text]).toarray()[0]

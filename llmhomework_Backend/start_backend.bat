@@ -1,11 +1,19 @@
 @echo off
-echo 启动OCR作业批改后端服务...
-echo 使用Python 3.13版本
+chcp 65001 >nul
+echo [AI] 启动OCR作业批改后端服务...
+echo [INFO] 使用Python 3.10版本
 echo.
 
 cd /d "%~dp0"
-"C:\Users\48108\AppData\Local\Programs\Python\Python313\python.exe" run.py
+
+REM ✅ 确保禁用 Flash Attention / Triton，避免 wrap_triton 报错
+SET PYTORCH_ENABLE_TRITON=0
+SET TORCHINDUCTOR_DISABLE_TRITON=1
+SET FLASH_ATTENTION_FORCE_DISABLED=1
+SET ATTN_IMPLEMENTATION=eager
+
+python run.py
 
 echo.
-echo 服务已停止，按任意键退出...
+echo [STOP] 服务已停止，按任意键退出...
 pause

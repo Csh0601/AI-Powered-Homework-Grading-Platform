@@ -8,4 +8,6 @@ export interface CorrectionResult {
   explanation?: string; // 解释说明
   score?: number; // 得分
   type?: string; // 题目类型
+  knowledgePoints?: string[]; // 相关知识点列表
+  questionIndex?: number; // 题目索引（从0开始）
 }
