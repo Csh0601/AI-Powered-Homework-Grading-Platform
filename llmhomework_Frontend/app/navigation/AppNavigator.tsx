@@ -10,6 +10,7 @@ import ResultScreen from '../screens/ResultScreen';
 import SimilarQuestionsScreen from '../screens/SimilarQuestionsScreen';
 import StudySuggestionsScreen from '../screens/StudySuggestionsScreen';
 import UploadScreen from '../screens/UploadScreen';
+import ChatScreen from '../screens/ChatScreen';
 import { RootStackParamList } from './NavigationTypes';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -48,6 +49,7 @@ export default function AppNavigator() {
       <Stack.Screen name="KnowledgePoints" component={KnowledgePointsScreen} options={{ title: '知识点详情' }} />
       <Stack.Screen name="StudySuggestions" component={StudySuggestionsScreen} options={{ title: '学习建议' }} />
       <Stack.Screen name="SimilarQuestions" component={SimilarQuestionsScreen} options={{ title: '相似的题目' }} />
+      <Stack.Screen name="Chat" component={ChatScreen} options={{ title: 'AI学习伙伴' }} />
     </Stack.Navigator>
   );
 }

@@ -534,6 +534,31 @@ const ResultScreen: React.FC = () => {
             </View>
             <Text style={styles.simpleSectionHint}>点击按钮查看详细相似题目</Text>
           </View>
+
+          {/* 新增：AI学习伙伴对话入口 */}
+          <TouchableOpacity
+            style={styles.aiChatSection}
+            onPress={() => navigation.navigate('Chat', {
+              taskId: String(processedData.timestamp || Date.now()),
+              gradingResult: gradingResult
+            })}
+            activeOpacity={0.8}
+          >
+            <View style={styles.aiChatHeader}>
+              <View style={styles.aiChatIconContainer}>
+                <Text style={styles.aiChatIcon}>🤖</Text>
+              </View>
+              <View style={styles.aiChatTextContainer}>
+                <Text style={styles.aiChatTitle}>问问你的AI学习伙伴</Text>
+                <Text style={styles.aiChatSubtitle}>
+                  针对这次批改结果，AI可以解答你的疑问
+                </Text>
+              </View>
+              <View style={styles.aiChatArrowContainer}>
+                <Text style={styles.aiChatArrow}>›</Text>
+              </View>
+            </View>
+          </TouchableOpacity>
         </Animated.View>
       </ScrollView>
     </SafeAreaView>
@@ -1031,6 +1056,62 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.06,
     shadowRadius: 12,
     elevation: 4,
+  },
+  // 新增：AI学习伙伴对话入口样式
+  aiChatSection: {
+    marginTop: 20,
+    marginBottom: 20,
+    backgroundColor: cardBackgroundColor,
+    borderRadius: 16,
+    padding: 16,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
+    borderWidth: 1,
+    borderColor: 'rgba(52, 199, 89, 0.2)',
+  },
+  aiChatHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  aiChatIconContainer: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: 'rgba(52, 199, 89, 0.1)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+  aiChatIcon: {
+    fontSize: 28,
+  },
+  aiChatTextContainer: {
+    flex: 1,
+  },
+  aiChatTitle: {
+    fontSize: 17,
+    fontWeight: '700',
+    color: textColor,
+    marginBottom: 4,
+  },
+  aiChatSubtitle: {
+    fontSize: 13,
+    color: secondaryTextColor,
+    lineHeight: 18,
+  },
+  aiChatArrowContainer: {
+    marginLeft: 8,
+  },
+  aiChatArrow: {
+    fontSize: 32,
+    color: primaryColor,
+    fontWeight: '300',
   },
   noSimilarQuestionsIconContainer: {
     width: 60,

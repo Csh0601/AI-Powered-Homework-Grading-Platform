@@ -46,4 +46,8 @@ export type RootStackParamList = {
       type?: string;
     }>;
   };
+  Chat: {
+    taskId: string;
+    gradingResult: any;
+  };
 };

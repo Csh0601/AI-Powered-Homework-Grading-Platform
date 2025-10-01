@@ -53,6 +53,7 @@ def create_app():
     from .routes.classify import classify_bp
     from .api.knowledge_endpoints import knowledge_api
     from .api.question_bank_endpoints import question_bank_bp
+    from .api.chat_endpoints import chat_bp  # 新增：对话API蓝图
     
     app.register_blueprint(upload_bp)
     app.register_blueprint(result_bp)
@@ -60,6 +61,7 @@ def create_app():
     app.register_blueprint(classify_bp)
     app.register_blueprint(knowledge_api)
     app.register_blueprint(question_bank_bp)
+    app.register_blueprint(chat_bp)  # 新增：注册对话蓝图
     
     # 创建上传目录
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
