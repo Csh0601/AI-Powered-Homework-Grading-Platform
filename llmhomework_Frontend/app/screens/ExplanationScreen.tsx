@@ -3,7 +3,14 @@ import React from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 import LaTeXRenderer from '../components/LaTeXRenderer';
 import { RootStackParamList } from '../navigation/NavigationTypes';
-import { cardBackgroundColor, secondaryTextColor, textColor } from '../styles/colors';
+import {
+  textPrimary,
+  textSecondary,
+  backgroundPrimary,
+  cardBackground,
+  borderColor
+} from '../styles/colors';
+import { typography, spacing, borderRadius, shadows } from '../styles/designSystem';
 
 type ExplanationRouteProp = RouteProp<RootStackParamList, 'Explanation'>;
 
@@ -30,7 +37,7 @@ const ExplanationScreen: React.FC = () => {
               nestedScrollEnabled
             >
               {hasLaTeX(result.question) ? (
-                <LaTeXRenderer content={result.question} fontSize={18} color={textColor} />
+                <LaTeXRenderer content={result.question} fontSize={18} color={textPrimary} />
               ) : (
                 <Text style={styles.text}>{result.question || '题目内容缺失'}</Text>
               )}
@@ -47,7 +54,7 @@ const ExplanationScreen: React.FC = () => {
               nestedScrollEnabled
             >
               {hasLaTeX(result.userAnswer) ? (
-                <LaTeXRenderer content={result.userAnswer} fontSize={16} color={textColor} />
+                <LaTeXRenderer content={result.userAnswer} fontSize={16} color={textPrimary} />
               ) : (
                 <Text style={styles.text}>{result.userAnswer || '未作答'}</Text>
               )}
@@ -64,7 +71,7 @@ const ExplanationScreen: React.FC = () => {
               nestedScrollEnabled
             >
               {hasLaTeX(result.correctAnswer) ? (
-                <LaTeXRenderer content={result.correctAnswer} fontSize={16} color={textColor} />
+                <LaTeXRenderer content={result.correctAnswer} fontSize={16} color={textPrimary} />
               ) : (
                 <Text style={styles.text}>{result.correctAnswer || '参考答案缺失'}</Text>
               )}
@@ -81,7 +88,7 @@ const ExplanationScreen: React.FC = () => {
               nestedScrollEnabled
             >
               {hasLaTeX(result.explanation) ? (
-                <LaTeXRenderer content={result.explanation} fontSize={15} color={secondaryTextColor} />
+                <LaTeXRenderer content={result.explanation} fontSize={15} color={textSecondary} />
               ) : (
                 <Text style={[styles.text, styles.detailText]}>
                   {result.explanation || '暂无解析'}
@@ -98,50 +105,46 @@ const ExplanationScreen: React.FC = () => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#F5F5FF',
+    backgroundColor: backgroundPrimary,
   },
   container: {
     flex: 1,
   },
   contentContainer: {
-    padding: 20,
-    paddingBottom: 40,
+    padding: spacing.screenHorizontal,
+    paddingBottom: spacing.xxxl + spacing.md,
   },
   section: {
-    marginBottom: 24,
+    marginBottom: spacing.xl,
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: textColor,
-    marginBottom: 12,
+    ...typography.heading3,
+    fontWeight: '500',  // Apple 中等字重
+    color: textPrimary,
+    marginBottom: spacing.md,
   },
   card: {
-    backgroundColor: cardBackgroundColor,
-    borderRadius: 16,
-    padding: 16,
-    borderWidth: 1,
-    borderColor: 'rgba(0,0,0,0.05)',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 3,
+    backgroundColor: cardBackground,
+    borderRadius: borderRadius.card,
+    padding: spacing.cardPadding,
+    borderWidth: 0.5,  // Apple 精细边框
+    borderColor: borderColor,
+    ...shadows.level2,  // 轻柔阴影
     maxHeight: 220,
   },
   text: {
-    fontSize: 16,
-    color: textColor,
+    ...typography.bodyMedium,
+    color: textPrimary,
     lineHeight: 24,
   },
   detailText: {
-    color: secondaryTextColor,
+    color: textSecondary,
   },
   cardScroll: {
     maxHeight: 200,
   },
   cardScrollContent: {
-    paddingRight: 4,
+    paddingRight: spacing.xs,
   },
 });
 

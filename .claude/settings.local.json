@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ssh:*)",
+      "Bash(npx tsc:*)",
+      "Read(//c/Users/48108/Desktop/picture for claude/**)",
+      "Bash(tree:*)",
+      "Bash(find:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

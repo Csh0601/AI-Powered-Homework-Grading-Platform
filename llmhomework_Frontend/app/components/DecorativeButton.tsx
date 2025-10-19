@@ -8,7 +8,7 @@ interface DecorativeButtonProps {
   size?: 'sm' | 'md' | 'lg';
   disabled?: boolean;
   iconName?: keyof typeof Ionicons.glyphMap;
-  gradientColors?: string[];
+  gradientColors?: readonly [string, string, ...string[]];
   borderColor?: string;
   outerColor?: string;
 }

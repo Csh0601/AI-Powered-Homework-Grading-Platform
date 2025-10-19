@@ -8,6 +8,7 @@ import base64
 import json
 import logging
 import time
+import re
 from typing import Dict, Any, Optional
 from io import BytesIO
 from PIL import Image
@@ -21,6 +22,40 @@ os.environ.setdefault("ATTN_IMPLEMENTATION", "eager")
 os.environ.setdefault("PYTORCH_NO_FAST_ATTENTION", "1")
 
 logger = logging.getLogger(__name__)
+
+
+def clean_json_string(text: str) -> str:
+    """
+    清理JSON字符串中的非法转义字符（备用方案）
+    
+    **注意**: 由于服务器端已经处理了JSON转义，这里只作为备用
+    
+    Args:
+        text: 原始JSON字符串
+        
+    Returns:
+        清理后的JSON字符串
+    """
+    if not text:
+        return text
+    
+    try:
+        # 先尝试直接解析
+        try:
+            json.loads(text)
+            return text  # 如果能解析，直接返回
+        except json.JSONDecodeError:
+            # 只有失败时才修复
+            fixed_text = re.sub(
+                r'\\(?=[^"\\\/bfnrtu\s])',
+                r'\\\\',
+                text
+            )
+            return fixed_text
+        
+    except Exception as e:
+        logger.error(f"❌ JSON清理过程出错: {e}")
+        return text
 
 class QwenVLClient:
     """Qwen2.5-VL多模态客户端"""
@@ -371,7 +406,14 @@ class QwenVLClient:
                 # 尝试解析JSON结构
                 response_data = result["data"]
                 if isinstance(response_data, str):
-                    parsed_data = json.loads(response_data)
+                    # 直接尝试解析（服务器端已处理转义）
+                    try:
+                        parsed_data = json.loads(response_data)
+                    except json.JSONDecodeError as e:
+                        # 只有失败时才使用清理函数
+                        logger.warning(f"⚠️ 直接解析失败，使用清理函数: {e}")
+                        cleaned_data = clean_json_string(response_data)
+                        parsed_data = json.loads(cleaned_data)
                 else:
                     parsed_data = response_data
                 

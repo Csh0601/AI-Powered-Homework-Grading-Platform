@@ -11,6 +11,7 @@ import SimilarQuestionsScreen from '../screens/SimilarQuestionsScreen';
 import StudySuggestionsScreen from '../screens/StudySuggestionsScreen';
 import UploadScreen from '../screens/UploadScreen';
 import ChatScreen from '../screens/ChatScreen';
+import GeneratePaperScreen from '../screens/GeneratePaperScreen';
 import { RootStackParamList } from './NavigationTypes';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -50,6 +51,14 @@ export default function AppNavigator() {
       <Stack.Screen name="StudySuggestions" component={StudySuggestionsScreen} options={{ title: '学习建议' }} />
       <Stack.Screen name="SimilarQuestions" component={SimilarQuestionsScreen} options={{ title: '相似的题目' }} />
       <Stack.Screen name="Chat" component={ChatScreen} options={{ title: 'AI学习伙伴' }} />
+      <Stack.Screen 
+        name="GeneratePaper" 
+        component={GeneratePaperScreen} 
+        options={{ 
+          title: '生成试卷',
+          headerShown: false // 使用自定义导航栏
+        }} 
+      />
     </Stack.Navigator>
   );
 }

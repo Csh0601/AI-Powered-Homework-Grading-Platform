@@ -25,11 +25,14 @@ import type { ChatMessage as ChatMessageType } from '../models/Chat';
 import type { RootStackParamList } from '../navigation/NavigationTypes';
 import {
   primaryColor,
-  backgroundColor,
-  textColor,
-  secondaryTextColor,
-  cardBackgroundColor,
+  backgroundPrimary,
+  textPrimary,
+  textSecondary,
+  cardBackground,
+  textInverse,
+  errorColor,
 } from '../styles/colors';
+import { typography, spacing, borderRadius, shadows } from '../styles/designSystem';
 
 type ChatScreenRouteProp = RouteProp<RootStackParamList, 'Chat'>;
 type ChatScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Chat'>;
@@ -251,13 +254,13 @@ const ChatScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: backgroundColor,
+    backgroundColor: backgroundPrimary,
   },
   keyboardAvoidingView: {
     flex: 1,
   },
   messageList: {
-    paddingVertical: 12,
+    paddingVertical: spacing.md,
     flexGrow: 1,
   },
   loadingContainer: {
@@ -266,67 +269,67 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   loadingText: {
-    marginTop: 16,
-    fontSize: 16,
-    color: secondaryTextColor,
+    marginTop: spacing.lg,
+    ...typography.bodyMedium,
+    color: textSecondary,
   },
   errorContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 24,
+    padding: spacing.xl,
   },
   errorText: {
-    marginTop: 16,
-    fontSize: 16,
-    color: textColor,
+    marginTop: spacing.lg,
+    ...typography.bodyMedium,
+    color: textPrimary,
     textAlign: 'center',
   },
   retryButton: {
-    marginTop: 24,
-    paddingHorizontal: 32,
-    paddingVertical: 12,
+    marginTop: spacing.xl,
+    paddingHorizontal: spacing.xxxl,
+    paddingVertical: spacing.md,
     backgroundColor: primaryColor,
-    borderRadius: 24,
+    borderRadius: borderRadius.button,
   },
   retryButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '600',
+    color: textInverse,
+    ...typography.buttonMedium,
+    fontWeight: '500',
   },
   backButton: {
-    marginTop: 12,
-    paddingHorizontal: 32,
-    paddingVertical: 12,
+    marginTop: spacing.md,
+    paddingHorizontal: spacing.xxxl,
+    paddingVertical: spacing.md,
   },
   backButtonText: {
     color: primaryColor,
-    fontSize: 16,
+    ...typography.bodyMedium,
   },
   emptyContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 40,
+    paddingVertical: spacing.xxxl + spacing.md,
   },
   emptyText: {
-    fontSize: 16,
-    color: secondaryTextColor,
+    ...typography.bodyMedium,
+    color: textSecondary,
   },
   loadingIndicator: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 8,
-    backgroundColor: cardBackgroundColor,
+    paddingVertical: spacing.sm,
+    backgroundColor: cardBackground,
   },
   loadingIndicatorText: {
-    marginLeft: 8,
-    fontSize: 14,
-    color: secondaryTextColor,
+    marginLeft: spacing.sm,
+    ...typography.bodySmall,
+    color: textSecondary,
   },
   headerButton: {
-    padding: 8,
+    padding: spacing.sm,
   },
 });
 

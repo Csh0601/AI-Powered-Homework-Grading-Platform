@@ -1,11 +1,20 @@
 /**
- * 聊天消息气泡组件
+ * 聊天消息气泡组件 - iMessage 风格
  */
 
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import type { ChatMessage as ChatMessageType } from '../models/Chat';
-import { primaryColor, secondaryColor, textColor, secondaryTextColor, cardBackgroundColor, systemGray6 } from '../styles/colors';
+import {
+  primaryColor,
+  textPrimary,
+  textSecondary,
+  cardBackground,
+  borderColor,
+  textInverse,
+  primaryAlpha10
+} from '../styles/colors';
+import { typography, spacing, borderRadius } from '../styles/designSystem';
 
 interface ChatMessageProps {
   message: ChatMessageType;
@@ -81,8 +90,8 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
 const styles = StyleSheet.create({
   messageContainer: {
     flexDirection: 'row',
-    marginVertical: 4,
-    marginHorizontal: 12,
+    marginVertical: spacing.xs,
+    marginHorizontal: spacing.md,
     maxWidth: '85%',
   },
   userMessageContainer: {
@@ -93,71 +102,67 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   avatarContainer: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: systemGray6,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: primaryAlpha10,
     justifyContent: 'center',
     alignItems: 'center',
-    marginHorizontal: 8,
+    marginHorizontal: spacing.sm,
   },
   avatarText: {
-    fontSize: 20,
+    fontSize: 18,
   },
   messageBubble: {
     flex: 1,
-    borderRadius: 16,
-    paddingHorizontal: 14,
-    paddingVertical: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
+    borderRadius: borderRadius.lg,  // iMessage 圆角
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    // 移除阴影，保持 Apple 简洁风格
   },
   userBubble: {
-    backgroundColor: primaryColor,
-    borderBottomRightRadius: 4,
+    backgroundColor: primaryColor,  // iOS Blue
+    borderBottomRightRadius: spacing.xs,  // iMessage 尾巴
   },
   aiBubble: {
-    backgroundColor: cardBackgroundColor,
-    borderBottomLeftRadius: 4,
-    borderWidth: 1,
-    borderColor: systemGray6,
+    backgroundColor: cardBackground,  // 浅灰色背景
+    borderBottomLeftRadius: spacing.xs,  // iMessage 尾巴
+    borderWidth: 0.5,  // Apple 精细边框
+    borderColor: borderColor,
   },
   messageText: {
-    fontSize: 15,
+    ...typography.bodyMedium,
     lineHeight: 21,
   },
   userText: {
-    color: '#FFFFFF',
+    color: textInverse,  // 白色文字
   },
   aiText: {
-    color: textColor,
+    color: textPrimary,
   },
   timestamp: {
-    fontSize: 11,
-    marginTop: 4,
+    ...typography.caption,
+    marginTop: spacing.xs,
   },
   userTimestamp: {
     color: 'rgba(255, 255, 255, 0.7)',
     textAlign: 'right',
   },
   aiTimestamp: {
-    color: secondaryTextColor,
+    color: textSecondary,
     textAlign: 'left',
   },
   systemMessageContainer: {
     alignSelf: 'center',
-    marginVertical: 8,
-    paddingHorizontal: 16,
-    paddingVertical: 6,
-    backgroundColor: 'rgba(0, 0, 0, 0.05)',
-    borderRadius: 12,
+    marginVertical: spacing.sm,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.xs,
+    backgroundColor: primaryAlpha10,
+    borderRadius: borderRadius.md,
   },
   systemMessageText: {
-    fontSize: 12,
-    color: secondaryTextColor,
+    ...typography.caption,
+    color: textSecondary,
     textAlign: 'center',
   },
 });

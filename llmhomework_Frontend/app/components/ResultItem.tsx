@@ -2,16 +2,19 @@ import React, { useMemo } from 'react';
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import type { CorrectionResult } from '../models/CorrectionResult';
 import LaTeXRenderer from './LaTeXRenderer';
-import { 
-  successColor, 
+import {
+  successColor,
   errorColor,
-  textColor, 
-  secondaryTextColor, 
-  cardBackgroundColor,
+  textPrimary,
+  textSecondary,
+  cardBackground,
   borderColor,
   primaryColor,
-  warningColor
+  primaryAlpha10,
+  successAlpha10,
+  errorAlpha10
 } from '../styles/colors';
+import { typography, spacing, borderRadius, shadows } from '../styles/designSystem';
 
 interface ResultItemProps {
   result: CorrectionResult;
@@ -72,7 +75,7 @@ const ResultItem: React.FC<ResultItemProps> = ({ result, onPressExplanation, onP
       <View style={styles.header}>
         <View style={styles.statusIndicator}>
           <View style={[
-            styles.statusIconContainer, 
+            styles.statusIconContainer,
             safeResult.isCorrect ? styles.correctIconContainer : styles.incorrectIconContainer
           ]}>
             <Text style={[styles.statusIcon, safeResult.isCorrect ? styles.correctIcon : styles.incorrectIcon]}>
@@ -96,7 +99,7 @@ const ResultItem: React.FC<ResultItemProps> = ({ result, onPressExplanation, onP
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>题目内容</Text>
           <View style={styles.sectionContentBox}>
-            {renderRichText(safeResult.question, { fontSize: 16, color: textColor })}
+            {renderRichText(safeResult.question, { fontSize: 16, color: textPrimary })}
           </View>
         </View>
 
@@ -106,7 +109,7 @@ const ResultItem: React.FC<ResultItemProps> = ({ result, onPressExplanation, onP
             <View style={[styles.answerBox, !safeResult.isCorrect && styles.incorrectAnswerBox]}>
               {renderRichText(safeResult.userAnswer, {
                 fontSize: 14,
-                color: safeResult.isCorrect ? textColor : errorColor
+                color: safeResult.isCorrect ? textPrimary : errorColor
               })}
             </View>
           </View>
@@ -125,7 +128,7 @@ const ResultItem: React.FC<ResultItemProps> = ({ result, onPressExplanation, onP
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>知识点</Text>
           <View style={styles.sectionContentBox}>
-            {renderRichText(safeResult.knowledgePoint, { fontSize: 15, color: textColor })}
+            {renderRichText(safeResult.knowledgePoint, { fontSize: 15, color: textPrimary })}
           </View>
           {onPressKnowledge && (
             <TouchableOpacity style={styles.actionButton} onPress={onPressKnowledge}>
@@ -138,7 +141,7 @@ const ResultItem: React.FC<ResultItemProps> = ({ result, onPressExplanation, onP
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>解析</Text>
             <View style={styles.sectionContentBox}>
-              {renderRichText(safeResult.explanation, { fontSize: 15, color: secondaryTextColor })}
+              {renderRichText(safeResult.explanation, { fontSize: 15, color: textSecondary })}
             </View>
             {onPressExplanation && (
               <TouchableOpacity style={styles.actionButton} onPress={onPressExplanation}>
@@ -154,28 +157,21 @@ const ResultItem: React.FC<ResultItemProps> = ({ result, onPressExplanation, onP
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: cardBackgroundColor,
-    borderRadius: 16,
+    backgroundColor: cardBackground,
+    borderRadius: borderRadius.card,
     marginHorizontal: 0,
-    marginVertical: 10,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.08,
-    shadowRadius: 12,
-    elevation: 4,
+    marginVertical: spacing.md,
+    ...shadows.level2,  // 轻柔阴影
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(0, 0, 0, 0.05)',
+    padding: spacing.cardPadding,
+    borderBottomWidth: 0.5,  // Apple 精细分割线
+    borderBottomColor: borderColor,
   },
   statusIndicator: {
-    marginRight: 16,
+    marginRight: spacing.md,
   },
   statusIconContainer: {
     width: 40,
@@ -185,14 +181,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   correctIconContainer: {
-    backgroundColor: 'rgba(52, 199, 89, 0.1)',
+    backgroundColor: successAlpha10,
   },
   incorrectIconContainer: {
-    backgroundColor: 'rgba(255, 59, 48, 0.1)',
+    backgroundColor: errorAlpha10,
   },
   statusIcon: {
     fontSize: 20,
-    fontWeight: '700',
+    fontWeight: '500',  // Apple 中等字重
   },
   correctIcon: {
     color: successColor,
@@ -204,62 +200,59 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   questionNumber: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: textColor,
-    marginBottom: 4,
+    ...typography.heading3,
+    fontWeight: '500',
+    color: textPrimary,
+    marginBottom: spacing.xs / 2,
   },
   questionType: {
-    fontSize: 14,
-    color: secondaryTextColor,
-    fontWeight: '500',
+    ...typography.bodySmall,
+    color: textSecondary,
+    fontWeight: '400',
   },
   scoreContainer: {
     alignItems: 'center',
   },
   scoreText: {
-    fontSize: 20,
-    fontWeight: '700',
+    ...typography.heading3,
+    fontWeight: '300',  // Apple 轻量字体
     color: primaryColor,
   },
   scoreLabel: {
-    fontSize: 12,
-    color: secondaryTextColor,
-    marginTop: 2,
+    ...typography.caption,
+    color: textSecondary,
+    marginTop: spacing.xs / 2,
   },
   content: {
-    padding: 20,
+    padding: spacing.cardPadding,
   },
   section: {
-    marginBottom: 20,
+    marginBottom: spacing.lg,
   },
   sectionTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: textColor,
-    marginBottom: 12,
+    ...typography.heading4,
+    fontWeight: '500',
+    color: textPrimary,
+    marginBottom: spacing.md,
   },
   sectionContentBox: {
-    backgroundColor: 'rgba(0, 0, 0, 0.02)',
-    padding: 16,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: 'rgba(0, 0, 0, 0.05)',
+    backgroundColor: primaryAlpha10,
+    padding: spacing.md,
+    borderRadius: borderRadius.md,
     alignItems: 'flex-start',
     width: '100%',
   },
   sectionContent: {
-    fontSize: 15,
-    color: textColor,
-    lineHeight: 22,
+    ...typography.bodyMedium,
+    color: textPrimary,
     alignSelf: 'stretch',
     width: '100%',
     textAlign: 'left',
   },
   answersRow: {
     flexDirection: 'row',
-    gap: 16,
-    marginBottom: 20,
+    gap: spacing.md,
+    marginBottom: spacing.lg,
   },
   answersColumn: {
     flexDirection: 'column',
@@ -268,44 +261,45 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   answerLabel: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: secondaryTextColor,
-    marginBottom: 8,
+    ...typography.bodySmall,
+    fontWeight: '500',
+    color: textSecondary,
+    marginBottom: spacing.sm,
   },
   answerBox: {
-    padding: 12,
-    borderRadius: 10,
-    borderWidth: 1,
+    padding: spacing.md,
+    borderRadius: borderRadius.md,
+    borderWidth: 0.5,
     width: '100%',
     alignItems: 'flex-start',
     flexDirection: 'column',
   },
   actionButton: {
-    marginTop: 12,
+    marginTop: spacing.md,
     alignSelf: 'flex-start',
-    paddingHorizontal: 14,
-    paddingVertical: 8,
-    borderRadius: 12,
-    backgroundColor: 'rgba(88, 86, 214, 0.1)',
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    borderRadius: borderRadius.button,
+    backgroundColor: primaryAlpha10,
   },
   actionButtonText: {
-    fontSize: 13,
+    ...typography.caption,
     color: primaryColor,
-    fontWeight: '600',
+    fontWeight: '500',
   },
   correctAnswerBox: {
-    backgroundColor: 'rgba(52, 199, 89, 0.05)',
-    borderColor: 'rgba(52, 199, 89, 0.2)',
+    backgroundColor: successAlpha10,
+    borderColor: successColor,
+    borderWidth: 0.5,
   },
   incorrectAnswerBox: {
-    backgroundColor: 'rgba(255, 59, 48, 0.05)',
-    borderColor: 'rgba(255, 59, 48, 0.2)',
+    backgroundColor: errorAlpha10,
+    borderColor: errorColor,
+    borderWidth: 0.5,
   },
   answerText: {
-    fontSize: 14,
-    color: textColor,
-    lineHeight: 20,
+    ...typography.bodySmall,
+    color: textPrimary,
     flexShrink: 1,
     width: '100%',
     textAlign: 'left',

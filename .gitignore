@@ -1,9 +1,217 @@
-llmhomework_Backend/app/models/paraphrase-multilingual-MiniLM-L12-v2/
-llmhomework_Backend/app/models/bert_knowledge.pt
-llmhomework_Backend/uploads/
-*.bin
-*.h5
-*.onnx
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+instance/
+.webassets-cache
+.scrapy
+.pytest_cache/
+.coverage
+.hypothesis/
+htmlcov/
+.tox/
+.nox/
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+
+# Node.js & React Native
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.eslintcache
+.node_repl_history
+*.tgz
+.yarn-integrity
+.expo/
+.expo-shared/
+dist/
+web-build/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.iml
+.project
+.classpath
+.settings/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+database/*.db
+llmhomework_Backend/database/*.db
+knowledge_base.db
+
+# Uploads & Temp files
+uploads/*
+!uploads/.gitkeep
+temp/
+tmp/
+*.tmp
+*.bak
+*.orig
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+*.env
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Testing
+coverage/
+.nyc_output/
+test-results/
+
+# Sensitive data
+config/secret.json
+secrets/
+*.pem
+*.key
+*.cert
+
+# Large files
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Model files (太大不上传)
+*.pth
 *.pt
+*.bin
 *.ckpt
-*.safetensors 
+models/*
+!models/.gitkeep
+!models/README.md
+
+# Cache
+.cache/
+*.cache
+.parcel-cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# Backup files
+*_backup.*
+*.backup
+backup/
+
+# Generated files
+*.pyc
+*.pyo
+*.pyd
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Documentation build
+docs/_build/
+site/
+
+# Android & iOS
+*.apk
+*.aab
+*.ipa
+android/app/build/
+ios/Pods/
+ios/build/
+
+# Generated artifacts
+*.class
+*.war
+*.nar
+*.ear
+
+# Package files
+*.jar
+*.tar
+*.rar
+*.zip
+*.7z
+*.dmg
+*.gz
+*.iso
+*.bz2
+*.tgz
+*.deb
+*.rpm
+
+# Frontend specific
+build/
+.expo/
+.expo-shared/
+web-build/
+
+# Backend specific
+instance/
+.webassets-cache
+
+# Ignore IP configuration history
+# 保留最新的配置说明文档
+# *.bat 中关于IP的临时配置不上传
+
+# 保留的重要文件（不忽略）
+!README.md
+!.gitignore
+!requirements.txt
+!package.json
+!同学使用指南.md
+!获取当前IP.bat
+!上传到GitHub.bat

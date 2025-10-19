@@ -40,3 +40,5 @@ SQLAlchemy
 httpx
 # 腾讯云OCR SDK
 tencentcloud-sdk-python
+# PDF生成库
+reportlab

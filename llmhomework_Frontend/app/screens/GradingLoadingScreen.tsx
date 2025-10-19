@@ -16,15 +16,16 @@ import {
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import Loader from '../components/Loader';
 import { RootStackParamList } from '../navigation/NavigationTypes';
-import { 
-  primaryColor, 
-  textColor, 
-  secondaryTextColor, 
-  backgroundColor, 
-  cardBackgroundColor,
-  borderColor,
-  systemGray6
+import {
+  primaryColor,
+  textPrimary,
+  textSecondary,
+  backgroundPrimary,
+  cardBackground,
+  errorColor,
+  primaryAlpha10
 } from '../styles/colors';
+import { typography, spacing, borderRadius, shadows } from '../styles/designSystem';
 import apiService from '../services/apiService';
 import historyService from '../services/historyService';
 
@@ -256,17 +257,17 @@ const GradingLoadingScreen: React.FC = () => {
   return (
     <GestureHandlerRootView style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
-        <StatusBar barStyle="dark-content" backgroundColor={backgroundColor} />
-        
+        <StatusBar barStyle="dark-content" backgroundColor={backgroundPrimary} />
+
         <GestureDetector gesture={swipeGesture}>
           <View style={styles.gestureContainer}>
-            {/* 顶部导航栏 */}
+            {/* 顶部导航栏 - Apple 简洁风格 */}
             <View style={styles.navigationBar}>
-              <View style={styles.navIconContainer}>
-                <Text style={styles.navIcon}>📚</Text>
+              <View style={styles.navTitleContainer}>
+                <Text style={styles.navTitle}>智能批改</Text>
+                <Text style={styles.navSubtitle}>AI 批改中</Text>
               </View>
-              <Text style={styles.navTitle}>智能批改</Text>
-              <TouchableOpacity 
+              <TouchableOpacity
                 style={styles.cancelButton}
                 onPress={handleCancelGrading}
               >
@@ -313,20 +314,14 @@ const GradingLoadingScreen: React.FC = () => {
                 </View>
               </View>
 
-              {/* 提示文字区域 */}
+              {/* 提示文字区域 - 克制简洁 */}
               <View style={styles.messageSection}>
                 <Text style={styles.mainMessage}>
-                  请耐心等待，批改的时间
+                  批改需要约 2-3 分钟
                 </Text>
-                <Text style={styles.mainMessage}>
-                  大概需要两到三分钟
+                <Text style={styles.subMessage}>
+                  请耐心等待
                 </Text>
-                
-                <View style={styles.emojiContainer}>
-                  <Text style={styles.emoji}>😊</Text>
-                  <Text style={styles.emoji}>🤖</Text>
-                  <Text style={styles.emoji}>⏰</Text>
-                </View>
               </View>
 
               {/* 底部提示 */}
@@ -351,7 +346,7 @@ const GradingLoadingScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: backgroundColor,
+    backgroundColor: backgroundPrimary,
   },
   safeArea: {
     flex: 1,
@@ -363,66 +358,51 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-    backgroundColor: cardBackgroundColor,
-    borderBottomWidth: 1,
-    borderBottomColor: borderColor,
+    paddingHorizontal: spacing.screenHorizontal,
+    paddingVertical: spacing.lg,
+    backgroundColor: cardBackground,
   },
-  navIconContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: primaryColor + '15',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  navIcon: {
-    fontSize: 20,
+  navTitleContainer: {
+    flex: 1,
   },
   navTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: textColor,
-    flex: 1,
-    textAlign: 'center',
-    marginHorizontal: 16,
+    ...typography.heading2,
+    fontWeight: '500',
+    color: textPrimary,
+    marginBottom: spacing.xs / 2,
+  },
+  navSubtitle: {
+    ...typography.bodySmall,
+    color: textSecondary,
   },
   cancelButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 16,
-    backgroundColor: systemGray6,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    borderRadius: borderRadius.button,
+    backgroundColor: primaryAlpha10,
   },
   cancelButtonText: {
-    fontSize: 14,
+    ...typography.buttonSmall,
     fontWeight: '500',
-    color: secondaryTextColor,
+    color: primaryColor,
   },
   contentContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 40,
+    paddingHorizontal: spacing.xxxl,
   },
   loadingSection: {
     alignItems: 'center',
-    marginBottom: 60,
+    marginBottom: spacing.xxxl,
   },
   loaderContainer: {
-    backgroundColor: cardBackgroundColor,
-    paddingVertical: 24,
-    paddingHorizontal: 32,
-    borderRadius: 20,
-    marginBottom: 32,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 16,
-    elevation: 8,
+    backgroundColor: cardBackground,
+    paddingVertical: spacing.xl,
+    paddingHorizontal: spacing.xxl,
+    borderRadius: borderRadius.card,
+    marginBottom: spacing.xxl,
+    ...shadows.level3,
   },
   progressContainer: {
     alignItems: 'center',
@@ -431,41 +411,35 @@ const styles = StyleSheet.create({
   progressBar: {
     width: '80%',
     height: 6,
-    backgroundColor: systemGray6,
-    borderRadius: 3,
+    backgroundColor: primaryAlpha10,
+    borderRadius: borderRadius.xs,
     overflow: 'hidden',
-    marginBottom: 8,
+    marginBottom: spacing.sm,
   },
   progressFill: {
     height: '100%',
     backgroundColor: primaryColor,
-    borderRadius: 3,
+    borderRadius: borderRadius.xs,
   },
   progressText: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: secondaryTextColor,
+    ...typography.label,
+    color: textSecondary,
   },
   messageSection: {
     alignItems: 'center',
-    marginBottom: 60,
+    marginBottom: spacing.xxxl,
   },
   mainMessage: {
-    fontSize: 18,
-    fontWeight: '500',
-    color: textColor,
+    ...typography.bodyLarge,
+    fontWeight: '400',
+    color: textPrimary,
     textAlign: 'center',
-    lineHeight: 28,
+    marginBottom: spacing.xs,
   },
-  emojiContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 24,
-    gap: 16,
-  },
-  emoji: {
-    fontSize: 32,
+  subMessage: {
+    ...typography.bodyMedium,
+    color: textSecondary,
+    textAlign: 'center',
   },
   hintSection: {
     position: 'absolute',
@@ -475,17 +449,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   emergencyCancel: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    backgroundColor: 'rgba(255, 59, 48, 0.1)',
-    borderRadius: 16,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+    borderRadius: borderRadius.lg,
     borderWidth: 1,
-    borderColor: 'rgba(255, 59, 48, 0.3)',
+    borderColor: 'rgba(239, 68, 68, 0.3)',
   },
   emergencyCancelText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#FF3B30',
+    ...typography.label,
+    color: errorColor,
     textAlign: 'center',
   },
 });

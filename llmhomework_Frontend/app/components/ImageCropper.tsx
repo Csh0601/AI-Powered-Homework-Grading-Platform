@@ -18,16 +18,18 @@ import {
   GestureHandlerRootView,
 } from 'react-native-gesture-handler';
 import { runOnJS } from 'react-native-reanimated';
+import { Ionicons } from '@expo/vector-icons';
 import imageService from '../services/imageService';
-import { DecorativeButton } from './DecorativeButton';
-
-// 主题色（按需替换）
-const primaryColor = '#007AFF';
-const textColor = '#000000';
-const secondaryTextColor = '#555555';
-const cardBackgroundColor = '#FFFFFF';
-const backgroundColor = '#F9F9F9';
-const successColor = '#34C759';
+import { IconButton } from './shared/IconButton';
+import {
+  primaryColor,
+  successColor,
+  textPrimary,
+  textSecondary,
+  backgroundPrimary,
+  cardBackground,
+} from '../styles/colors';
+import { typography, spacing, borderRadius, shadows } from '../styles/designSystem';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
@@ -89,9 +91,14 @@ const ImageCropper: React.FC<ImageCropperProps> = ({
 
   // 组件卸载时清理手势状态
   useEffect(() => {
+    console.log('✂️ ImageCropper组件已挂载');
+    
     return () => {
       console.log('✂️ ImageCropper组件卸载，清理手势状态');
-      // 强制清理手势状态，防止影响其他手势处理
+      // 重置所有手势相关的ref
+      savedTranslateX.current = 0;
+      savedTranslateY.current = 0;
+      // 确保手势处理器完全释放
     };
   }, []);
 
@@ -311,34 +318,33 @@ const ImageCropper: React.FC<ImageCropperProps> = ({
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaView style={styles.safeArea}>
-        <StatusBar barStyle="dark-content" backgroundColor={backgroundColor} />
+        <StatusBar barStyle="dark-content" backgroundColor={backgroundPrimary} />
         <Animated.View
           style={[
             styles.container,
             { opacity: fadeAnim, transform: [{ translateY: slideAnim }, { scale: scaleAnim }] },
           ]}
         >
-          {/* header */}
-          <View style={styles.header}>
-            <DecorativeButton
-              onPress={onCancel}
+          {/* header - iOS 风格 */}
+          <View style={styles.navigationBar}>
+            <IconButton
               iconName="close"
-              size="sm"
-              gradientColors={['#FF3B30', '#FF6B35']}
-              outerColor="#FF9F0A"
-              borderColor="#FF6B00"
+              onPress={onCancel}
+              size="small"
+              variant="ghost"
             />
 
-            <Text style={styles.headerTitle}>裁剪图片</Text>
+            <View style={styles.navTitleContainer}>
+              <Text style={styles.navTitle}>裁剪图片</Text>
+              <Text style={styles.navSubtitle}>调整裁剪区域</Text>
+            </View>
 
-            <DecorativeButton
-              onPress={handleCrop}
+            <IconButton
               iconName="checkmark"
-              size="sm"
+              onPress={handleCrop}
+              size="small"
+              variant="primary"
               disabled={isProcessing}
-              gradientColors={['#34C759', '#30D158']}
-              outerColor="#A3F3BE"
-              borderColor="#00C851"
             />
           </View>
 
@@ -404,19 +410,17 @@ const ImageCropper: React.FC<ImageCropperProps> = ({
             </GestureDetector>
           </View>
 
-          {/* 信息区 */}
+          {/* 信息区 - iOS 风格 */}
           <View style={styles.infoContainer}>
+            <Ionicons name="resize-outline" size={14} color="#FFFFFF" style={{ marginRight: 4 }} />
             <Text style={styles.infoText}>
-              尺寸：{Math.round(cropArea.width)} × {Math.round(cropArea.height)}（显示像素）
-            </Text>
-            <Text style={styles.infoText}>
-              位置：({Math.round(cropArea.x)}, {Math.round(cropArea.y)})
+              {Math.round(cropArea.width)} × {Math.round(cropArea.height)}
             </Text>
           </View>
 
-          {/* 提示 */}
+          {/* 提示 - 简化 */}
           <View style={styles.tipContainer}>
-            <Text style={styles.tipText}>拖动框体移动裁剪区域；拖动四角手柄独立改变宽高；双指缩放以裁剪框中心为基点放大/缩小。</Text>
+            <Text style={styles.tipText}>拖动框体移动，拖动角点调整大小，双指缩放</Text>
           </View>
         </Animated.View>
       </SafeAreaView>
@@ -427,33 +431,53 @@ const ImageCropper: React.FC<ImageCropperProps> = ({
 export default ImageCropper;
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: backgroundColor },
-  container: { flex: 1 },
-  header: {
+  safeArea: {
+    flex: 1,
+    backgroundColor: backgroundPrimary
+  },
+  container: {
+    flex: 1
+  },
+  navigationBar: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingHorizontal: spacing.screenHorizontal,
+    paddingVertical: spacing.md,
   },
-  cancelButton: { padding: 8 },
-  cancelButtonText: { color: '#FF3B30', fontSize: 16 },
-  headerTitle: { fontSize: 18, fontWeight: '700', color: textColor },
-  confirmButton: {
-    backgroundColor: successColor,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 8,
+  navTitleContainer: {
+    flex: 1,
+    alignItems: 'center',
+    paddingHorizontal: spacing.md,
   },
-  confirmButtonText: { color: '#fff', fontSize: 16 },
-  imageContainer: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  gestureContainer: { position: 'relative' },
+  navTitle: {
+    ...typography.heading4,
+    fontWeight: '500',
+    color: textPrimary,
+    marginBottom: spacing.xs / 2,
+  },
+  navSubtitle: {
+    ...typography.caption,
+    color: textSecondary,
+    fontSize: 11,
+  },
+  imageContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  gestureContainer: {
+    position: 'relative'
+  },
   imageWrapper: {
-    borderRadius: 12,
+    borderRadius: borderRadius.md,
     overflow: 'hidden',
-    backgroundColor: cardBackgroundColor,
+    backgroundColor: cardBackground,
   },
-  image: { width: '100%', height: '100%' },
+  image: {
+    width: '100%',
+    height: '100%'
+  },
   cropFrame: {
     position: 'absolute',
     borderWidth: 2,
@@ -468,25 +492,53 @@ const styles = StyleSheet.create({
     backgroundColor: primaryColor,
     borderWidth: 2,
     borderColor: '#fff',
-    elevation: 6,
+    ...shadows.level3,
   },
   handleTL: { left: -11, top: -11 },
   handleTR: { right: -11, top: -11 },
   handleBL: { left: -11, bottom: -11 },
   handleBR: { right: -11, bottom: -11 },
-  overlay: { position: 'absolute', left: 0, top: 0 },
-  mask: { position: 'absolute', backgroundColor: 'rgba(0,0,0,0.45)' },
-  maskRow: { position: 'absolute', left: 0, right: 0 },
-  transparentCropArea: { flex: 1, backgroundColor: 'transparent' },
+  overlay: {
+    position: 'absolute',
+    left: 0,
+    top: 0
+  },
+  mask: {
+    position: 'absolute',
+    backgroundColor: 'rgba(0,0,0,0.45)'
+  },
+  maskRow: {
+    position: 'absolute',
+    left: 0,
+    right: 0
+  },
+  transparentCropArea: {
+    flex: 1,
+    backgroundColor: 'transparent'
+  },
   infoContainer: {
     alignSelf: 'center',
-    marginTop: 8,
-    backgroundColor: 'rgba(0,0,0,0.7)',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 12,
+    marginTop: spacing.sm,
+    backgroundColor: 'rgba(0,0,0,0.75)',
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    borderRadius: borderRadius.full,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
-  infoText: { color: '#fff', fontSize: 12, textAlign: 'center' },
-  tipContainer: { padding: 16 },
-  tipText: { color: secondaryTextColor, textAlign: 'center' },
+  infoText: {
+    ...typography.caption,
+    color: '#FFFFFF',
+    fontWeight: '500',
+  },
+  tipContainer: {
+    padding: spacing.md,
+    paddingBottom: spacing.lg,
+  },
+  tipText: {
+    ...typography.caption,
+    color: textSecondary,
+    textAlign: 'center',
+    lineHeight: 16,
+  },
 });

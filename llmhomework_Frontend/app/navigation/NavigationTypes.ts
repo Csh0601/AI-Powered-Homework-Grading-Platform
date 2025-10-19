@@ -50,4 +50,5 @@ export type RootStackParamList = {
     taskId: string;
     gradingResult: any;
   };
+  GeneratePaper: undefined;
 };

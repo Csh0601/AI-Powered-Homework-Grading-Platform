@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { 
-  Image, 
-  StyleSheet, 
-  Text, 
-  View, 
-  TouchableOpacity, 
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
   SafeAreaView,
   Animated,
   Dimensions,
@@ -12,26 +12,25 @@ import {
   StatusBar,
   Alert
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import apiService from '../services/apiService';
 import imageService from '../services/imageService';
 import ImageCropper from './ImageCropper';
-import { DecorativeButton } from './DecorativeButton';
+import { IconButton } from './shared/IconButton';
 import { RootStackParamList } from '../navigation/NavigationTypes';
-import { 
-  primaryColor, 
-  successColor, 
-  textColor, 
-  secondaryTextColor, 
-  backgroundColor, 
-  cardBackgroundColor,
-  borderColor,
-  systemGray6,
-  secondaryColor,
-  warningColor,
-  systemGray5
+import {
+  primaryColor,
+  successColor,
+  textPrimary,
+  textSecondary,
+  backgroundPrimary,
+  cardBackground,
+  primaryAlpha10,
+  textInverse
 } from '../styles/colors';
+import { typography, spacing, borderRadius, shadows, sizes } from '../styles/designSystem';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -113,25 +112,29 @@ const ImageEditor: React.FC<ImageEditorProps> = ({ imageUri, taskId = 'unknown_t
 
   const handleCropComplete = (croppedUri: string) => {
     console.log(`✂️ [${taskId}] 裁剪完成，返回ImageEditor`);
-    setCurrentImageUri(croppedUri);
+    
+    // 先关闭裁剪器，清理手势状态
     setShowCropper(false);
     
-    // 强制重新挂载ScrollView，防止手势冲突
+    // 延迟更新图片URI和重置ScrollView，确保手势完全释放
     setTimeout(() => {
+      setCurrentImageUri(croppedUri);
       setScrollViewKey(prev => prev + 1);
-      console.log(`🔄 [${taskId}] 强制重新挂载ScrollView，key: ${scrollViewKey + 1}`);
-    }, 100);
+      console.log(`🔄 [${taskId}] 手势状态已清理，ScrollView已重新挂载，key: ${scrollViewKey + 1}`);
+    }, 300); // 增加延迟到300ms，确保手势处理器完全释放
   };
 
   const handleCropCancel = () => {
     console.log(`❌ [${taskId}] 裁剪取消，返回ImageEditor`);
+    
+    // 先关闭裁剪器
     setShowCropper(false);
     
-    // 强制重新挂载ScrollView，防止手势冲突
+    // 延迟重置ScrollView，确保手势完全释放
     setTimeout(() => {
       setScrollViewKey(prev => prev + 1);
-      console.log(`🔄 [${taskId}] 强制重新挂载ScrollView，key: ${scrollViewKey + 1}`);
-    }, 100);
+      console.log(`🔄 [${taskId}] 手势状态已清理，ScrollView已重新挂载，key: ${scrollViewKey + 1}`);
+    }, 300); // 增加延迟到300ms
   };
 
   // 重置图片到原始状态
@@ -250,17 +253,16 @@ const ImageEditor: React.FC<ImageEditorProps> = ({ imageUri, taskId = 'unknown_t
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <StatusBar barStyle="dark-content" backgroundColor={backgroundColor} />
-      
-      {/* 渐变背景装饰 */}
-      <View style={styles.gradientBackground} />
-      
+      <StatusBar barStyle="dark-content" backgroundColor={backgroundPrimary} />
+
       <ScrollView 
         key={`editor-scrollview-${scrollViewKey}`}
         style={styles.scrollView} 
         showsVerticalScrollIndicator={false}
         scrollEnabled={true}
         nestedScrollEnabled={false}
+        keyboardShouldPersistTaps="handled"
+        removeClippedSubviews={false}
       >
         <Animated.View 
           style={[
@@ -276,107 +278,85 @@ const ImageEditor: React.FC<ImageEditorProps> = ({ imageUri, taskId = 'unknown_t
             }
           ]}
         >
-          {/* 顶部导航栏 */}
+          {/* 顶部导航栏 - Apple 风格 */}
           <View style={styles.navigationBar}>
-            <View style={styles.navIconContainer}>
-              <Text style={styles.navIcon}>🎨</Text>
-            </View>
-            <Text style={styles.navTitle}>图片编辑</Text>
-            <Text style={styles.navSubtitle}>调整图片以获得最佳效果</Text>
+            <Text style={styles.navTitle}>编辑图片</Text>
+            <Text style={styles.navSubtitle}>调整后点击完成</Text>
           </View>
 
           {/* 图片预览区域 */}
           <View style={styles.imageSection}>
             <View style={styles.imageContainer}>
-              <View style={styles.imageWrapper}>
-                <Animated.Image
-                  source={{ uri: currentImageUri }}
-                  style={[
-                    styles.image,
-                    {
-                      transform: [
-                        { rotate: `${rotation % 360}deg` },
-                        { scale: scaleAnim }
-                      ],
-                    },
-                    { opacity: fadeAnim }
-                  ]}
-                  resizeMode="contain"
-                />
-                {/* 图片边框装饰 */}
-                <View style={styles.imageBorder} />
-              </View>
+              <Animated.Image
+                source={{ uri: currentImageUri }}
+                style={[
+                  styles.image,
+                  {
+                    transform: [
+                      { rotate: `${rotation % 360}deg` },
+                      { scale: scaleAnim }
+                    ],
+                  },
+                  { opacity: fadeAnim }
+                ]}
+                resizeMode="contain"
+              />
               <View style={styles.imageInfo}>
-              <Text style={styles.imageInfoText}>
-                📐 旋转: {rotation % 360}°
-              </Text>
+                <Ionicons name="sync-outline" size={14} color={primaryColor} style={{ marginRight: 4 }} />
+                <Text style={styles.imageInfoText}>
+                  旋转 {rotation % 360}°
+                </Text>
               </View>
             </View>
           </View>
 
-          {/* 控制面板 */}
+          {/* 控制面板 - iOS 底部工具栏风格 */}
           <View style={styles.controlsSection}>
-            {/* 快速操作 */}
-            <View style={styles.quickActions}>
-              <View style={styles.decorativeButtonWrapper}>
-                <DecorativeButton
+            {/* 工具按钮行 */}
+            <View style={styles.toolBar}>
+              <View style={styles.toolButtonWrapper}>
+                <IconButton
+                  iconName="sync-outline"
                   onPress={handleRotate}
-                  iconName="refresh"
-                  size="md"
+                  size="medium"
+                  variant="ghost"
                   disabled={isProcessing}
-                  gradientColors={['#FF9500', '#FF6B35']}
-                  outerColor="#FFD60A"
-                  borderColor="#FF8C00"
                 />
-                <Text style={styles.buttonLabel}>🔄 旋转</Text>
-                <Text style={styles.buttonHint}>
-                  {isProcessing ? '处理中...' : '点击旋转90°'}
-                </Text>
+                <Text style={styles.toolButtonLabel}>旋转</Text>
               </View>
-              
-              <View style={styles.decorativeButtonWrapper}>
-                <DecorativeButton
-                  onPress={handleCrop}
-                  iconName="crop"
-                  size="md"
-                  disabled={isProcessing}
-                  gradientColors={['#34C759', '#30D158']}
-                  outerColor="#A3F3BE"
-                  borderColor="#00C851"
-                />
-                <Text style={styles.buttonLabel}>✂️ 裁剪</Text>
-                <Text style={styles.buttonHint}>精确裁剪图片</Text>
-              </View>
-            </View>
 
-            {/* 附加操作 */}
-            <View style={styles.additionalActions}>
-              <View style={styles.decorativeButtonWrapper}>
-                <DecorativeButton
-                  onPress={handleReset}
-                  iconName="refresh-circle"
-                  size="sm"
+              <View style={styles.toolButtonWrapper}>
+                <IconButton
+                  iconName="crop-outline"
+                  onPress={handleCrop}
+                  size="medium"
+                  variant="ghost"
                   disabled={isProcessing}
-                  gradientColors={['#8E8E93', '#6D6D70']}
-                  outerColor="#D1D1D6"
-                  borderColor="#8E8E93"
                 />
-                <Text style={styles.buttonLabel}>🔄 重置</Text>
+                <Text style={styles.toolButtonLabel}>裁剪</Text>
+              </View>
+
+              <View style={styles.toolButtonWrapper}>
+                <IconButton
+                  iconName="refresh-outline"
+                  onPress={handleReset}
+                  size="medium"
+                  variant="ghost"
+                  disabled={isProcessing}
+                />
+                <Text style={styles.toolButtonLabel}>重置</Text>
               </View>
             </View>
 
             {/* 完成按钮 */}
-            <View style={styles.completeButtonWrapper}>
-              <DecorativeButton
-                onPress={handleEditComplete}
-                iconName="checkmark-circle"
-                size="lg"
-                gradientColors={['#007AFF', '#5856D6']}
-                outerColor="#BF5AF2"
-                borderColor="#AF52DE"
-              />
-              <Text style={styles.completeButtonText}>✨ 完成编辑</Text>
-            </View>
+            <TouchableOpacity
+              style={styles.completeButton}
+              onPress={handleEditComplete}
+              disabled={isProcessing}
+              activeOpacity={0.8}
+            >
+              <Text style={styles.completeButtonText}>完成</Text>
+            </TouchableOpacity>
           </View>
         </Animated.View>
       </ScrollView>
@@ -387,244 +367,104 @@ const ImageEditor: React.FC<ImageEditorProps> = ({ imageUri, taskId = 'unknown_t
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: backgroundColor,
-  },
-  gradientBackground: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    height: 300,
-    backgroundColor: 'rgba(0, 122, 255, 0.03)',
-    borderBottomLeftRadius: 100,
-    borderBottomRightRadius: 100,
+    backgroundColor: backgroundPrimary,
   },
   scrollView: {
     flex: 1,
   },
   container: {
     flex: 1,
-    backgroundColor: 'transparent',
     minHeight: '100%',
   },
   navigationBar: {
-    paddingTop: 20,
-    paddingBottom: 24,
-    paddingHorizontal: 20,
+    paddingTop: spacing.xl,
+    paddingBottom: spacing.lg,
+    paddingHorizontal: spacing.screenHorizontal,
     alignItems: 'center',
-  },
-  navIconContainer: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: 'rgba(0, 122, 255, 0.1)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 16,
-  },
-  navIcon: {
-    fontSize: 28,
   },
   navTitle: {
-    fontSize: 32,
-    fontWeight: '800',
-    color: textColor,
-    marginBottom: 8,
+    ...typography.heading1,
+    fontWeight: '500',
+    color: textPrimary,
+    marginBottom: spacing.xs / 2,
     textAlign: 'center',
-    letterSpacing: -0.5,
   },
   navSubtitle: {
-    fontSize: 16,
-    color: secondaryTextColor,
+    ...typography.bodySmall,
+    color: textSecondary,
     textAlign: 'center',
-    lineHeight: 22,
-    fontWeight: '500',
   },
   imageSection: {
-    paddingHorizontal: 20,
-    marginBottom: 32,
+    paddingHorizontal: spacing.screenHorizontal,
+    marginBottom: spacing.xl,
   },
   imageContainer: {
-    backgroundColor: cardBackgroundColor,
-    borderRadius: 24,
-    padding: 12,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 12,
-    },
-    shadowOpacity: 0.15,
-    shadowRadius: 24,
-    elevation: 12,
-  },
-  imageWrapper: {
-    position: 'relative',
-    borderRadius: 20,
-    overflow: 'hidden',
+    backgroundColor: cardBackground,
+    borderRadius: borderRadius.card,
+    padding: spacing.md,
+    ...shadows.level3,
   },
   image: {
     width: '100%',
     height: 380,
-    borderRadius: 20,
-  },
-  imageBorder: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    borderWidth: 2,
-    borderColor: 'rgba(0, 122, 255, 0.2)',
-    borderRadius: 20,
-    pointerEvents: 'none',
+    borderRadius: borderRadius.md,
   },
   imageInfo: {
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    borderRadius: 25,
+    backgroundColor: primaryAlpha10,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    borderRadius: borderRadius.full,
     alignSelf: 'center',
-    marginTop: 16,
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.1)',
+    marginTop: spacing.md,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   imageInfoText: {
-    color: '#FFFFFF',
-    fontSize: 14,
-    fontWeight: '600',
-    textAlign: 'center',
+    color: primaryColor,
+    ...typography.caption,
+    fontWeight: '500',
   },
   controlsSection: {
-    paddingHorizontal: 20,
-    paddingBottom: 40,
+    paddingHorizontal: spacing.screenHorizontal,
+    paddingBottom: spacing.xl,
   },
-  quickActions: {
+
+  // iOS 工具栏风格
+  toolBar: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginBottom: 32,
-    gap: 16,
+    marginBottom: spacing.lg,
+    paddingVertical: spacing.md,
+    backgroundColor: cardBackground,
+    borderRadius: borderRadius.md,
+    ...shadows.level1,
   },
-  decorativeButtonWrapper: {
+
+  toolButtonWrapper: {
     alignItems: 'center',
-    gap: 8,
-    flex: 1,
+    gap: spacing.xs,
   },
-  buttonLabel: {
-    color: textColor,
-    fontSize: 14,
-    fontWeight: '600',
-    textAlign: 'center',
+
+  toolButtonLabel: {
+    ...typography.caption,
+    color: textSecondary,
+    fontWeight: '500',
   },
-  buttonHint: {
-    color: secondaryTextColor,
-    fontSize: 12,
-    textAlign: 'center',
-    marginTop: 4,
-  },
-  quickActionButton: {
-    flex: 1,
-    backgroundColor: cardBackgroundColor,
-    paddingVertical: 24,
-    paddingHorizontal: 20,
-    borderRadius: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 16,
-    elevation: 6,
-    borderWidth: 1,
-    borderColor: 'rgba(0, 0, 0, 0.05)',
-  },
-  rotateButton: {
-    borderColor: primaryColor,
-    borderWidth: 2,
-  },
-  cropButton: {
-    borderColor: secondaryColor,
-    borderWidth: 2,
-  },
-  disabledButton: {
-    opacity: 0.6,
-  },
-  additionalActions: {
-    alignItems: 'center',
-    marginBottom: 24,
-  },
-  completeButtonWrapper: {
-    alignItems: 'center',
-    gap: 12,
-  },
-  additionalActionButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.05)',
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: borderColor,
-  },
-  additionalActionIcon: {
-    fontSize: 16,
-    marginRight: 8,
-  },
-  additionalActionText: {
-    fontSize: 14,
-    color: textColor,
-    fontWeight: '600',
-  },
-  buttonIconContainer: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: 'rgba(0, 122, 255, 0.1)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 12,
-  },
-  quickActionIcon: {
-    fontSize: 24,
-  },
-  quickActionText: {
-    color: textColor,
-    fontSize: 16,
-    fontWeight: '700',
-    marginBottom: 4,
-  },
+
+  // 完成按钮 - iOS 风格
   completeButton: {
-    backgroundColor: successColor,
-    paddingVertical: 22,
-    paddingHorizontal: 36,
-    borderRadius: 24,
+    backgroundColor: primaryColor,
+    height: sizes.button.large,
+    borderRadius: borderRadius.button,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: successColor,
-    shadowOffset: {
-      width: 0,
-      height: 10,
-    },
-    shadowOpacity: 0.4,
-    shadowRadius: 20,
-    elevation: 10,
+    ...shadows.level2,
   },
-  completeButtonGradient: {
-    paddingVertical: 22,
-    paddingHorizontal: 36,
-    borderRadius: 24,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+
   completeButtonText: {
-    color: textColor,
-    fontSize: 18,
-    fontWeight: '700',
-    textAlign: 'center',
-    marginTop: 8,
+    color: textInverse,
+    ...typography.buttonLarge,
+    fontWeight: '500',
   },
 });
 

@@ -1,11 +1,20 @@
 /**
- * 聊天输入框组件
+ * 聊天输入框组件 - Apple 风格
  */
 
 import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, StyleSheet, Platform, KeyboardAvoidingView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { primaryColor, borderColor, cardBackgroundColor, textColor, secondaryTextColor } from '../styles/colors';
+import {
+  primaryColor,
+  borderColor,
+  cardBackground,
+  textPrimary,
+  textSecondary,
+  textInverse,
+  backgroundPrimary
+} from '../styles/colors';
+import { typography, spacing, borderRadius } from '../styles/designSystem';
 
 interface ChatInputProps {
   onSend: (message: string) => void;
@@ -38,7 +47,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
           value={message}
           onChangeText={setMessage}
           placeholder={placeholder}
-          placeholderTextColor={secondaryTextColor}
+          placeholderTextColor={textSecondary}
           multiline
           maxLength={500}
           editable={!disabled}
@@ -56,10 +65,10 @@ const ChatInput: React.FC<ChatInputProps> = ({
           disabled={!canSend}
           activeOpacity={0.7}
         >
-          <Ionicons 
-            name="send" 
-            size={20} 
-            color={canSend ? '#FFFFFF' : secondaryTextColor} 
+          <Ionicons
+            name="send"
+            size={20}
+            color={canSend ? textInverse : textSecondary}
           />
         </TouchableOpacity>
       </View>
@@ -69,45 +78,45 @@ const ChatInput: React.FC<ChatInputProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: cardBackgroundColor,
-    borderTopWidth: 1,
+    backgroundColor: cardBackground,
+    borderTopWidth: 0.5,  // Apple 精细边框
     borderTopColor: borderColor,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    paddingBottom: Platform.OS === 'ios' ? 8 : 8,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    paddingBottom: Platform.OS === 'ios' ? spacing.sm : spacing.sm,
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'flex-end',
-    backgroundColor: '#FFFFFF',
-    borderRadius: 24,
-    borderWidth: 1,
+    backgroundColor: backgroundPrimary,
+    borderRadius: borderRadius.button,  // Apple 圆角
+    borderWidth: 0.5,
     borderColor: borderColor,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
     minHeight: 44,
   },
   input: {
     flex: 1,
-    fontSize: 15,
-    color: textColor,
+    ...typography.bodyMedium,
+    color: textPrimary,
     maxHeight: 100,
-    paddingTop: Platform.OS === 'ios' ? 8 : 0,
-    paddingBottom: Platform.OS === 'ios' ? 8 : 0,
+    paddingTop: Platform.OS === 'ios' ? spacing.sm : 0,
+    paddingBottom: Platform.OS === 'ios' ? spacing.sm : 0,
   },
   sendButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 8,
+    marginLeft: spacing.sm,
   },
   sendButtonActive: {
     backgroundColor: primaryColor,
   },
   sendButtonDisabled: {
-    backgroundColor: '#E0E0E0',
+    backgroundColor: borderColor,
   },
 });
 

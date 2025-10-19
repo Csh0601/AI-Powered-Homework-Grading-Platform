@@ -23,16 +23,20 @@ import AdvancedFilter from '../components/AdvancedFilter';
 import LearningAnalytics from '../components/LearningAnalytics';
 import DataManager from '../components/DataManager';
 import LearningInsights from '../components/LearningInsights';
-import { 
-  primaryColor, 
-  textColor, 
-  secondaryTextColor, 
-  backgroundColor, 
-  cardBackgroundColor,
+import {
+  primaryColor,
+  textPrimary,
+  textSecondary,
+  backgroundPrimary,
+  cardBackground,
   borderColor,
   errorColor,
-  successColor
+  successColor,
+  primaryAlpha10,
+  errorAlpha10,
+  successAlpha10
 } from '../styles/colors';
+import { typography, spacing, borderRadius, shadows } from '../styles/designSystem';
 
 const HistoryScreen: React.FC = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -416,7 +420,7 @@ const HistoryScreen: React.FC = () => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <StatusBar barStyle="dark-content" backgroundColor={backgroundColor} />
+      <StatusBar barStyle="dark-content" backgroundColor={backgroundPrimary} />
       
       {/* 顶部导航栏 */}
       <View style={styles.header}>
@@ -523,7 +527,7 @@ const HistoryScreen: React.FC = () => {
           <TextInput
             style={styles.searchInput}
             placeholder="搜索历史记录..."
-            placeholderTextColor={secondaryTextColor}
+            placeholderTextColor={textSecondary}
             value={searchText}
             onChangeText={handleSearchChange}
             autoFocus={true}
@@ -673,16 +677,16 @@ const HistoryScreen: React.FC = () => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: backgroundColor,
+    backgroundColor: backgroundPrimary,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-    backgroundColor: cardBackgroundColor,
-    borderBottomWidth: 1,
+    paddingHorizontal: spacing.screenHorizontal,
+    paddingVertical: spacing.md,
+    backgroundColor: cardBackground,
+    borderBottomWidth: 0.5,  // Apple 更轻的分割线
     borderBottomColor: borderColor,
   },
   headerLeft: {
@@ -692,14 +696,14 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   backButtonText: {
-    fontSize: 16,
+    ...typography.bodyMedium,
     color: primaryColor,
-    fontWeight: '500',
+    fontWeight: '400',  // Apple 轻量字体
   },
   headerTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: textColor,
+    ...typography.heading3,
+    fontWeight: '500',  // Apple 中等字重
+    color: textPrimary,
     textAlign: 'center',
   },
   headerRight: {
@@ -707,24 +711,24 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   toolBar: {
-    backgroundColor: cardBackgroundColor,
+    backgroundColor: cardBackground,
     flexDirection: 'row',
-    paddingHorizontal: 12,
-    paddingVertical: 16,
-    borderBottomWidth: 1,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.md,
+    borderBottomWidth: 0.5,
     borderBottomColor: borderColor,
     justifyContent: 'space-around',
-    gap: 8,
+    gap: spacing.sm,
   },
   decorativeButtonWrapper: {
     alignItems: 'center',
-    gap: 6,
+    gap: spacing.xs,
     flex: 1,
   },
   toolButtonLabel: {
-    fontSize: 11,
-    color: textColor,
-    fontWeight: '600',
+    ...typography.caption,
+    color: textPrimary,
+    fontWeight: '500',
     textAlign: 'center',
   },
   toolButtonLabelActive: {
@@ -732,94 +736,85 @@ const styles = StyleSheet.create({
   },
   toolButton: {
     alignItems: 'center',
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 8,
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.md,
+    borderRadius: borderRadius.sm,
     minWidth: 60,
   },
   toolButtonActive: {
-    backgroundColor: 'rgba(0, 122, 255, 0.1)',
+    backgroundColor: primaryAlpha10,
   },
   toolButtonIcon: {
     fontSize: 16,
-    marginBottom: 4,
+    marginBottom: spacing.xs / 2,
   },
   toolButtonText: {
-    fontSize: 12,
-    color: textColor,
-    fontWeight: '500',
+    ...typography.caption,
+    color: textPrimary,
+    fontWeight: '400',
   },
   toolButtonTextActive: {
     color: primaryColor,
   },
   fixButton: {
-    backgroundColor: 'rgba(255, 149, 0, 0.1)',
+    backgroundColor: errorAlpha10,
   },
   clearButton: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 12,
-    backgroundColor: 'rgba(255, 59, 48, 0.1)',
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    borderRadius: borderRadius.md,
+    backgroundColor: errorAlpha10,
   },
   clearButtonText: {
-    fontSize: 14,
+    ...typography.bodySmall,
     color: errorColor,
-    fontWeight: '500',
+    fontWeight: '400',
   },
   cancelSearchButton: {
-    paddingHorizontal: 8,
-    paddingVertical: 6,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.sm,
   },
   cancelSearchText: {
-    fontSize: 14,
+    ...typography.bodySmall,
     color: primaryColor,
-    fontWeight: '500',
+    fontWeight: '400',
   },
   searchContainer: {
-    backgroundColor: cardBackgroundColor,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderBottomWidth: 1,
+    backgroundColor: cardBackground,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.md,
+    borderBottomWidth: 0.5,
     borderBottomColor: borderColor,
   },
   searchInput: {
-    backgroundColor: backgroundColor,
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    fontSize: 16,
-    color: textColor,
-    borderWidth: 1,
+    backgroundColor: backgroundPrimary,
+    borderRadius: borderRadius.sm,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    ...typography.bodyMedium,
+    color: textPrimary,
+    borderWidth: 0.5,
     borderColor: borderColor,
   },
   searchResultText: {
-    fontSize: 12,
-    color: secondaryTextColor,
-    marginTop: 8,
+    ...typography.caption,
+    color: textSecondary,
+    marginTop: spacing.sm,
     textAlign: 'center',
   },
   statisticsCard: {
-    backgroundColor: cardBackgroundColor,
-    marginHorizontal: 16,
-    marginVertical: 8,
-    borderRadius: 12,
-    padding: 16,
-    borderWidth: 1,
-    borderColor: borderColor,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    backgroundColor: cardBackground,
+    marginHorizontal: spacing.md,
+    marginVertical: spacing.sm,
+    borderRadius: borderRadius.card,
+    padding: spacing.cardPadding,
+    ...shadows.level1,  // 轻柔阴影
   },
   statisticsTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: textColor,
-    marginBottom: 12,
+    ...typography.heading4,
+    fontWeight: '500',
+    color: textPrimary,
+    marginBottom: spacing.md,
     textAlign: 'center',
   },
   statisticsGrid: {
@@ -831,149 +826,139 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   statisticsValue: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: textColor,
-    marginBottom: 4,
+    ...typography.heading3,
+    fontWeight: '300',  // Apple 轻量字体
+    color: textPrimary,
+    marginBottom: spacing.xs,
   },
   statisticsLabel: {
-    fontSize: 12,
-    color: secondaryTextColor,
+    ...typography.caption,
+    color: textSecondary,
     textAlign: 'center',
   },
   filterStatusBar: {
-    backgroundColor: 'rgba(0, 122, 255, 0.1)',
+    backgroundColor: primaryAlpha10,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    marginHorizontal: 16,
-    marginBottom: 8,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: 'rgba(0, 122, 255, 0.2)',
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    marginHorizontal: spacing.md,
+    marginBottom: spacing.sm,
+    borderRadius: borderRadius.sm,
   },
   filterStatusText: {
-    fontSize: 14,
+    ...typography.bodySmall,
     color: primaryColor,
-    fontWeight: '500',
+    fontWeight: '400',
   },
   clearFilterButton: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 6,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.xs,
+    borderRadius: borderRadius.xs,
+    backgroundColor: cardBackground,
   },
   clearFilterText: {
-    fontSize: 12,
+    ...typography.caption,
     color: primaryColor,
     fontWeight: '500',
   },
   batchToolbar: {
-    backgroundColor: cardBackgroundColor,
+    backgroundColor: cardBackground,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderBottomWidth: 1,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.md,
+    borderBottomWidth: 0.5,
     borderBottomColor: borderColor,
   },
   selectAllButton: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 8,
-    backgroundColor: 'rgba(0, 122, 255, 0.1)',
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    borderRadius: borderRadius.sm,
+    backgroundColor: primaryAlpha10,
   },
   selectAllText: {
-    fontSize: 14,
+    ...typography.bodySmall,
     color: primaryColor,
-    fontWeight: '500',
+    fontWeight: '400',
   },
   selectedCountText: {
-    fontSize: 14,
-    color: textColor,
+    ...typography.bodySmall,
+    color: textPrimary,
     flex: 1,
     textAlign: 'center',
   },
   batchDeleteButton: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 8,
-    backgroundColor: 'rgba(255, 59, 48, 0.1)',
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    borderRadius: borderRadius.sm,
+    backgroundColor: errorAlpha10,
   },
   batchDeleteButtonDisabled: {
-    backgroundColor: 'rgba(128, 128, 128, 0.1)',
+    backgroundColor: 'rgba(128, 128, 128, 0.05)',
   },
   batchDeleteText: {
-    fontSize: 14,
+    ...typography.bodySmall,
     color: errorColor,
-    fontWeight: '500',
+    fontWeight: '400',
   },
   batchDeleteTextDisabled: {
-    color: secondaryTextColor,
+    color: textSecondary,
   },
   dataManagerButton: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 8,
-    backgroundColor: 'rgba(52, 199, 89, 0.1)',
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    borderRadius: borderRadius.sm,
+    backgroundColor: successAlpha10,
   },
   dataManagerText: {
-    fontSize: 14,
+    ...typography.bodySmall,
     color: successColor,
-    fontWeight: '500',
+    fontWeight: '400',
   },
   container: {
     flex: 1,
   },
   list: {
-    padding: 16,
+    padding: spacing.md,
   },
   emptyList: {
     flex: 1,
     justifyContent: 'center',
   },
   historyItem: {
-    backgroundColor: cardBackgroundColor,
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 12,
-    borderWidth: 1,
-    borderColor: borderColor,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    backgroundColor: cardBackground,
+    borderRadius: borderRadius.card,
+    padding: spacing.cardPadding,
+    marginBottom: spacing.md,
+    ...shadows.level1,  // 轻柔阴影
   },
   historyItemBatch: {
-    borderWidth: 2,
+    borderWidth: 1.5,  // Apple 精细边框
+    borderColor: borderColor,
   },
   historyItemSelected: {
     borderColor: primaryColor,
-    backgroundColor: 'rgba(0, 122, 255, 0.05)',
+    backgroundColor: primaryAlpha10,
   },
   itemHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: spacing.md,
   },
   checkboxContainer: {
-    marginRight: 12,
+    marginRight: spacing.md,
   },
   checkbox: {
     width: 20,
     height: 20,
     borderRadius: 10,
-    borderWidth: 2,
+    borderWidth: 1.5,
     borderColor: borderColor,
-    backgroundColor: backgroundColor,
+    backgroundColor: backgroundPrimary,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -993,45 +978,45 @@ const styles = StyleSheet.create({
   },
   timeIcon: {
     fontSize: 16,
-    marginRight: 8,
+    marginRight: spacing.sm,
   },
   timeText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: textColor,
+    ...typography.heading4,
+    fontWeight: '500',
+    color: textPrimary,
   },
   deleteButton: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 8,
-    backgroundColor: 'rgba(255, 59, 48, 0.1)',
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.xs,
+    borderRadius: borderRadius.sm,
+    backgroundColor: errorAlpha10,
   },
   deleteButtonText: {
-    fontSize: 12,
+    ...typography.caption,
     color: errorColor,
-    fontWeight: '500',
+    fontWeight: '400',
   },
   itemContent: {
     flexDirection: 'row',
-    marginBottom: 12,
+    marginBottom: spacing.md,
   },
   imagePreview: {
-    marginRight: 12,
+    marginRight: spacing.md,
   },
   thumbnailImage: {
     width: 60,
     height: 60,
-    borderRadius: 8,
-    backgroundColor: '#f0f0f0',
+    borderRadius: borderRadius.sm,
+    backgroundColor: backgroundPrimary,
   },
   summaryContainer: {
     flex: 1,
   },
   summaryTitle: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: textColor,
-    marginBottom: 8,
+    ...typography.bodySmall,
+    fontWeight: '400',
+    color: textPrimary,
+    marginBottom: spacing.sm,
   },
   statsRow: {
     flexDirection: 'row',
@@ -1041,52 +1026,51 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   statValue: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: textColor,
+    ...typography.heading4,
+    fontWeight: '500',
+    color: textPrimary,
   },
   statLabel: {
-    fontSize: 12,
-    color: secondaryTextColor,
-    marginTop: 2,
+    ...typography.caption,
+    color: textSecondary,
+    marginTop: spacing.xs / 2,
   },
   itemFooter: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingTop: 12,
-    borderTopWidth: 1,
+    paddingTop: spacing.md,
+    borderTopWidth: 0.5,  // Apple 精细分割线
     borderTopColor: borderColor,
   },
   taskId: {
-    fontSize: 12,
-    color: secondaryTextColor,
+    ...typography.caption,
+    color: textSecondary,
   },
   viewDetail: {
-    fontSize: 12,
+    ...typography.caption,
     color: primaryColor,
-    fontWeight: '500',
+    fontWeight: '400',
   },
   emptyContainer: {
     alignItems: 'center',
-    paddingHorizontal: 40,
+    paddingHorizontal: spacing.xxxl,
   },
   emptyIcon: {
     fontSize: 48,
-    marginBottom: 16,
+    marginBottom: spacing.md,
   },
   emptyTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: textColor,
-    marginBottom: 8,
+    ...typography.heading3,
+    fontWeight: '500',
+    color: textPrimary,
+    marginBottom: spacing.sm,
     textAlign: 'center',
   },
   emptyDescription: {
-    fontSize: 14,
-    color: secondaryTextColor,
+    ...typography.bodySmall,
+    color: textSecondary,
     textAlign: 'center',
-    lineHeight: 20,
   },
 });
 

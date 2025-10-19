@@ -2,23 +2,27 @@ import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useEffect, useMemo, useState } from 'react';
 import { FlatList, StyleSheet, Text, View, ScrollView, SafeAreaView, Animated, Dimensions, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import ResultItem from '../components/ResultItem';
-import { DecorativeButton } from '../components/DecorativeButton';
+import { CapsuleButton } from '../components/shared/CapsuleButton';
+import { Card } from '../components/shared/Card';
+import { StatCard } from '../components/shared/StatCard';
+import { Button } from '../components/shared/Button';
 import { CorrectionResult } from '../models/CorrectionResult';
 import { RootStackParamList } from '../navigation/NavigationTypes';
-import { 
-  primaryColor, 
-  successColor, 
+import {
+  primaryColor,
+  successColor,
   errorColor,
-  textColor, 
-  secondaryTextColor, 
-  backgroundColor, 
-  cardBackgroundColor,
-  borderColor,
-  systemGray6,
-  secondaryColor,
-  warningColor
+  textPrimary,
+  textSecondary,
+  backgroundPrimary,
+  cardBackground,
+  primaryAlpha10,
+  successAlpha10,
+  errorAlpha10
 } from '../styles/colors';
+import { typography, spacing, borderRadius, shadows } from '../styles/designSystem';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -290,7 +294,7 @@ const ResultScreen: React.FC = () => {
         <View style={styles.container}>
           <View style={styles.noDataCard}>
             <View style={styles.noDataIconContainer}>
-              <Text style={styles.noDataIcon}>⚠️</Text>
+              <Ionicons name="alert-circle-outline" size={32} color={primaryColor} />
             </View>
             <Text style={styles.noDataText}>数据加载失败</Text>
             <Text style={styles.noDataSubtext}>请重新上传图片进行批改</Text>
@@ -335,19 +339,18 @@ const ResultScreen: React.FC = () => {
   if (processedData.questions.length === 0) {
     return (
       <SafeAreaView style={styles.safeArea}>
-        <View style={styles.gradientBackground} />
         <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
           <View style={styles.header}>
             <View style={styles.headerIconContainer}>
-              <Text style={styles.headerIcon}>📊</Text>
+              <Ionicons name="stats-chart-outline" size={32} color={primaryColor} />
             </View>
             <Text style={styles.headerTitle}>批改结果</Text>
             <Text style={styles.headerSubtitle}>暂无批改数据</Text>
           </View>
-          
+
           <View style={styles.noDataCard}>
             <View style={styles.noDataIconContainer}>
-              <Text style={styles.noDataIcon}>📝</Text>
+              <Ionicons name="document-text-outline" size={32} color={primaryColor} />
             </View>
             <Text style={styles.noDataText}>暂无批改结果</Text>
             <Text style={styles.noDataSubtext}>请先上传作业图片进行批改</Text>
@@ -359,9 +362,6 @@ const ResultScreen: React.FC = () => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      {/* 渐变背景装饰 */}
-      <View style={styles.gradientBackground} />
-      
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <Animated.View 
           style={{
@@ -372,33 +372,40 @@ const ResultScreen: React.FC = () => {
             ]
           }}
         >
-          {/* 顶部标题区域 */}
+          {/* 顶部标题区域 - Apple 简洁风格 */}
           <View style={styles.header}>
             <View style={styles.headerIconContainer}>
-              <Text style={styles.headerIcon}>📊</Text>
+              <Ionicons name="stats-chart-outline" size={32} color={primaryColor} />
             </View>
             <Text style={styles.headerTitle}>批改结果</Text>
-            <Text style={styles.headerSubtitle}>查看详细的作业批改情况</Text>
+            <Text style={styles.headerSubtitle}>查看详细批改情况</Text>
           </View>
-          
+
           {/* 任务信息卡片 */}
           <View style={styles.taskInfoCard}>
             <View style={styles.cardHeader}>
               <View style={styles.cardHeaderLeft}>
-                <Text style={styles.cardHeaderIcon}>📋</Text>
+                <Ionicons name="clipboard-outline" size={20} color={textPrimary} />
                 <Text style={styles.cardHeaderTitle}>任务信息</Text>
               </View>
               <View style={styles.taskStatusBadge}>
-                <Text style={styles.taskStatusText}>✓ 已完成</Text>
+                <Ionicons name="checkmark-circle" size={14} color={successColor} style={{ marginRight: 4 }} />
+                <Text style={styles.taskStatusText}>已完成</Text>
               </View>
             </View>
             <View style={styles.taskInfoContent}>
               <View style={styles.taskInfoRow}>
-                <Text style={styles.taskInfoLabel}>📝 提交时间</Text>
+                <View style={styles.taskInfoLabelContainer}>
+                  <Ionicons name="time-outline" size={14} color={textSecondary} style={{ marginRight: 4 }} />
+                  <Text style={styles.taskInfoLabel}>提交时间</Text>
+                </View>
                 <Text style={styles.taskInfoValue}>{submissionTime}</Text>
               </View>
               <View style={styles.taskInfoRow}>
-                <Text style={styles.taskInfoLabel}>🆔 任务编号</Text>
+                <View style={styles.taskInfoLabelContainer}>
+                  <Ionicons name="card-outline" size={14} color={textSecondary} style={{ marginRight: 4 }} />
+                  <Text style={styles.taskInfoLabel}>任务编号</Text>
+                </View>
                 <Text style={styles.taskInfoValue}>{taskId.substring(0, 8)}...</Text>
               </View>
             </View>
@@ -407,13 +414,13 @@ const ResultScreen: React.FC = () => {
           {/* 总体统计 */}
           <View style={styles.statsContainer}>
             <View style={styles.sectionHeader}>
-              <Text style={styles.sectionIcon}>📈</Text>
+              <Ionicons name="trending-up-outline" size={20} color={primaryColor} style={{ marginRight: 8 }} />
               <Text style={styles.sectionTitle}>总体统计</Text>
             </View>
             <View style={styles.statsGridSimplified}>
               <View style={[styles.statCard, styles.correctCard]}>
                 <View style={styles.statIconContainer}>
-                  <Text style={styles.statIcon}>✅</Text>
+                  <Ionicons name="checkmark-circle-outline" size={24} color={successColor} />
                 </View>
                 <Text style={[styles.statValue, styles.correctText]}>
                   {actualCorrectCount}/{processedData.summary.totalQuestions}
@@ -422,7 +429,7 @@ const ResultScreen: React.FC = () => {
               </View>
               <View style={[styles.statCard, styles.accuracyCard]}>
                 <View style={styles.statIconContainer}>
-                  <Text style={styles.statIcon}>📊</Text>
+                  <Ionicons name="stats-chart-outline" size={24} color={primaryColor} />
                 </View>
                 <Text style={styles.statValue}>{actualAccuracy.toFixed(1)}%</Text>
                 <Text style={styles.statLabel}>正确率</Text>
@@ -433,7 +440,7 @@ const ResultScreen: React.FC = () => {
           {/* 题目详情 */}
           <View style={styles.questionsSection}>
             <View style={styles.sectionHeader}>
-              <Text style={styles.sectionIcon}>📝</Text>
+              <Ionicons name="document-text-outline" size={20} color={primaryColor} style={{ marginRight: 8 }} />
               <Text style={styles.sectionTitle}>题目详情</Text>
             </View>
             {processedData.questions.length > 0 ? (
@@ -458,7 +465,7 @@ const ResultScreen: React.FC = () => {
             ) : (
               <View style={styles.noDataCard}>
                 <View style={styles.noDataIconContainer}>
-                  <Text style={styles.noDataIcon}>📝</Text>
+                  <Ionicons name="document-text-outline" size={32} color={primaryColor} />
                 </View>
                 <Text style={styles.noDataText}>暂无批改结果</Text>
                 <Text style={styles.noDataSubtext}>请先上传作业图片进行批改</Text>
@@ -470,72 +477,66 @@ const ResultScreen: React.FC = () => {
           <View style={styles.simpleSection}>
             <View style={styles.sectionHeader}>
               <View style={styles.sectionTitleContainer}>
-                <Text style={styles.sectionIcon}>🧠</Text>
+                <Ionicons name="bulb-outline" size={20} color={primaryColor} style={{ marginRight: 8 }} />
                 <Text style={styles.sectionTitle}>知识点分析</Text>
               </View>
-              <DecorativeButton
-                onPress={() => navigation.navigate('KnowledgePoints', { 
+              <CapsuleButton
+                title="查看详情"
+                iconName="arrow-forward"
+                onPress={() => navigation.navigate('KnowledgePoints', {
                   knowledgePoints: processedData.summary.knowledgePoints || [],
                   wrongKnowledges: processedData.wrongKnowledges,
                   knowledgeAnalysis: gradingResult?.knowledge_analysis,
                   gradingResult: gradingResult?.grading_result || []
                 })}
-                iconName="book"
-                size="sm"
-                gradientColors={['#FF6B35', '#F7931E']}
-                outerColor="#FFD60A"
-                borderColor="#FF8C00"
+                variant="outline"
               />
             </View>
-            <Text style={styles.simpleSectionHint}>点击按钮查看详细知识点分析</Text>
+            <Text style={styles.simpleSectionHint}>点击查看详细知识点分析</Text>
           </View>
 
           {/* 学习建议 */}
           <View style={styles.simpleSection}>
             <View style={styles.sectionHeader}>
               <View style={styles.sectionTitleContainer}>
-                <Text style={styles.sectionIcon}>💡</Text>
+                <Ionicons name="bulb-outline" size={20} color={primaryColor} style={{ marginRight: 8 }} />
                 <Text style={styles.sectionTitle}>学习建议</Text>
               </View>
-              <DecorativeButton
-                onPress={() => navigation.navigate('StudySuggestions', { 
+              <CapsuleButton
+                title="查看详情"
+                iconName="arrow-forward"
+                onPress={() => navigation.navigate('StudySuggestions', {
                   suggestions: gradingResult?.knowledge_analysis?.study_recommendations || [],
                   practiceQuestions: gradingResult?.practice_questions || [],
                   learningSuggestions: processedData.questions.flatMap(q => (q as any).learning_suggestions || []),
                   summaryLearningSuggestions: gradingResult?.summary?.learning_suggestions || []
                 })}
-                iconName="bulb"
-                size="sm"
-                gradientColors={['#32D74B', '#30D158']}
-                outerColor="#A3F3BE"
-                borderColor="#00C851"
+                variant="outline"
               />
             </View>
-            <Text style={styles.simpleSectionHint}>点击按钮查看详细学习建议</Text>
+            <Text style={styles.simpleSectionHint}>点击查看详细学习建议</Text>
           </View>
 
           {/* 相似的题目 */}
           <View style={styles.simpleSection}>
             <View style={styles.sectionHeader}>
               <View style={styles.sectionTitleContainer}>
-                <Text style={styles.sectionIcon}>🎯</Text>
-                <Text style={styles.sectionTitle}>相似的题目</Text>
+                <Ionicons name="copy-outline" size={20} color={primaryColor} style={{ marginRight: 8 }} />
+                <Text style={styles.sectionTitle}>相似题目</Text>
               </View>
-              <DecorativeButton
-                onPress={() => navigation.navigate('SimilarQuestions', { 
-                  questions: processedData.similarQuestions 
+              <CapsuleButton
+                title="查看详情"
+                iconName="arrow-forward"
+                onPress={() => navigation.navigate('SimilarQuestions', {
+                  questions: processedData.similarQuestions
                 })}
-                iconName="copy"
-                size="sm"
-                gradientColors={['#5856D6', '#AF52DE']}
-                outerColor="#BF5AF2"
-                borderColor="#8E44AD"
+                variant="outline"
               />
             </View>
-            <Text style={styles.simpleSectionHint}>点击按钮查看详细相似题目</Text>
+            <Text style={styles.simpleSectionHint}>点击查看更多练习题目</Text>
           </View>
 
-          {/* 新增：AI学习伙伴对话入口 */}
+          {/* AI学习伙伴对话入口 */}
           <TouchableOpacity
             style={styles.aiChatSection}
             onPress={() => navigation.navigate('Chat', {
@@ -546,16 +547,16 @@ const ResultScreen: React.FC = () => {
           >
             <View style={styles.aiChatHeader}>
               <View style={styles.aiChatIconContainer}>
-                <Text style={styles.aiChatIcon}>🤖</Text>
+                <Ionicons name="chatbubble-ellipses-outline" size={28} color={primaryColor} />
               </View>
               <View style={styles.aiChatTextContainer}>
-                <Text style={styles.aiChatTitle}>问问你的AI学习伙伴</Text>
+                <Text style={styles.aiChatTitle}>AI 学习伙伴</Text>
                 <Text style={styles.aiChatSubtitle}>
-                  针对这次批改结果，AI可以解答你的疑问
+                  针对批改结果，AI 可以解答你的疑问
                 </Text>
               </View>
               <View style={styles.aiChatArrowContainer}>
-                <Text style={styles.aiChatArrow}>›</Text>
+                <Ionicons name="chevron-forward" size={24} color={primaryColor} />
               </View>
             </View>
           </TouchableOpacity>
@@ -568,134 +569,115 @@ const ResultScreen: React.FC = () => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: backgroundColor,
-  },
-  gradientBackground: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    height: 300,
-    backgroundColor: 'rgba(88, 86, 214, 0.04)',
-    borderBottomLeftRadius: 100,
-    borderBottomRightRadius: 100,
+    backgroundColor: backgroundPrimary,
   },
   container: {
     flex: 1,
-    paddingHorizontal: 20,
+    paddingHorizontal: spacing.screenHorizontal,
   },
   header: {
     alignItems: 'center',
-    paddingTop: 20,
-    paddingBottom: 32,
+    paddingTop: spacing.xl,
+    paddingBottom: spacing.xxl,
   },
   headerIconContainer: {
-    width: 70,
-    height: 70,
-    borderRadius: 35,
-    backgroundColor: 'rgba(88, 86, 214, 0.1)',
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: primaryAlpha10,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 20,
-    borderWidth: 2,
-    borderColor: 'rgba(88, 86, 214, 0.2)',
+    marginBottom: spacing.lg,
   },
   headerIcon: {
     fontSize: 32,
   },
   headerTitle: {
-    fontSize: 32,
-    fontWeight: '800',
-    color: textColor,
-    marginBottom: 8,
+    ...typography.displayMedium,
+    fontWeight: '300',  // Apple 轻量字体
+    color: textPrimary,
+    marginBottom: spacing.sm,
     textAlign: 'center',
-    letterSpacing: -0.5,
   },
   headerSubtitle: {
-    fontSize: 16,
-    color: secondaryTextColor,
+    ...typography.bodyMedium,
+    color: textSecondary,
     textAlign: 'center',
-    lineHeight: 22,
-    fontWeight: '500',
+    fontWeight: '400',
   },
   taskInfoCard: {
-    backgroundColor: cardBackgroundColor,
-    borderRadius: 24,
-    padding: 24,
-    marginBottom: 24,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.08,
-    shadowRadius: 16,
-    elevation: 6,
-    borderWidth: 1,
-    borderColor: 'rgba(0, 0, 0, 0.03)',
+    backgroundColor: cardBackground,
+    borderRadius: borderRadius.card,
+    padding: spacing.cardPadding,
+    marginBottom: spacing.xl,
+    ...shadows.level2,  // 轻柔阴影
   },
   cardHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: spacing.lg,
   },
   cardHeaderLeft: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: spacing.sm,
   },
   cardHeaderIcon: {
     fontSize: 20,
-    marginRight: 8,
   },
   cardHeaderTitle: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: textColor,
+    ...typography.heading3,
+    fontWeight: '500',  // Apple 中等字重
+    color: textPrimary,
+  },
+  taskInfoLabelContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   taskStatusBadge: {
-    backgroundColor: 'rgba(52, 199, 89, 0.1)',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: 'rgba(52, 199, 89, 0.2)',
+    backgroundColor: successAlpha10,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    borderRadius: borderRadius.button,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   taskStatusText: {
     color: successColor,
-    fontSize: 14,
-    fontWeight: '600',
+    ...typography.label,
+    fontWeight: '500',
   },
   taskInfoContent: {
-    gap: 16,
+    gap: spacing.md,
   },
   taskInfoRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    backgroundColor: 'rgba(0, 122, 255, 0.05)',
-    borderRadius: 12,
+    paddingVertical: spacing.md,
+    paddingHorizontal: spacing.md,
+    backgroundColor: primaryAlpha10,
+    borderRadius: borderRadius.md,
   },
   taskInfoLabel: {
-    fontSize: 14,
-    color: secondaryTextColor,
-    fontWeight: '600',
+    ...typography.bodySmall,
+    color: textSecondary,
+    fontWeight: '500',
   },
   taskInfoValue: {
-    fontSize: 14,
-    color: textColor,
-    fontWeight: '600',
+    ...typography.bodySmall,
+    color: textPrimary,
+    fontWeight: '500',
   },
   statsContainer: {
-    marginBottom: 24,
+    marginBottom: spacing.xl,
   },
   sectionHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 20,
+    marginBottom: spacing.lg,
   },
   sectionTitleContainer: {
     flexDirection: 'row',
@@ -704,376 +686,291 @@ const styles = StyleSheet.create({
   },
   sectionIcon: {
     fontSize: 20,
-    marginRight: 8,
   },
   sectionTitle: {
-    fontSize: 22,
-    fontWeight: '700',
-    color: textColor,
+    ...typography.heading2,
+    fontWeight: '500',  // Apple 中等字重
+    color: textPrimary,
   },
   statsGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 12,
+    gap: spacing.md,
   },
   statsGridSimplified: {
     flexDirection: 'row',
-    gap: 16,
+    gap: spacing.md,
     justifyContent: 'space-between',
   },
   statCard: {
     flex: 1,
-    minWidth: (screenWidth - 60) / 2 - 6,
-    backgroundColor: cardBackgroundColor,
-    padding: 20,
-    borderRadius: 20,
+    minWidth: (screenWidth - spacing.screenHorizontal * 2 - spacing.md) / 2,
+    backgroundColor: cardBackground,
+    padding: spacing.lg,
+    borderRadius: borderRadius.card,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.08,
-    shadowRadius: 12,
-    elevation: 4,
-    borderWidth: 1,
-    borderColor: 'rgba(0, 0, 0, 0.03)',
+    ...shadows.level2,  // 轻柔阴影
   },
   statIconContainer: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: 'rgba(0, 122, 255, 0.1)',
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: primaryAlpha10,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 12,
+    marginBottom: spacing.md,
   },
   statIcon: {
     fontSize: 24,
   },
   statValue: {
-    fontSize: 28,
-    fontWeight: '800',
-    color: textColor,
-    marginBottom: 4,
+    ...typography.displaySmall,
+    fontWeight: '300',  // Apple 轻量字体
+    color: textPrimary,
+    marginBottom: spacing.xs,
   },
   statLabel: {
-    fontSize: 14,
-    color: secondaryTextColor,
-    fontWeight: '600',
+    ...typography.caption,
+    color: textSecondary,
+    fontWeight: '500',
   },
   correctCard: {
-    borderColor: 'rgba(52, 199, 89, 0.3)',
-    borderWidth: 2,
+    backgroundColor: successAlpha10,
   },
   correctText: {
     color: successColor,
   },
   accuracyCard: {
-    borderColor: 'rgba(88, 86, 214, 0.3)',
-    borderWidth: 2,
+    backgroundColor: primaryAlpha10,
   },
   questionsSection: {
-    marginBottom: 24,
+    marginBottom: spacing.xl,
   },
   listContent: {
-    paddingBottom: 8,
-    gap: 16,
+    paddingBottom: spacing.sm,
+    gap: spacing.md,
   },
   noDataCard: {
-    backgroundColor: cardBackgroundColor,
-    borderRadius: 20,
-    padding: 40,
+    backgroundColor: cardBackground,
+    borderRadius: borderRadius.card,
+    padding: spacing.xxxl,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.06,
-    shadowRadius: 12,
-    elevation: 4,
+    ...shadows.level2,
   },
   noDataIconContainer: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: 'rgba(0, 122, 255, 0.1)',
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: primaryAlpha10,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 16,
+    marginBottom: spacing.md,
   },
   noDataIcon: {
-    fontSize: 32,
+    fontSize: 28,
   },
   noDataText: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: textColor,
-    marginBottom: 8,
+    ...typography.heading4,
+    fontWeight: '500',
+    color: textPrimary,
+    marginBottom: spacing.sm,
     textAlign: 'center',
   },
   noDataSubtext: {
-    fontSize: 14,
-    color: secondaryTextColor,
+    ...typography.bodySmall,
+    color: textSecondary,
     textAlign: 'center',
-    lineHeight: 20,
   },
   knowledgeSection: {
-    marginBottom: 24,
+    marginBottom: spacing.xl,
   },
   simpleSection: {
-    backgroundColor: cardBackgroundColor,
-    borderRadius: 20,
-    padding: 20,
-    marginBottom: 24,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.06,
-    shadowRadius: 12,
-    elevation: 6,
+    backgroundColor: cardBackground,
+    borderRadius: borderRadius.card,
+    padding: spacing.cardPadding,
+    marginBottom: spacing.xl,
+    ...shadows.level1,  // 更轻的阴影
   },
   simpleSectionHint: {
-    fontSize: 16,
-    color: secondaryTextColor,
+    ...typography.bodyMedium,
+    color: textSecondary,
     textAlign: 'center',
-    fontStyle: 'italic',
-    marginTop: 8,
+    marginTop: spacing.sm,
   },
   knowledgeCard: {
-    backgroundColor: cardBackgroundColor,
-    borderRadius: 20,
-    padding: 20,
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.06,
-    shadowRadius: 12,
-    elevation: 4,
-    borderWidth: 1,
-    borderColor: 'rgba(255, 59, 48, 0.1)',
+    backgroundColor: cardBackground,
+    borderRadius: borderRadius.card,
+    padding: spacing.cardPadding,
+    marginBottom: spacing.md,
+    ...shadows.level2,
   },
   knowledgeHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: spacing.md,
   },
   knowledgeNumberContainer: {
-    backgroundColor: 'rgba(255, 59, 48, 0.1)',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 12,
+    backgroundColor: errorAlpha10,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    borderRadius: borderRadius.md,
   },
   knowledgeNumber: {
-    fontSize: 12,
-    fontWeight: '600',
+    ...typography.caption,
+    fontWeight: '500',
     color: errorColor,
   },
   knowledgeTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: textColor,
+    ...typography.heading4,
+    fontWeight: '500',
+    color: textPrimary,
   },
   knowledgeDescription: {
-    fontSize: 14,
-    color: secondaryTextColor,
-    lineHeight: 20,
+    ...typography.bodySmall,
+    color: textSecondary,
   },
   noKnowledgeCard: {
-    backgroundColor: cardBackgroundColor,
-    borderRadius: 20,
-    padding: 40,
+    backgroundColor: cardBackground,
+    borderRadius: borderRadius.card,
+    padding: spacing.xxxl,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.06,
-    shadowRadius: 12,
-    elevation: 4,
+    ...shadows.level2,
   },
   noKnowledgeIconContainer: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: 'rgba(52, 199, 89, 0.1)',
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: successAlpha10,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 16,
+    marginBottom: spacing.md,
   },
   noKnowledgeIcon: {
-    fontSize: 32,
+    fontSize: 28,
   },
   noKnowledgeText: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: textColor,
-    marginBottom: 8,
+    ...typography.heading4,
+    fontWeight: '500',
+    color: textPrimary,
+    marginBottom: spacing.sm,
     textAlign: 'center',
   },
   noKnowledgeSubtext: {
-    fontSize: 14,
-    color: secondaryTextColor,
+    ...typography.bodySmall,
+    color: textSecondary,
     textAlign: 'center',
-    lineHeight: 20,
   },
   suggestionsSection: {
-    marginBottom: 40,
+    marginBottom: spacing.xxxl,
   },
   suggestionsCard: {
-    backgroundColor: cardBackgroundColor,
-    borderRadius: 20,
-    padding: 24,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.06,
-    shadowRadius: 12,
-    elevation: 4,
-    borderWidth: 1,
-    borderColor: 'rgba(255, 193, 7, 0.1)',
+    backgroundColor: cardBackground,
+    borderRadius: borderRadius.card,
+    padding: spacing.xl,
+    ...shadows.level2,
   },
   suggestionsIconContainer: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: 'rgba(255, 193, 7, 0.1)',
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: primaryAlpha10,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 16,
+    marginBottom: spacing.md,
     alignSelf: 'center',
   },
   suggestionsIcon: {
     fontSize: 24,
   },
   suggestionsTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: textColor,
-    marginBottom: 12,
+    ...typography.heading3,
+    fontWeight: '500',
+    color: textPrimary,
+    marginBottom: spacing.md,
     textAlign: 'center',
   },
   suggestionsContent: {
-    fontSize: 15,
-    color: secondaryTextColor,
-    lineHeight: 22,
+    ...typography.bodyMedium,
+    color: textSecondary,
     textAlign: 'center',
-    fontWeight: '500',
+    fontWeight: '400',
   },
   viewMoreText: {
-    fontSize: 14,
+    ...typography.bodySmall,
     color: primaryColor,
-    fontWeight: '600',
+    fontWeight: '500',
   },
   similarQuestionsSection: {
-    marginBottom: 40,
+    marginBottom: spacing.xxxl,
   },
   similarQuestionsCard: {
-    backgroundColor: cardBackgroundColor,
-    borderRadius: 20,
-    padding: 24,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.06,
-    shadowRadius: 12,
-    elevation: 4,
-    borderWidth: 1,
-    borderColor: 'rgba(255, 159, 10, 0.1)',
+    backgroundColor: cardBackground,
+    borderRadius: borderRadius.card,
+    padding: spacing.xl,
+    ...shadows.level2,
   },
   similarQuestionsIconContainer: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: 'rgba(255, 159, 10, 0.1)',
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: primaryAlpha10,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 16,
+    marginBottom: spacing.md,
     alignSelf: 'center',
   },
   similarQuestionsIcon: {
     fontSize: 24,
   },
   similarQuestionsTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: textColor,
-    marginBottom: 12,
+    ...typography.heading3,
+    fontWeight: '500',
+    color: textPrimary,
+    marginBottom: spacing.md,
     textAlign: 'center',
   },
   similarQuestionsContent: {
-    fontSize: 15,
-    color: secondaryTextColor,
-    lineHeight: 22,
+    ...typography.bodyMedium,
+    color: textSecondary,
     textAlign: 'center',
-    fontWeight: '500',
-    marginBottom: 16,
+    fontWeight: '400',
+    marginBottom: spacing.md,
   },
   similarQuestionsPreview: {
-    gap: 12,
+    gap: spacing.md,
   },
   previewQuestionCard: {
-    backgroundColor: 'rgba(255, 159, 10, 0.05)',
-    padding: 16,
-    borderRadius: 12,
-    borderLeftWidth: 4,
-    borderLeftColor: '#FF9F0A',
+    backgroundColor: primaryAlpha10,
+    padding: spacing.md,
+    borderRadius: borderRadius.md,
   },
   previewQuestionNumber: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: '#FF9F0A',
-    marginBottom: 6,
+    ...typography.caption,
+    fontWeight: '500',
+    color: primaryColor,
+    marginBottom: spacing.xs,
   },
   previewQuestionText: {
-    fontSize: 14,
-    color: textColor,
-    lineHeight: 20,
-    fontWeight: '500',
+    ...typography.bodySmall,
+    color: textPrimary,
+    fontWeight: '400',
   },
   noSimilarQuestionsCard: {
-    backgroundColor: cardBackgroundColor,
-    borderRadius: 20,
-    padding: 40,
+    backgroundColor: cardBackground,
+    borderRadius: borderRadius.card,
+    padding: spacing.xxxl,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.06,
-    shadowRadius: 12,
-    elevation: 4,
+    ...shadows.level2,
   },
-  // 新增：AI学习伙伴对话入口样式
+  // AI学习伙伴对话入口 - Apple 简洁风格
   aiChatSection: {
-    marginTop: 20,
-    marginBottom: 20,
-    backgroundColor: cardBackgroundColor,
-    borderRadius: 16,
-    padding: 16,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 3,
-    borderWidth: 1,
-    borderColor: 'rgba(52, 199, 89, 0.2)',
+    marginTop: spacing.lg,
+    marginBottom: spacing.lg,
+    backgroundColor: cardBackground,
+    borderRadius: borderRadius.card,
+    padding: spacing.cardPadding,
+    ...shadows.level2,
   },
   aiChatHeader: {
     flexDirection: 'row',
@@ -1083,60 +980,58 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: 'rgba(52, 199, 89, 0.1)',
+    backgroundColor: primaryAlpha10,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 12,
+    marginRight: spacing.md,
   },
   aiChatIcon: {
-    fontSize: 28,
+    fontSize: 24,
   },
   aiChatTextContainer: {
     flex: 1,
   },
   aiChatTitle: {
-    fontSize: 17,
-    fontWeight: '700',
-    color: textColor,
-    marginBottom: 4,
+    ...typography.heading4,
+    fontWeight: '500',
+    color: textPrimary,
+    marginBottom: spacing.xs / 2,
   },
   aiChatSubtitle: {
-    fontSize: 13,
-    color: secondaryTextColor,
-    lineHeight: 18,
+    ...typography.caption,
+    color: textSecondary,
   },
   aiChatArrowContainer: {
-    marginLeft: 8,
+    marginLeft: spacing.sm,
   },
   aiChatArrow: {
-    fontSize: 32,
+    fontSize: 24,
     color: primaryColor,
     fontWeight: '300',
   },
   noSimilarQuestionsIconContainer: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: 'rgba(0, 122, 255, 0.1)',
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: primaryAlpha10,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 16,
+    marginBottom: spacing.md,
   },
   noSimilarQuestionsIcon: {
-    fontSize: 32,
+    fontSize: 28,
   },
   noSimilarQuestionsText: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: textColor,
-    marginBottom: 8,
+    ...typography.heading4,
+    fontWeight: '500',
+    color: textPrimary,
+    marginBottom: spacing.sm,
     textAlign: 'center',
   },
   noSimilarQuestionsSubtext: {
-    fontSize: 14,
-    color: secondaryTextColor,
+    ...typography.bodySmall,
+    color: textSecondary,
     textAlign: 'center',
-    lineHeight: 20,
   },
 });
 

@@ -12,6 +12,7 @@ export interface HistoryRecord {
     totalQuestions: number;      // 总题数
     correctCount: number;        // 正确题数
     wrongCount: number;          // 错误题数
+    score?: number;              // 分数（可选）
   };
 }
 
@@ -21,6 +22,8 @@ export interface HistoryFilters {
   searchText?: string;           // 搜索文本
   minCorrectRate?: number;       // 最低正确率 (0-100)
   maxCorrectRate?: number;       // 最高正确率 (0-100)
+  minScore?: number;             // 最低分数筛选
+  maxScore?: number;             // 最高分数筛选
   hasErrors?: boolean;           // 是否有错题
   questionCountRange?: {         // 题目数量范围
     min?: number;
@@ -44,5 +47,6 @@ export interface DateRangePreset {
 export interface HistoryStats {
   totalRecords: number;          // 总记录数
   totalQuestions: number;        // 总题目数
+  averageScore?: number;         // 平均分数（可选）
   recentActivity: Date | null;   // 最近活动时间
 }

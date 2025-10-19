@@ -2,7 +2,15 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import React from 'react';
 import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { RootStackParamList } from '../navigation/NavigationTypes';
-import { cardBackgroundColor, secondaryTextColor, textColor } from '../styles/colors';
+import {
+  textPrimary,
+  textSecondary,
+  backgroundPrimary,
+  cardBackground,
+  borderColor,
+  primaryAlpha10
+} from '../styles/colors';
+import { typography, spacing, borderRadius, shadows } from '../styles/designSystem';
 
 type SuggestionsRouteProp = RouteProp<RootStackParamList, 'StudySuggestions'>;
 
@@ -97,91 +105,87 @@ const StudySuggestionsScreen: React.FC = () => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#F5F5FF',
+    backgroundColor: backgroundPrimary,
   },
   container: {
     flex: 1,
-    padding: 20,
+    padding: spacing.screenHorizontal,
   },
   sectionTitle: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: textColor,
-    marginBottom: 16,
+    ...typography.heading2,
+    fontWeight: '500',  // Apple 中等字重
+    color: textPrimary,
+    marginBottom: spacing.lg,
   },
   suggestionCard: {
-    backgroundColor: cardBackgroundColor,
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 12,
-    borderWidth: 1,
-    borderColor: 'rgba(0,0,0,0.05)',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
+    backgroundColor: cardBackground,
+    borderRadius: borderRadius.card,
+    padding: spacing.cardPadding,
+    marginBottom: spacing.md,
+    borderWidth: 0.5,  // Apple 精细边框
+    borderColor: borderColor,
+    ...shadows.level1,  // 轻柔阴影
   },
   suggestionHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: spacing.sm,
   },
   suggestionIconContainer: {
     width: 30,
     height: 30,
     borderRadius: 15,
-    backgroundColor: 'rgba(88, 86, 214, 0.1)',
+    backgroundColor: primaryAlpha10,  // 移除紫色调
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 10,
+    marginRight: spacing.sm,
   },
   suggestionIcon: {
     fontSize: 16,
   },
   suggestionTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: textColor,
+    ...typography.bodyMedium,
+    fontWeight: '500',
+    color: textPrimary,
   },
   suggestionContent: {
-    fontSize: 14,
-    color: secondaryTextColor,
+    ...typography.bodySmall,
+    color: textSecondary,
     lineHeight: 20,
     paddingLeft: 40,
   },
   statsCard: {
-    backgroundColor: 'rgba(88, 86, 214, 0.05)',
-    borderRadius: 12,
-    padding: 16,
-    marginVertical: 16,
-    borderWidth: 1,
-    borderColor: 'rgba(88, 86, 214, 0.1)',
+    backgroundColor: primaryAlpha10,  // 移除紫色调
+    borderRadius: borderRadius.md,
+    padding: spacing.cardPadding,
+    marginVertical: spacing.lg,
+    borderWidth: 0.5,
+    borderColor: borderColor,
   },
   statsTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: textColor,
-    marginBottom: 8,
+    ...typography.bodySmall,
+    fontWeight: '500',
+    color: textPrimary,
+    marginBottom: spacing.sm,
   },
   statsContent: {
-    gap: 4,
+    gap: spacing.xs,
   },
   statsItem: {
-    fontSize: 12,
-    color: secondaryTextColor,
+    ...typography.caption,
+    color: textSecondary,
     lineHeight: 18,
   },
   emptyCard: {
-    backgroundColor: 'rgba(0,0,0,0.03)',
-    padding: 16,
-    borderRadius: 12,
+    backgroundColor: primaryAlpha10,
+    padding: spacing.cardPadding,
+    borderRadius: borderRadius.md,
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: spacing.lg,
   },
   emptyText: {
-    fontSize: 14,
-    color: secondaryTextColor,
+    ...typography.bodySmall,
+    color: textSecondary,
   },
   centerContent: {
     flexGrow: 1,
@@ -189,25 +193,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   practiceTitle: {
-    marginTop: 24,
+    marginTop: spacing.xl,
   },
   practiceCard: {
-    backgroundColor: cardBackgroundColor,
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 12,
-    borderWidth: 1,
-    borderColor: 'rgba(88, 86, 214, 0.1)',
+    backgroundColor: cardBackground,
+    borderRadius: borderRadius.card,
+    padding: spacing.cardPadding,
+    marginBottom: spacing.md,
+    borderWidth: 0.5,
+    borderColor: borderColor,
   },
   practiceHeader: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: textColor,
-    marginBottom: 6,
+    ...typography.bodyMedium,
+    fontWeight: '500',
+    color: textPrimary,
+    marginBottom: spacing.xs,
   },
   practiceContent: {
-    fontSize: 14,
-    color: secondaryTextColor,
+    ...typography.bodySmall,
+    color: textSecondary,
     lineHeight: 20,
   },
 });

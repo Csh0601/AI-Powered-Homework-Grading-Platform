@@ -8,6 +8,7 @@ import requests
 import json
 import base64
 import logging
+import re
 from typing import Dict, Any, Optional
 from io import BytesIO
 from PIL import Image
@@ -15,6 +16,53 @@ import time
 
 # 配置日志
 logger = logging.getLogger(__name__)
+
+
+def clean_json_string(text: str) -> str:
+    """
+    清理JSON字符串中的非法转义字符
+    
+    **注意**: 由于服务器端已经处理了JSON转义，这个函数现在主要作为备用方案，
+    仅在JSON解析失败时才会被调用。
+    
+    Args:
+        text: 原始JSON字符串
+        
+    Returns:
+        清理后的JSON字符串
+    """
+    if not text:
+        return text
+    
+    try:
+        # 服务器端已经处理了转义，这里只做基本检查
+        # 如果已经正确转义，直接返回
+        try:
+            json.loads(text)
+            logger.debug("✅ JSON已经可以正常解析，无需清理")
+            return text
+        except json.JSONDecodeError:
+            # 只有解析失败时才尝试修复
+            logger.warning("⚠️ JSON解析失败，尝试修复...")
+            
+            # 修复常见的转义问题（作为备用方案）
+            # 注意：只修复明显的错误，避免过度处理
+            fixed_text = text
+            
+            # 修复未转义的反斜杠（但要避免破坏已经正确的转义）
+            # 这个正则只匹配后面跟着非法字符的单反斜杠
+            fixed_text = re.sub(
+                r'\\(?=[^"\\\/bfnrtu\s])',  # 匹配后面不是合法转义字符的反斜杠
+                r'\\\\',
+                fixed_text
+            )
+            
+            logger.debug(f"🔧 JSON修复完成")
+            return fixed_text
+        
+    except Exception as e:
+        logger.error(f"❌ JSON清理过程出错: {e}")
+        return text  # 出错时返回原文本
 
 class QwenVLDirectService:
     """直接调用Qwen VL LoRA服务的客户端"""
@@ -175,14 +223,25 @@ class QwenVLDirectService:
                         # 尝试解析JSON结构
                         if isinstance(response_text, str):
                             # 清理可能的额外文本，提取JSON部分
-                            import re
                             json_match = re.search(r'\{.*\}', response_text, re.DOTALL)
                             if json_match:
                                 json_str = json_match.group()
-                                structured_data = json.loads(json_str)
+                                # 直接尝试解析，不做预处理（服务器端已处理）
+                                try:
+                                    structured_data = json.loads(json_str)
+                                except json.JSONDecodeError as e:
+                                    # 只有解析失败时才使用清理函数
+                                    logger.warning(f"⚠️ 直接解析失败，尝试清理: {e}")
+                                    cleaned_json_str = clean_json_string(json_str)
+                                    structured_data = json.loads(cleaned_json_str)
                             else:
                                 # 如果没有找到JSON，尝试直接解析
-                                structured_data = json.loads(response_text)
+                                try:
+                                    structured_data = json.loads(response_text)
+                                except json.JSONDecodeError as e:
+                                    logger.warning(f"⚠️ 直接解析失败，尝试清理: {e}")
+                                    cleaned_response = clean_json_string(response_text)
+                                    structured_data = json.loads(cleaned_response)
                         else:
                             structured_data = response_text
                         
@@ -206,12 +265,36 @@ class QwenVLDirectService:
                             }
                             
                     except json.JSONDecodeError as e:
-                        logger.warning(f"⚠️ JSON解析失败: {e}")
-                        return {
-                            "success": False,
-                            "error": f"JSON解析失败: {e}",
-                            "raw_response": response_text
-                        }
+                        logger.error(f"❌ JSON解析失败: {e}")
+                        logger.error(f"📝 原始响应前500字符: {response_text[:500]}")
+                        logger.error(f"📝 响应总长度: {len(response_text)} 字符")
+                        
+                        # 尝试再次清理并解析
+                        try:
+                            logger.info("🔄 尝试使用增强清理重新解析JSON...")
+                            cleaned_again = clean_json_string(response_text)
+                            logger.debug(f"📝 清理后响应前500字符: {cleaned_again[:500]}")
+                            structured_data = json.loads(cleaned_again)
+                            
+                            logger.info("✅ 增强清理后JSON解析成功")
+                            return {
+                                "success": True,
+                                "structured_output": structured_data,
+                                "raw_response": response_text,
+                                "processing_time": result.get("processing_time", 0),
+                                "model_used": result.get("model_used", "Qwen2.5-VL-32B-Instruct-LoRA-Trained"),
+                                "analysis_type": result.get("analysis_type", "lora_multimodal"),
+                                "note": "通过增强清理恢复"
+                            }
+                        except json.JSONDecodeError as e2:
+                            logger.error(f"❌ 增强清理后仍然无法解析: {e2}")
+                            return {
+                                "success": False,
+                                "error": f"JSON解析失败: {e}",
+                                "raw_response": response_text[:1000],  # 只返回前1000字符
+                                "parse_attempts": ["standard", "enhanced_clean"],
+                                "last_error": str(e2)
+                            }
                 else:
                     return {
                         "success": False,

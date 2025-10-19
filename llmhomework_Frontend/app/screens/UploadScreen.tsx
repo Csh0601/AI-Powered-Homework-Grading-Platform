@@ -1,17 +1,44 @@
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useState, useCallback } from 'react';
-import { Alert, StyleSheet, View, Text, SafeAreaView, StatusBar, ActionSheetIOS, Platform } from 'react-native';
+import {
+  Alert,
+  StyleSheet,
+  View,
+  Text,
+  SafeAreaView,
+  StatusBar,
+  ActionSheetIOS,
+  Platform,
+  ScrollView,
+  TouchableOpacity,
+  Animated,
+  Dimensions
+} from 'react-native';
 import { RootStackParamList } from '../navigation/NavigationTypes';
-import { DecorativeButton } from '../components/DecorativeButton';
+import {
+  primaryColor,
+  textPrimary,
+  textSecondary,
+  backgroundPrimary,
+  primaryAlpha10,
+  cardBackground,
+  textInverse
+} from '../styles/colors';
+import { typography, spacing, borderRadius, shadows } from '../styles/designSystem';
 
 type UploadScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Upload'>;
+
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 const UploadScreen: React.FC = () => {
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [taskId, setTaskId] = useState<string>('');
   const navigation = useNavigation<UploadScreenNavigationProp>();
+  const [scaleAnim] = useState(new Animated.Value(0.95));
+  const [fadeAnim] = useState(new Animated.Value(0));
 
   // 每次页面获得焦点时生成新的任务ID（但不清空图片）
   useFocusEffect(
@@ -22,6 +49,22 @@ const UploadScreen: React.FC = () => {
       console.log('🆔 题目任务ID:', newTaskId);
       console.log('📍 当前页面: UploadScreen');
       console.log('========================\n');
+
+      // 启动动画
+      Animated.parallel([
+        Animated.spring(scaleAnim, {
+          toValue: 1,
+          tension: 40,
+          friction: 7,
+          useNativeDriver: true,
+        }),
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 600,
+          useNativeDriver: true,
+        }),
+      ]).start();
+
       return () => {
         console.log(`🔚 任务 ${newTaskId} 离开UploadScreen`);
       };
@@ -34,8 +77,7 @@ const UploadScreen: React.FC = () => {
   const handlePickImage = async () => {
     try {
       console.log(`📱 [${taskId}] 开始选择图片...`);
-      
-      // 请求权限
+
       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (status !== 'granted') {
         console.log(`❌ [${taskId}] 相册权限被拒绝`);
@@ -45,7 +87,6 @@ const UploadScreen: React.FC = () => {
 
       console.log(`✅ [${taskId}] 相册权限获取成功，打开相册...`);
 
-      // 选择图片
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ['images'],
         quality: 1,
@@ -58,8 +99,7 @@ const UploadScreen: React.FC = () => {
         const selectedImageUri = result.assets[0].uri;
         console.log(`✅ [${taskId}] 图片选择成功! URI: ${selectedImageUri.substring(0, 50)}...`);
         setImageUri(selectedImageUri);
-        
-        // 直接导航到编辑页面
+
         console.log(`🚀 [${taskId}] 图片选择成功，直接导航到编辑页面...`);
         navigation.navigate('EditImage', { imageUri: selectedImageUri, taskId });
         console.log(`✅ [${taskId}] 成功导航到编辑页面`);
@@ -75,7 +115,7 @@ const UploadScreen: React.FC = () => {
   // 显示图片来源选择器
   const handleImageSourceSelection = () => {
     console.log(`📱 [${taskId}] 显示图片来源选择器...`);
-    
+
     if (Platform.OS === 'ios') {
       ActionSheetIOS.showActionSheetWithOptions(
         {
@@ -91,7 +131,6 @@ const UploadScreen: React.FC = () => {
         }
       );
     } else {
-      // Android使用Alert
       Alert.alert(
         '选择图片来源',
         '请选择获取图片的方式',
@@ -108,8 +147,7 @@ const UploadScreen: React.FC = () => {
   const handleTakePhoto = async () => {
     try {
       console.log(`📷 [${taskId}] 开始拍照...`);
-      
-      // 请求权限
+
       const { status } = await ImagePicker.requestCameraPermissionsAsync();
       if (status !== 'granted') {
         console.log(`❌ [${taskId}] 相机权限被拒绝`);
@@ -119,7 +157,6 @@ const UploadScreen: React.FC = () => {
 
       console.log(`✅ [${taskId}] 相机权限获取成功，打开相机...`);
 
-      // 拍照
       const result = await ImagePicker.launchCameraAsync({
         mediaTypes: ['images'],
         quality: 1,
@@ -132,8 +169,7 @@ const UploadScreen: React.FC = () => {
         const photoUri = result.assets[0].uri;
         console.log(`✅ [${taskId}] 拍照成功! URI: ${photoUri.substring(0, 50)}...`);
         setImageUri(photoUri);
-        
-        // 直接导航到编辑页面
+
         console.log(`🚀 [${taskId}] 拍照成功，直接导航到编辑页面...`);
         navigation.navigate('EditImage', { imageUri: photoUri, taskId });
         console.log(`✅ [${taskId}] 成功导航到编辑页面`);
@@ -145,7 +181,6 @@ const UploadScreen: React.FC = () => {
       Alert.alert('错误', '拍照失败，请重试');
     }
   };
-
 
   // 导航到历史记录
   const handleNavigateToHistory = () => {
@@ -160,89 +195,219 @@ const UploadScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" />
-      
-      <Text style={styles.title}>AI作业批改系统</Text>
-      
-      {/* 操作按钮 */}
-      <View style={styles.buttonContainer}>
-        <View style={styles.decorativeButtonWrapper}>
-          <DecorativeButton
-            onPress={handleImageSourceSelection}
-            iconName="camera"
-            size="lg"
-            gradientColors={['#007AFF', '#5856D6']}
-            outerColor="#FFD60A"
-            borderColor="#FF9500"
-          />
-          <Text style={styles.buttonLabel}>📸 拍照/选择图片</Text>
-        </View>
-        
-        <View style={styles.decorativeButtonWrapper}>
-          <DecorativeButton
-            onPress={handleNavigateToHistory}
-            iconName="library"
-            size="lg"
-            gradientColors={['#5856D6', '#AF52DE']}
-            outerColor="#34C759"
-            borderColor="#30D158"
-          />
-          <Text style={styles.buttonLabel}>📚 历史记录</Text>
-        </View>
-      </View>
+    <SafeAreaView style={styles.safeArea}>
+      <StatusBar barStyle="dark-content" backgroundColor={backgroundPrimary} />
 
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={styles.contentContainer}
+        showsVerticalScrollIndicator={false}
+      >
+        <Animated.View
+          style={[
+            styles.animatedContainer,
+            {
+              opacity: fadeAnim,
+              transform: [{ scale: scaleAnim }],
+            },
+          ]}
+        >
+          {/* 顶部标题区域 - Apple 极简风格 */}
+          <View style={styles.headerSection}>
+            <Text style={styles.appTitle}>智学伴</Text>
+            <Text style={styles.appSubtitle}>AI 智能作业批改助手</Text>
+          </View>
 
-      {/* 调试信息 */}
-      <View style={styles.debugContainer}>
-        <Text style={styles.debugText}>
-          调试信息: {imageUri ? `已选择图片 (${imageUri.length} 字符)` : '未选择图片'}
-        </Text>
-      </View>
+          {/* 主要功能区域 */}
+          <View style={styles.actionsSection}>
+
+            {/* 上传作业卡片 - iOS 风格 */}
+            <TouchableOpacity
+              style={styles.primaryActionCard}
+              onPress={handleImageSourceSelection}
+              activeOpacity={0.8}
+            >
+              <View style={styles.primaryActionIconContainer}>
+                <Ionicons name="camera-outline" size={28} color={textInverse} />
+              </View>
+              <View style={styles.primaryActionContent}>
+                <Text style={styles.primaryActionTitle}>拍照或选择图片</Text>
+                <Text style={styles.primaryActionDescription}>
+                  上传作业照片，开始智能批改
+                </Text>
+              </View>
+              <View style={styles.arrowContainer}>
+                <Ionicons name="chevron-forward" size={24} color={textInverse} />
+              </View>
+            </TouchableOpacity>
+
+            {/* 历史记录卡片 - iOS 风格 */}
+            <TouchableOpacity
+              style={styles.secondaryActionCard}
+              onPress={handleNavigateToHistory}
+              activeOpacity={0.8}
+            >
+              <View style={styles.secondaryActionIconContainer}>
+                <Ionicons name="time-outline" size={24} color={primaryColor} />
+              </View>
+              <View style={styles.secondaryActionContent}>
+                <Text style={styles.secondaryActionTitle}>历史记录</Text>
+                <Text style={styles.secondaryActionDescription}>
+                  查看批改记录和学习数据
+                </Text>
+              </View>
+              <View style={styles.arrowContainer}>
+                <Ionicons name="chevron-forward" size={20} color={primaryColor} />
+              </View>
+            </TouchableOpacity>
+
+            {/* 生成试卷卡片 - iOS 风格 */}
+            <TouchableOpacity
+              style={styles.secondaryActionCard}
+              onPress={() => navigation.navigate('GeneratePaper')}
+              activeOpacity={0.8}
+            >
+              <View style={styles.secondaryActionIconContainer}>
+                <Ionicons name="document-text-outline" size={24} color={primaryColor} />
+              </View>
+              <View style={styles.secondaryActionContent}>
+                <Text style={styles.secondaryActionTitle}>生成试卷</Text>
+                <Text style={styles.secondaryActionDescription}>
+                  从历史记录生成PDF练习试卷
+                </Text>
+              </View>
+              <View style={styles.arrowContainer}>
+                <Ionicons name="chevron-forward" size={20} color={primaryColor} />
+              </View>
+            </TouchableOpacity>
+          </View>
+        </Animated.View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: backgroundPrimary,
+  },
+
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
-    padding: 20,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 40,
-    color: '#333',
+
+  contentContainer: {
+    paddingHorizontal: spacing.screenHorizontal,
+    paddingBottom: spacing.xxxl,
   },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 30,
-    paddingHorizontal: 20,
+
+  animatedContainer: {
+    width: '100%',
   },
-  decorativeButtonWrapper: {
+
+  // 顶部标题区域 - Apple 极简风格
+  headerSection: {
     alignItems: 'center',
-    gap: 12,
+    paddingTop: spacing.xxxl + spacing.xl,
+    paddingBottom: spacing.xxxl,
   },
-  buttonLabel: {
-    color: '#333',
-    fontSize: 16,
-    fontWeight: '600',
+
+  appTitle: {
+    ...typography.displayMedium,
+    fontWeight: '300',
+    color: textPrimary,
+    marginBottom: spacing.sm,
     textAlign: 'center',
-    maxWidth: 120,
+    letterSpacing: -1,
   },
-  debugContainer: {
-    marginTop: 20,
-    padding: 15,
-    backgroundColor: '#e8e8e8',
-    borderRadius: 8,
-  },
-  debugText: {
-    fontSize: 12,
-    color: '#666',
+
+  appSubtitle: {
+    ...typography.bodyMedium,
+    color: textSecondary,
     textAlign: 'center',
+  },
+
+  // 主要功能区域
+  actionsSection: {
+    marginBottom: spacing.xl,
+  },
+
+  primaryActionCard: {
+    backgroundColor: primaryColor,
+    borderRadius: borderRadius.button,
+    padding: spacing.lg,
+    marginBottom: spacing.lg,
+    flexDirection: 'row',
+    alignItems: 'center',
+    ...shadows.level2,
+  },
+
+  primaryActionIconContainer: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: spacing.md,
+  },
+
+  primaryActionContent: {
+    flex: 1,
+  },
+
+  primaryActionTitle: {
+    ...typography.heading4,
+    fontWeight: '500',
+    color: textInverse,
+    marginBottom: spacing.xs,
+  },
+
+  primaryActionDescription: {
+    ...typography.bodySmall,
+    color: 'rgba(255, 255, 255, 0.8)',
+  },
+
+  arrowContainer: {
+    marginLeft: spacing.sm,
+  },
+
+  secondaryActionCard: {
+    backgroundColor: cardBackground,
+    borderRadius: borderRadius.button,
+    padding: spacing.lg,
+    flexDirection: 'row',
+    alignItems: 'center',
+    ...shadows.level1,
+    borderWidth: 1,
+    borderColor: primaryColor,
+  },
+
+  secondaryActionIconContainer: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: primaryAlpha10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: spacing.md,
+  },
+
+  secondaryActionContent: {
+    flex: 1,
+  },
+
+  secondaryActionTitle: {
+    ...typography.heading4,
+    fontWeight: '500',
+    color: textPrimary,
+    marginBottom: spacing.xs,
+  },
+
+  secondaryActionDescription: {
+    ...typography.bodySmall,
+    color: textSecondary,
   },
 });
 
